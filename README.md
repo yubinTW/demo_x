@@ -7,5 +7,5 @@ docker build x .
 
 ## Run container
 ```
-docker run -d -p 3000:3000 x
+docker run -d -p 8888:8888 x
 ```

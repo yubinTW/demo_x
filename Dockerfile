@@ -11,16 +11,14 @@ RUN cd /app/backend && npm install
 COPY . .
 
 RUN cd /app/frontend && npm run build
-RUN cd /app/backend && npm run build
 
 FROM node:14.17.0-alpine3.12
 
 WORKDIR /app
 
 COPY --from=builder /app/frontend/build frontend/build
-COPY --from=builder /app/backend/node_modules backend/node_modules
-COPY --from=builder /app/backend/out backend/out
+COPY --from=builder /app/backend backend
 
-EXPOSE 3000
+EXPOSE 8888
 
-CMD ["node", "/app/backend/out/http-server/index.js"]
+CMD ["/bin/sh", "-c", "cd /app/backend && npm run start"]
