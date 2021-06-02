@@ -1,5 +1,7 @@
 # Product X
 
+[API Spec](https://hackmd.io/XzxJ0mIjQ5mZVlu2UILk3A?view)
+
 ## Build image
 ```
 docker build x .
