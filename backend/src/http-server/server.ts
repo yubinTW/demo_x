@@ -5,13 +5,16 @@ import { FastifyPort, EnvConfigRepoImpl, RuntimeEnv } from '../repo/config-repo'
 import { sayHello } from './routes/v1/hello';
 import FastifyStatic from 'fastify-static'
 import path from 'path'
+import { productsHandler } from '../modules/products/routes';
 
+require('../plugins/mongodb');
 
 const shouldPrettyPrint = getOrElse(() => false)(map<RuntimeEnv, boolean>(e => e.env === 'dev')(EnvConfigRepoImpl.of().runtimeEnv()));
 const server: FastifyInstance<
   Server,
   IncomingMessage,
   ServerResponse
+
 > = fastify({ logger: { prettyPrint: shouldPrettyPrint } });
 
 /**
@@ -46,6 +49,8 @@ const startFastify = (port: FastifyPort): FastifyInstance<
   })
 
   server.register(sayHello, { prefix: '/v1' });
+  server.register(productsHandler, { prefix: '/product' });
+
 
   return server;
 };
