@@ -1,27 +1,29 @@
 {
-  "name": "typescrpt-fp-training",
+  "name": "demo-x",
   "version": "1.0.0",
-  "description": "A training course for TypeScript and Functional Programming",
+  "description": "An X product",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage --detectOpenHandles --forceExit",
+    "test": "jest --verbose --coverage --detectOpenHandles --forceExit",
     "build": "tsc",
-    "start": "ts-node src/http-server/index"
+    "start": "ts-node src/http-server/index",
+    "apidoc": "apidoc -i src/http-server -o ../apidoc/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/forthy/typescrpt-fp-training.git"
+    "url": "git+https://github.com/yubinTW/demo_x.git"
   },
   "author": "Richard Chuo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/forthy/typescrpt-fp-training/issues"
+    "url": "https://github.com/yubinTW/demo_x/issues"
   },
-  "homepage": "https://github.com/forthy/typescrpt-fp-training#readme",
+  "homepage": "https://github.com/yubinTW/demo_x#readme",
   "devDependencies": {
     "@microsoft/tsdoc": "^0.13.2",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.3.1",
+    "apidoc": "^0.28.1",
     "fp-ts": "^2.10.5",
     "io-ts": "^2.2.16",
     "jest": "^26.6.3",
@@ -33,6 +35,7 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
+    "@sinclair/typebox": "^0.16.7",
     "@types/lodash": "^4.14.170",
     "dotenv": "^10.0.0",
     "fastify": "^3.15.1",
