@@ -3,6 +3,7 @@ import { Server, IncomingMessage, ServerResponse } from 'http';
 import { fromNullable, match, map, getOrElse } from 'fp-ts/Option';
 import { FastifyPort, EnvConfigRepoImpl, RuntimeEnv } from '../repo/config-repo';
 import { healthcheck } from './routes/v1/healthcheck';
+import { getForms } from './routes/v1/get-forms';
 import FastifyStatic from 'fastify-static'
 import path from 'path'
 import { productsHandler } from '../modules/products/routes';
@@ -43,6 +44,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<
 
   server.register(healthcheck, { prefix: '/v1' });
   server.register(productsHandler, { prefix: '/product' });
+  server.register(getForms, { prefix: '/v1' });
 
   return server;
 };
