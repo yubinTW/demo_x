@@ -7,10 +7,7 @@ import FastifyStatic from 'fastify-static'
 import path from 'path'
 import { productsHandler } from '../modules/products/routes';
 
-<<<<<<< HEAD
 require('../plugins/mongodb');
-=======
->>>>>>> 60beb7f6c500d35ba4bca8d02a5d3dedf558dd9c
 const shouldPrettyPrint = getOrElse(() => false)(map<RuntimeEnv, boolean>(e => e.env === 'dev')(EnvConfigRepoImpl.of().runtimeEnv()));
 const server: FastifyInstance<
   Server,

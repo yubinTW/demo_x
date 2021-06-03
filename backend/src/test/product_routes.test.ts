@@ -1,18 +1,37 @@
-import mongoose from 'mongoose';
-import * as S from '../http-server/index';
-
+import * as TE from 'fp-ts/TaskEither';
+import {
+	DockerComposeEnvironment,
+	StartedDockerComposeEnvironment,
+	DownedDockerComposeEnvironment
+} from 'testcontainers';
+import * as path from 'path';
+import { server } from '../http-server';
 
 describe('Product CRUD', () => {
-	let server = S.server;
-	beforeAll(async (done) => {
-		done();
-		await server.ready();
+	let mongoDBPort: number;
+	let environment: StartedDockerComposeEnvironment;
+
+	beforeAll(async () => {
+		jest.setTimeout(120000);
+
+		const composeFilePath = path.resolve(__dirname, '../..');
+		const composeFile = 'docker-compose.yml';
+
+		environment = await new DockerComposeEnvironment(composeFilePath, composeFile).up();
+
+		const mongoDBContainer = environment.getContainer("mongodb_1");
+
+		mongoDBPort = mongoDBContainer.getMappedPort(27017);
 	});
 
-	afterAll(async (done) => {
-		server.close();
-		await mongoose.connection.close();
-		done();
+	afterAll(async () => {
+		await TE.match<Error, void, DownedDockerComposeEnvironment>(
+			e => console.log(e.message),
+			c => console.log(`container: ${JSON.stringify(c, null, 2)} was stopped successfully`)
+		)(TE.tryCatch(
+			() => environment.down(),
+			e => new Error(`Test container closing error: ${JSON.stringify(e)}`)
+		))();
 	});
 
 	test('Add Product POST /product', async (done) => {
