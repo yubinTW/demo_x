@@ -8,13 +8,11 @@ import path from 'path'
 import { productsHandler } from '../modules/products/routes';
 
 require('../plugins/mongodb');
-
 const shouldPrettyPrint = getOrElse(() => false)(map<RuntimeEnv, boolean>(e => e.env === 'dev')(EnvConfigRepoImpl.of().runtimeEnv()));
 const server: FastifyInstance<
   Server,
   IncomingMessage,
   ServerResponse
-
 > = fastify({ logger: { prettyPrint: shouldPrettyPrint } });
 
 /**
@@ -23,11 +21,11 @@ const server: FastifyInstance<
  * @param port - HTTP/s port for this Fastify server
  * @returns a Fastify server instance
  */
-const startFastify = (port: FastifyPort): FastifyInstance<
+const startFastify: (port: FastifyPort) => FastifyInstance<
   Server,
   IncomingMessage,
   ServerResponse
-> => {
+> = (port) => {
   server.listen(port, (err, _) => {
     // if (err) {
     //   console.error(err);
@@ -50,7 +48,6 @@ const startFastify = (port: FastifyPort): FastifyInstance<
 
   server.register(sayHello, { prefix: '/v1' });
   server.register(productsHandler, { prefix: '/product' });
-
 
   return server;
 };
