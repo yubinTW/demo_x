@@ -1,15 +1,61 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+
 import { store } from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
+import {BrowserRouter as Router,Switch, Route,Link} from 'react-router-dom';
+
+import App from './App';
+import ProductSuites from './routes/productSuites';
+import CreateAPI from './routes/createAPI';
+import HeaderBar from './component/headerBar';
+
+const routes = [
+  {
+    path: "/",
+    exact: true,
+    component: App
+  },
+  {
+    path: "/product-suite",
+    component: ProductSuites
+  },
+  {
+    path: "/create-api",
+    component: CreateAPI
+  }
+];
+function RouteWithSubRoutes(route: any) {
+  return (
+    <Route
+      path={route.path}
+      render={props => (
+        // pass the sub-routes down to keep nesting
+        <route.component {...props} routes={route.routes} />
+      )}
+    />
+  );
+}
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <div className="indexPage">
+        <div className="header">
+          <HeaderBar />
+        </div>
+        <div className="inner_page">
+            <Router>
+              <Switch>
+                  {routes.map((route, i) => (
+                    <RouteWithSubRoutes key={i} {...route} />
+                  ))}
+                </Switch>
+            </Router>
+          </div>
+    </div>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

@@ -5,6 +5,12 @@ Create project with
 npx create-react-app my-app --template redux-typescript
 ```
 
+Install package.json dependencies by
+```
+npm install
+```
+
+
 ## Available Scripts
 
 In the project directory, you can run:
