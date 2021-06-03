@@ -12,5 +12,4 @@ module.exports = {
     "json",
     "node",
   ],
-  modulePathIgnorePatterns: ["/client/"]
 };

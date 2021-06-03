@@ -1,6 +1,6 @@
 # Product X
 
-[API Spec](./API-spec.yaml)
+[API Spec](backend/guides/openapi/demo-x.yaml)
 
 ## Build image
 ```
