@@ -1,23 +1,28 @@
 import { startFastify } from '../http-server/server';
 import { fastifyPortOf } from '../repo/config-repo';
-import { server } from '../http-server';
-import fastify, { FastifyInstance } from 'fastify';
+import { FastifyInstance } from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
+import { tryCatch, match } from 'fp-ts/Either';
 
 describe('Healthcheck route', () => {
   let server: FastifyInstance<
-  Server,
-  IncomingMessage,
-  ServerResponse
->;
+    Server,
+    IncomingMessage,
+    ServerResponse
+  >;
 
   beforeAll(() => {
     server = startFastify(fastifyPortOf(8888));
   });
 
-  afterAll(async () => {
-    // TODO - should try-catch
-    await server.close();
+  afterAll(() => {
+    match(
+      e => console.log(e),
+      _ => console.log('Closing Fastify server is done!')
+    )(tryCatch(
+      () => server.close((): void => {}),
+      (reason) => new Error(`Failed to close a Fastify server, reason: ${reason}`)
+    ));
   });
 
   it(`hello should say 'hello'`, async () => {
