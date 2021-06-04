@@ -1,21 +1,47 @@
+import * as TE from 'fp-ts/TaskEither';
+import {
+  DockerComposeEnvironment,
+  StartedDockerComposeEnvironment,
+  DownedDockerComposeEnvironment
+} from 'testcontainers';
+import * as path from 'path';
+import { FastifyInstance } from 'fastify';
+import { Server, IncomingMessage, ServerResponse } from 'http';
 import { startFastify } from '../http-server/server';
 import { fastifyPortOf } from '../repo/config-repo';
-import fastify, { FastifyInstance } from 'fastify';
-import { Server, IncomingMessage, ServerResponse } from 'http';
 
 describe('Form', () => {
   let server: FastifyInstance<
-  Server,
-  IncomingMessage,
-  ServerResponse
->;
+    Server,
+    IncomingMessage,
+    ServerResponse
+  >;
+  let mongoDBPort: number;
+  let environment: StartedDockerComposeEnvironment;
 
-  beforeAll(() => {
+  beforeAll(async () => {
+    jest.setTimeout(120000);
+
     server = startFastify(fastifyPortOf(8888));
+
+    const composeFilePath = path.resolve(__dirname, '../..');
+    const composeFile = 'docker-compose.yml';
+
+    environment = await new DockerComposeEnvironment(composeFilePath, composeFile).up();
+
+    const mongoDBContainer = environment.getContainer("mongodb_1");
+
+    mongoDBPort = mongoDBContainer.getMappedPort(27017);
   });
 
   afterAll(async () => {
-    // TODO - should try-catch
+    await TE.match<Error, void, DownedDockerComposeEnvironment>(
+      e => console.log(e.message),
+      c => console.log(`container: ${JSON.stringify(c, null, 2)} was stopped successfully`)
+    )(TE.tryCatch(
+      () => environment.down(),
+      e => new Error(`Test container closing error: ${JSON.stringify(e)}`)
+    ))();
     await server.close();
   });
 
@@ -49,4 +75,4 @@ describe('Form', () => {
       ])
     )
   });
-});                 
+});

@@ -5,14 +5,24 @@ import {
 	DownedDockerComposeEnvironment
 } from 'testcontainers';
 import * as path from 'path';
-import { server } from '../http-server';
+import { FastifyInstance } from 'fastify';
+import { Server, IncomingMessage, ServerResponse } from 'http';
+import { startFastify } from '../http-server/server';
+import { fastifyPortOf } from '../repo/config-repo';
 
 describe('Product CRUD', () => {
+	let server: FastifyInstance<
+		Server,
+		IncomingMessage,
+		ServerResponse
+	>;
 	let mongoDBPort: number;
 	let environment: StartedDockerComposeEnvironment;
 
 	beforeAll(async () => {
 		jest.setTimeout(120000);
+
+		server = startFastify(fastifyPortOf(8888));
 
 		const composeFilePath = path.resolve(__dirname, '../..');
 		const composeFile = 'docker-compose.yml';
@@ -32,6 +42,7 @@ describe('Product CRUD', () => {
 			() => environment.down(),
 			e => new Error(`Test container closing error: ${JSON.stringify(e)}`)
 		))();
+		await server.close();
 	});
 
 	test('Add Product POST /product', async (done) => {
