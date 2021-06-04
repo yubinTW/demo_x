@@ -7,7 +7,7 @@ import { getForms } from './routes/v1/get-forms';
 import FastifyStatic from 'fastify-static'
 import path from 'path'
 import { productsHandler } from '../modules/products/routes';
-
+import { formsHandler } from '../modules/forms/routes';
 require('../plugins/mongodb');
 const shouldPrettyPrint = getOrElse(() => false)(map<RuntimeEnv, boolean>(e => e.env === 'dev')(EnvConfigRepoImpl.of().runtimeEnv()));
 const server: FastifyInstance<
@@ -45,7 +45,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<
   server.register(healthcheck, { prefix: '/v1' });
   server.register(productsHandler, { prefix: '/product' });
   server.register(getForms, { prefix: '/v1' });
-
+  server.register(formsHandler, { prefix: '/v1' });
   return server;
 };
 

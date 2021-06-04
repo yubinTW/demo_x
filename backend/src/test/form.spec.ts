@@ -45,7 +45,7 @@ describe('Form', () => {
     await server.close();
   });
 
-  it('should successfully get a list of existing forms', async () => {
+  it('should successfully get a list of existing forms', async (done) => {
     const response = await server.inject({ method: 'GET', url: '/v1/forms' });
 
     // https://docs.nats.io/nats-server/configuration/securing_nats/accounts
@@ -74,5 +74,24 @@ describe('Form', () => {
         }
       ])
     )
+    done();
+  });
+
+  it('should successfully post a form to mongodb', async (done) => {
+    const response = await server.inject({
+      method: 'POST',
+      url: '/v1/forms',
+      payload: {
+        id: 'e8d10038-c433-11eb-822a-ffc573749d39',
+        apiId: '11f88b66-c434-11eb-adaa-67fca24f6e0a',
+        subscriberId: 'e574022c-c434-11eb-9d7f-9bd525bab798',
+        submitUser: 'ywchuo',
+        status: 'pending'
+      }
+    });
+
+    expect(response.statusCode).toBe(201);
+    done();
   });
 });
+
