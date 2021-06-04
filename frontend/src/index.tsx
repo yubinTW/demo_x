@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
@@ -12,6 +12,7 @@ import App from './App';
 import ProductSuites from './routes/productSuites';
 import CreateAPI from './routes/createAPI';
 import HeaderBar from './component/headerBar';
+import APIViewer from './routes/apiViewer';
 
 const routes = [
   {
@@ -21,14 +22,21 @@ const routes = [
   },
   {
     path: "/product-suite",
+    exact:true,
     component: ProductSuites
   },
   {
     path: "/create-api",
+    exact: true,
     component: CreateAPI
+  },
+  {
+    path: "/api-viewer",
+    exact: true,
+    component: APIViewer
   }
 ];
-function RouteWithSubRoutes(route: any) {
+const RouteWithSubRoutes = (route: any) =>{
   return (
     <Route
       path={route.path}
