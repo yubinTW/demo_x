@@ -28,6 +28,7 @@
     "io-ts": "^2.2.16",
     "jest": "^26.6.3",
     "mongad": "^0.2.2",
+    "mongodb-memory-server": "^6.9.6",
     "testcontainers": "^7.11.0",
     "ts-jest": "^26.5.6",
     "ts-node": "^9.1.1",
@@ -42,6 +43,7 @@
     "fastify-static": "^4.2.2",
     "lodash": "^4.17.21",
     "mongodb": "^3.6.8",
+    "mongoose": "^5.12.13",
     "pino-pretty": "^4.8.0"
   }
 }
