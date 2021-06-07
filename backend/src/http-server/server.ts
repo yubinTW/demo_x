@@ -3,10 +3,10 @@ import { Server, IncomingMessage, ServerResponse } from 'http';
 import { fromNullable, match, map, getOrElse } from 'fp-ts/Option';
 import { FastifyPort, EnvConfigRepoImpl, RuntimeEnv } from '../repo/config-repo';
 import { healthcheck } from './routes/v1/healthcheck';
-import { getForms } from './routes/v1/get-forms';
 import { FormsRouter } from './routes/v1/forms';
-import FastifyStatic from 'fastify-static'
-import path from 'path'
+import FastifyStatic from 'fastify-static';
+import path from 'path';
+import { establishConnection } from '../plugins/mongodb';
 
 const shouldPrettyPrint = getOrElse(() => false)(map<RuntimeEnv, boolean>(e => e.env === 'dev')(EnvConfigRepoImpl.of().runtimeEnv()));
 const server: FastifyInstance<
@@ -28,23 +28,25 @@ const startFastify: (port: FastifyPort) => FastifyInstance<
 > = (port) => {
   server.listen(port, (err, _) => {
     match<Error, void>(
-      () => console.log('Yo! I am alive!'),
+      () => {
+        console.log('Yo! I am alive!');
+        establishConnection();
+      } ,
       e => {
         console.error(e);
         process.exit(0);
       }
     )(fromNullable(err));
   });
-
+  
   server.register(FastifyStatic, {
     root: path.join(__dirname, '../../../frontend/build'),
     prefix: '/',
   })
 
   server.register(healthcheck, { prefix: '/v1' });
-  // server.register(getForms, { prefix: '/v1' });
-  server.register(FormsRouter, {prefix: '/v1'})
-
+  server.register(FormsRouter, {prefix: '/v1'});
+  
   return server;
 };
 

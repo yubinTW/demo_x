@@ -1,7 +1,6 @@
 import { FastifyInstance, RouteShorthandOptions, FastifyReply, FastifyRequest } from 'fastify';
 import { Type, Static } from '@sinclair/typebox';
 import * as FormRepo from '../../../repo/form-repo';
-import { request } from 'http';
 
 /**
  * @api {get} /v1/forms acquires all existing forms
@@ -19,14 +18,14 @@ import { request } from 'http';
  *   {
  *      "forms": [
  *        {
- *          "id": 'e8d10038-c433-11eb-822a-ffc573749d39',
+ *          "_id": 'e8d10038-c433-11eb-822a-ffc573749d39',
  *          "apiId": '11f88b66-c434-11eb-adaa-67fca24f6e0a',
  *          "subscriberId": 'e574022c-c434-11eb-9d7f-9bd525bab798',
  *          "submitUser": 'ywchuo',
  *          "status": "pending"
  *        },
  *        {
- *          "id": 'cff7358a-c435-11eb-81b8-97fc188ac045',
+ *          "_id": 'cff7358a-c435-11eb-81b8-97fc188ac045',
  *          "apiId": 'd7ec04b4-c435-11eb-8a89-f3d20a486deb',
  *          "subscriberId": 'e04df19e-c435-11eb-a00e-e7f42023e9e2',
  *          "submitUser": 'hmchangm',
@@ -54,8 +53,8 @@ import { request } from 'http';
  * @apiSuccessExample {json} Success-Response:
  *  HTTP/1.1 201 OK
  *  {
- *    payload: {
- *      id: 'b4692118-90c8-4e81-9f3f-93bbb0190a16'
+ *    form: {
+        _id: 'b4692118-90c8-4e81-9f3f-93bbb0190a16'
         apiId: '11f88b66-c434-11eb-adaa-67fca24f6e0a',
         subscriberId: 'e574022c-c434-11eb-9d7f-9bd525bab798',
         submitUser: 'ywchuo',
@@ -80,7 +79,7 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
         forms: Type.Array(
             Type.Object(
                 {
-                    id: Type.String({ format: 'uuid' }),
+                    _id: Type.String({ format: 'uuid' }),
                     apiId: Type.String({ format: 'uuid' }),
                     subscriberId: Type.String(),
                     submitUser: Type.String(),
@@ -95,10 +94,11 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
     opts = { ...opts, schema: { response: { 200: Response } } };
 
 
-    server.get('/forms', opts, (_, reply) => {
+    server.get('/forms', opts, async (_, reply) => {
+        const forms = await FormRepo.getForms();
         reply.code(200).send(
             {
-                forms: FormRepo.getForms()
+                forms: forms
             }
         );
     });
