@@ -19,3 +19,15 @@ run `npm run apidoc` to generate backend's RESTful API doc
 
 - docker
 - docker-compose
+
+## Build with esbuild
+
+```
+npm install esbuild
+./node_modules/.bin/esbuild src/**/*.ts --bundle --outdir=build --platform=node --minify --target=es2020 --external:mongodb --external:fastify
+```
+
+or using npm
+```
+npm run esbuild
+```
