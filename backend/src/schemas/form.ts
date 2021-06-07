@@ -1,5 +1,5 @@
 export const formSchema = {
-    id: { type: 'string' },
+    id: { type: 'string', format: 'uuid' },
     apiId: { type: 'string' },
     subscriberId: { type: 'string' },
     submitUser: { type: 'string' },

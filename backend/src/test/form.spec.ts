@@ -9,6 +9,7 @@ import { FastifyInstance } from 'fastify';
 import { Server, IncomingMessage, ServerResponse } from 'http';
 import { startFastify } from '../http-server/server';
 import { fastifyPortOf } from '../repo/config-repo';
+import { tryCatch, match } from 'fp-ts/Either';
 
 describe('Form', () => {
   let server: FastifyInstance<
@@ -42,37 +43,49 @@ describe('Form', () => {
       () => environment.down(),
       e => new Error(`Test container closing error: ${JSON.stringify(e)}`)
     ))();
-    await server.close();
+
+    match(
+      e => console.log(e),
+      _ => console.log('Closing Fastify server is done!')
+    )(tryCatch(
+      () => server.close((): void => { }),
+      (reason) => new Error(`Failed to close a Fastify server, reason: ${reason}`)
+    ));
+
   });
 
   it('should successfully get a list of existing forms', async (done) => {
     const response = await server.inject({ method: 'GET', url: '/v1/forms' });
 
     // https://docs.nats.io/nats-server/configuration/securing_nats/accounts
-    // TODO - need to discusss subscriberId (NATS: users of an account), talk to Nelson
+    // TODO - need to discuss subscriberId (NATS: users of an account), talk to Nelson
     // for now use UUID for subscriberId
-    // TODO - need to make sure if the submiter ID is Windows account
-    // there will be another external serive for decoding the auth token
+    // TODO - need to make sure if the submitter ID is Windows account
+    // there will be another external service for decoding the auth token
     // data Status = Pending | Approved | Rejected
     // TODO - should a `form` be removed?
     expect(response.statusCode).toBe(200);
     expect(response.body).toStrictEqual(
-      JSON.stringify([
+      JSON.stringify(
         {
-          id: 'e8d10038-c433-11eb-822a-ffc573749d39',
-          apiId: '11f88b66-c434-11eb-adaa-67fca24f6e0a',
-          subscriberId: 'e574022c-c434-11eb-9d7f-9bd525bab798',
-          submitUser: 'ywchuo',
-          status: 'pending'
-        },
-        {
-          id: 'cff7358a-c435-11eb-81b8-97fc188ac045',
-          apiId: 'd7ec04b4-c435-11eb-8a89-f3d20a486deb',
-          subscriberId: 'e04df19e-c435-11eb-a00e-e7f42023e9e2',
-          submitUser: 'hmchangm',
-          status: 'approved'
+          forms: [
+            {
+              id: 'e8d10038-c433-11eb-822a-ffc573749d39',
+              apiId: '11f88b66-c434-11eb-adaa-67fca24f6e0a',
+              subscriberId: 'e574022c-c434-11eb-9d7f-9bd525bab798',
+              submitUser: 'ywchuo',
+              status: 'pending'
+            },
+            {
+              id: 'cff7358a-c435-11eb-81b8-97fc188ac045',
+              apiId: 'd7ec04b4-c435-11eb-8a89-f3d20a486deb',
+              subscriberId: 'e04df19e-c435-11eb-a00e-e7f42023e9e2',
+              submitUser: 'hmchangm',
+              status: 'approved'
+            }
+          ]
         }
-      ])
+      )
     )
     done();
   });
@@ -82,7 +95,6 @@ describe('Form', () => {
       method: 'POST',
       url: '/v1/forms',
       payload: {
-        id: 'e8d10038-c433-11eb-822a-ffc573749d39',
         apiId: '11f88b66-c434-11eb-adaa-67fca24f6e0a',
         subscriberId: 'e574022c-c434-11eb-9d7f-9bd525bab798',
         submitUser: 'ywchuo',
@@ -91,6 +103,13 @@ describe('Form', () => {
     });
 
     expect(response.statusCode).toBe(201);
+
+    const result = JSON.parse(response.body);
+    expect(result['form']['apiId']).toBe('11f88b66-c434-11eb-adaa-67fca24f6e0a');
+    expect(result['form']['subscriberId']).toBe('e574022c-c434-11eb-9d7f-9bd525bab798');
+    expect(result['form']['submitUser']).toBe('ywchuo');
+    expect(result['form']['status']).toBe('pending');
+
     done();
   });
 });

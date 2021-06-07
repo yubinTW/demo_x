@@ -4,7 +4,7 @@
   "description": "An X product",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose --coverage --detectOpenHandles --forceExit",
+    "test": "jest --watchAll --verbose --coverage --detectOpenHandles --forceExit",
     "build": "tsc",
     "start": "ts-node src/http-server/index",
     "apidoc": "apidoc -i src/http-server -o ../apidoc/"
@@ -42,6 +42,7 @@
     "fastify-static": "^4.2.2",
     "lodash": "^4.17.21",
     "mongodb": "^3.6.8",
+    "mongoose": "^5.12.12",
     "pino-pretty": "^4.8.0"
   }
 }

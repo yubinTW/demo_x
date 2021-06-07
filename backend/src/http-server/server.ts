@@ -3,18 +3,16 @@ import { Server, IncomingMessage, ServerResponse } from 'http';
 import { fromNullable, match, map, getOrElse } from 'fp-ts/Option';
 import { FastifyPort, EnvConfigRepoImpl, RuntimeEnv } from '../repo/config-repo';
 import { healthcheck } from './routes/v1/healthcheck';
-import { getForms } from './routes/v1/get-forms';
+import { FormsRouter } from './routes/v1/forms';
 import FastifyStatic from 'fastify-static'
 import path from 'path'
-import { productsHandler } from '../modules/products/routes';
-import { formsHandler } from '../modules/forms/routes';
-require('../plugins/mongodb');
 const shouldPrettyPrint = getOrElse(() => false)(map<RuntimeEnv, boolean>(e => e.env === 'dev')(EnvConfigRepoImpl.of().runtimeEnv()));
 const server: FastifyInstance<
   Server,
   IncomingMessage,
   ServerResponse
 > = fastify({ logger: { prettyPrint: shouldPrettyPrint } });
+
 
 /**
  * Start a Fastify server
@@ -31,7 +29,10 @@ const startFastify: (port: FastifyPort) => FastifyInstance<
     match<Error, void>(
       () => console.log('Yo! I am alive!'),
       e => {
+        console.log("====================");
+        console.log(e);
         console.error(e);
+
         process.exit(0);
       }
     )(fromNullable(err));
@@ -43,10 +44,10 @@ const startFastify: (port: FastifyPort) => FastifyInstance<
   })
 
   server.register(healthcheck, { prefix: '/v1' });
-  server.register(productsHandler, { prefix: '/product' });
-  server.register(getForms, { prefix: '/v1' });
-  server.register(formsHandler, { prefix: '/v1' });
+  server.register(FormsRouter, { prefix: '/v1' });
+  require('../plugins/mongodb');
   return server;
+
 };
 
 export { startFastify }

@@ -3,12 +3,12 @@ import { Type, Static } from '@sinclair/typebox';
 
 
 /**
- * @api {ge t} /health healthcheck API
+ * @api {ge t} /v1/health healthcheck API
  * @apiName Healthcare
  * @apiGroup Admin
  * @apiSuccess {String} status health status: `green` means healthy; `yellow` means attention; `red` means unhealthy
  * 
- @apiSuccessExample {json} Success-Response:
+ * @apiSuccessExample {json} Success-Response:
  *  HTTP/1.1 200 OK
  *  {
  *    "status": "green"
