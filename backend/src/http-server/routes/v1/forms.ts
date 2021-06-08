@@ -1,6 +1,11 @@
 import { FastifyInstance, RouteShorthandOptions, FastifyReply, FastifyRequest } from 'fastify';
 import { Type, Static } from '@sinclair/typebox';
-import * as FormRepo from '../../../repo/form-repo';
+import { FormRepoImpl, formOf } from '../../../repo/form-repo';
+import { TaskEither, right, map, chain, mapLeft, bind, bindTo, tryCatch, getOrElse } from 'fp-ts/TaskEither';
+import * as TE from 'fp-ts/TaskEither';
+import { pipe } from 'fp-ts/lib/function';
+import { Option, match, some, ap, toNullable, fromNullable } from 'fp-ts/Option';
+import { IForm, Status } from '../../../types/form';
 
 /**
  * @api {get} /v1/forms acquires all existing forms
@@ -68,11 +73,10 @@ import * as FormRepo from '../../../repo/form-repo';
  * 
  */
 const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void) => {
-    enum Status {
-        Pending = 'pending',
-        Approved = 'approved',
-        Rejected = 'rejected'
-    };
+    
+    const formRepo: FormRepoImpl = FormRepoImpl.of();
+
+    
 
     const Response =
     {
@@ -83,7 +87,12 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
                     apiId: Type.String({ format: 'uuid' }),
                     subscriberId: Type.String(),
                     submitUser: Type.String(),
-                    status: Type.Enum(Status)
+                    status: Type.Enum(Status),
+                    approver: Type.Optional(Type.String()),
+                    approveDate: Type.Optional(Type.String()),
+                    comment: Type.Optional(Type.String()),
+                    createdAt: Type.String(),
+                    updatedAt: Type.String(),
                 }
             )
         )
@@ -93,9 +102,17 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
 
     opts = { ...opts, schema: { response: { 200: Response } } };
 
-
     server.get('/forms', opts, async (_, reply) => {
-        const forms = await FormRepo.getForms();
+        let forms: Readonly<Array<IForm>> = [];
+        await pipe(
+            bindTo('getForms')(formRepo.getForms()),
+            map(({ getForms }) => pipe(
+                some((a: Readonly<Array<IForm>>) => {
+                    forms = a
+                }),
+                ap(getForms)
+            ))
+        )();
         reply.code(200).send(
             {
                 forms: forms
@@ -103,11 +120,18 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
         );
     });
 
-
+    // TODO: add another Response Schema for 201
     server.post('/forms', opts, async (request, reply) => {
-        request.log.info('Add forms to db');
+        let form: Readonly<IForm> | null = null;
+        const formBody = formOf(request.body);
+        await pipe(
+            () => formRepo.addForm(formBody)(),
+            TE.map( f => {
+                form = f
+            })
+        )()
+
         try {
-            const form = await FormRepo.addForm(request.body);
             reply.status(201).send(
                 {
                     form: form
@@ -119,7 +143,6 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
     });
 
     done();
-
 };
 
 export { FormsRouter };

@@ -45,7 +45,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<
   })
 
   server.register(healthcheck, { prefix: '/v1' });
-  server.register(FormsRouter, {prefix: '/v1'});
+  server.register(FormsRouter, { prefix: '/v1' });
   
   return server;
 };

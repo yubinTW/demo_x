@@ -12,10 +12,10 @@ const establishConnection = () => {
             if (!err)
                 console.log('MongoDB connection successful.');
             else
-                console.log('Error in DB connection : ' + JSON.stringify(err, undefined, 2));
+                console.log(`Error in DB connection : ${JSON.stringify(err, null, 2)}`);
         });
     } else {
-        console.log('MongoDB has connected.');
+        console.log('MongoDB has connected or in test mode');
     }
 }
 
