@@ -32,7 +32,6 @@ const routes = [
   },
   {
     path: "/api-viewer",
-    exact: true,
     component: APIViewer
   }
 ];
@@ -57,10 +56,12 @@ ReactDOM.render(
         <div className="inner_page">
             <Router>
               <Switch>
-                  {routes.map((route, i) => (
-                    <RouteWithSubRoutes key={i} {...route} />
-                  ))}
-                </Switch>
+                  <Route exact path="/" component={App} ></Route>
+                  <Route exact path="/product-suite" component={ProductSuites} ></Route>
+                  
+                  <Route exact path="/create-api" component={CreateAPI} ></Route>
+                  <Route path="/api-viewer/:id" component={APIViewer}></Route>
+              </Switch>
             </Router>
           </div>
     </div>

@@ -13,72 +13,44 @@ import { Toast } from 'primereact/toast';
 
 function ProductSuites() {
     const [nodes, setNodes] = useState([]);
+    const [selectedNodeKey, setSelectedNodeKey] = useState<any | "">("");
     const [nextPath, setNextPath] = useState<string | "">("");
-    const [updateKey,setUpdateKey] = useState<number | 0>(0);
     const toast = useRef<any | null>(null);
     const nodeservice = new NodeService();
-
-    
+    const npath = "/api-viewer/";
 
     useEffect(() => {
         nodeservice.getTreeTableNodes().then(data => setNodes(data));
     }, []);//eslint-disable-line react-hooks/exhaustive-deps
     
-    async function setUpSelect(apiId:string)
-    {
-      try{
-        const npath = "/api-viewer/";
-        const pathconcat = npath.concat(apiId);
-        await setNextPath(pathconcat);
-        if(updateKey==1)
-        {
-          confirm();
-        }
-        
-      }
-      catch(error)
-      {
-        console.log("setNextPath fail: ",error);
-        
-      }
-      
-    };
     async function onSelect(event: any) {
       //console.log(event)
-      try
+      if(event.node.data.type === "API")
       {
-        if(event.node.data.type === "API")
-        {
-          await setUpSelect(event.node.data.id);
-          if(updateKey==0)
-          {
-            await setUpSelect(event.node.data.id);
-            setUpdateKey(1);
-          }
-        }
+        await setSelectedNodeKey(event.node.data.id);
+        //console.log(event.node.data.id);
+        //console.log("event")
+        
+        const pathconcat = npath.concat(event.node.data.id);
+        await setNextPath(pathconcat);
+        confirm(pathconcat);
       }
-      catch(error)
-      {
-        console.log("Select error: ", error);
-      }
-      
-    };
+    }
     const onUnselect = (event: any) => {
       console.log('unselect')
     }
     const accept =  ()  => {
       toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+
       window.location.pathname = nextPath;
-      
       //return <APIViewer apiId={selectedNodeKey} />;
     }
 
     const reject = () => {
       toast.current.show({ severity: 'info', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
     }
-    async function confirm(){
-      //await setUpSelect(apiId);
-      await setUpdateKey(0);
+    const confirm = (path:string) => {
+      
       console.log(nextPath);
       confirmDialog({
           message: 'Are you sure you want to proceed?',
