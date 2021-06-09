@@ -433,7 +433,7 @@ components:
     Form:
       type: object
       properties:
-        id:
+        _id:
           type: string
           description: Form ID
         apiId:
@@ -449,7 +449,7 @@ components:
           type: string
           description: status of a form
       required:
-        - id
+        - _id
     # Schema for error response body
     Error:
       type: object
