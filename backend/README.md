@@ -23,11 +23,10 @@ run `npm run apidoc` to generate backend's RESTful API doc
 ## Build with esbuild
 
 ```
-npm install esbuild
-./node_modules/.bin/esbuild src/**/*.ts --bundle --outdir=build --platform=node --minify --target=es2020 --external:mongodb --external:fastify
+npm run esbuild
 ```
 
-or using npm
+## Run with node
 ```
-npm run esbuild
+node build/http-server/index.js
 ```

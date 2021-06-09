@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --watchAll --verbose --coverage --detectOpenHandles --forceExit",
     "build": "tsc",
-    "esbuild": "esbuild src/**/*.ts --bundle --outdir=build --platform=node --minify --target=es2020 --external:mongodb --external:fastify",
+    "esbuild": "esbuild src/**/*.ts --bundle --outdir=build --platform=node --minify --external:mongodb --external:fastify",
     "start": "node build/http-server/index",
     "apidoc": "apidoc -i src/http-server -o ../apidoc/"
   },
@@ -23,8 +23,10 @@
   "devDependencies": {
     "@microsoft/tsdoc": "^0.13.2",
     "@types/jest": "^26.0.23",
+    "@types/lodash": "^4.14.170",
     "@types/node": "^15.3.1",
     "apidoc": "^0.28.1",
+    "esbuild": "^0.12.6",
     "fp-ts": "^2.10.5",
     "io-ts": "^2.2.16",
     "jest": "^26.6.3",
@@ -38,9 +40,7 @@
   },
   "dependencies": {
     "@sinclair/typebox": "^0.16.7",
-    "@types/lodash": "^4.14.170",
     "dotenv": "^10.0.0",
-    "esbuild": "^0.12.6",
     "fastify": "^3.15.1",
     "fastify-static": "^4.2.2",
     "lodash": "^4.17.21",
