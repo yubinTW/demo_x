@@ -1,10 +1,9 @@
 import { FastifyInstance, RouteShorthandOptions, FastifyReply, FastifyRequest } from 'fastify';
 import { Type, Static } from '@sinclair/typebox';
-import { FormRepoImpl, formOf } from '../../../repo/form-repo';
-import { TaskEither, right, map, chain, mapLeft, bind, bindTo, tryCatch, getOrElse } from 'fp-ts/TaskEither';
 import * as TE from 'fp-ts/TaskEither';
+import * as O from 'fp-ts/Option';
 import { pipe } from 'fp-ts/lib/function';
-import { Option, match, some, ap, toNullable, fromNullable } from 'fp-ts/Option';
+import { FormRepoImpl, formOf } from '../../../repo/form-repo';
 import { IForm, Status } from '../../../types/form';
 
 /**
@@ -76,8 +75,6 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
     
     const formRepo: FormRepoImpl = FormRepoImpl.of();
 
-    
-
     const Response =
     {
         forms: Type.Array(
@@ -102,47 +99,42 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
 
     opts = { ...opts, schema: { response: { 200: Response } } };
 
-    server.get('/forms', opts, async (_, reply) => {
-        let forms: Readonly<Array<IForm>> = [];
-        await pipe(
-            bindTo('getForms')(formRepo.getForms()),
-            map(({ getForms }) => pipe(
-                some((a: Readonly<Array<IForm>>) => {
-                    forms = a
-                }),
-                ap(getForms)
-            ))
-        )();
-        reply.code(200).send(
-            {
-                forms: forms
+    server.get('/forms', opts, async (request, reply) => {
+
+        await TE.match<Error, FastifyReply, O.Option<Readonly<Array<IForm>>>>(
+            e => {
+                request.log.error(`Get forms fail: ${e}`)
+                return reply.status(500)
+            },
+            r => {
+                let forms: Readonly<Array<IForm>> = [];
+                O.match<Readonly<Array<IForm>>, void>(
+                    () => [],
+                    (value) => forms = value
+                )(r)
+                return reply.code(200).send({ forms })  
             }
-        );
+            
+        )(formRepo.getForms())()
+
     });
 
-    // TODO: add another Response Schema for 201
+    
     server.post('/forms', opts, async (request, reply) => {
-        let form: Readonly<IForm> | null = null;
         const formBody = formOf(request.body);
-        await pipe(
-            () => formRepo.addForm(formBody)(),
-            TE.map( f => {
-                form = f
-            })
-        )()
-
-        try {
-            reply.status(201).send(
-                {
-                    form: form
-                }
-            );
-        } catch (err) {
-            throw err;
-        }
+        
+        await TE.match<Error, FastifyReply, IForm>(
+            e => {
+                request.log.error(`Add form fail: ${e}`)
+                return reply.status(500)
+            },
+            form => reply.status(201).send({form})
+        )(formRepo.addForm(formBody))()
+        
     });
 
-    done();
+    done()
+    
 };
 
 export { FormsRouter };
