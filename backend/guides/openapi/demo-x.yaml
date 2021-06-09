@@ -80,7 +80,7 @@ paths:
       tags:
           - "API"
       summary: return API info JSON format
-      description: Get the detail infomation of a specific API according to apiID. 
+      description: Get the detail infomation of a specific API according to apiId. 
       parameters:
         - in: path
           name: apiId
@@ -105,7 +105,7 @@ paths:
       tags:
           - "API"
       summary: delete specific API
-      description: delete specific API based on apiID
+      description: delete specific API based on apiId
       parameters:
         - in: path
           name: apiId
@@ -219,7 +219,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/responses/NotFound'
-  /form:
+  /forms:
     get:
       tags:
         - "Form"
@@ -367,7 +367,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/responses/BadRequest'
-  /subscribe/{apiId}/{subscriberID}:
+  /subscribe/{apiId}/{subscriberId}:
     delete:
       summary: user cancel a API subscription.
       description: user cancel a API subscription.
@@ -379,7 +379,7 @@ paths:
           description: API ID
           schema:
             type: string
-        - name: subscriberID
+        - name: subscriberId
           in: path
           required: true
           description: subscriber ID
@@ -439,7 +439,7 @@ components:
         apiId:
           type: string
           description: API ID
-        subscriberID:
+        subscriberId:
           type: string
           description: Subscriber ID
         submitUser:
