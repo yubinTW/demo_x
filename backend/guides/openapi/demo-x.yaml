@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title:  API spec of X
   description: Some API spec of x for handling data transfer between frontend and backend
-  version: 0.0.1
+  version: 0.0.2
 servers:
   - url: http://{apiUrl}
     description: API endpoint of backend
@@ -476,12 +476,12 @@ components:
       type: object
       properties:
         code:
-          type: string
-        message:
+          type: integer
+        msg:
           type: string
       required:
         - code
-        - message
+        - msg
   responses:
     BadRequest:
       description: Request is invalid (include invalid JSON data or invalid fields)

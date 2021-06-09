@@ -1,7 +1,7 @@
 import * as O from 'fp-ts/Option';
 import * as TE from 'fp-ts/TaskEither';
 import * as E from 'fp-ts/Either';
-import { pipe } from 'fp-ts/lib/function';
+import * as F from 'fp-ts/lib/function';
 import { FormRepoImpl, formOf } from '../repo/form-repo';
 import { IForm } from '../types/form';
 import { FastifyInstance } from 'fastify';
@@ -43,13 +43,13 @@ describe('Just Testing', () => {
 
     /**
      * 用 O.some 取 Option<T> 的 T value
-     * 透過 pipe 來串 O.some, 由 O.ap 帶入
+     * 透過 F.pipe 來串 O.some, 由 O.ap 帶入
      */
     it('test #1', () => {
 
         const a: O.Option<Number> = O.of(10)
 
-        pipe(
+        F.pipe(
             O.some((x: Number) => {
                 let c = x;
                 console.log('c = ', c) // c = 10
@@ -66,7 +66,7 @@ describe('Just Testing', () => {
      */
     it('test #2', () => {
         const aa: O.Option<Number> = O.of(10)
-        let msg = pipe(
+        let msg = F.pipe(
             aa,
             O.match(
                 () => 'a none',
@@ -80,7 +80,7 @@ describe('Just Testing', () => {
 
     /**
      * 拿出 TaskEither<Option<T>> 的結果T
-     * 用 pipe: TaskEither -> map 拿 right，
+     * 用 F.pipe: TaskEither -> map 拿 right，
      * 拿出來的東西再給 match 拿 Option 內的 T
      */
     it('test #3', async () => {
@@ -88,7 +88,7 @@ describe('Just Testing', () => {
 
         let forms: Readonly<Array<IForm>> = [];
 
-        await pipe(
+        await F.pipe(
             () => formRepo.getForms()(),
             TE.map(x => {
                 O.match<Readonly<Array<IForm>>, void>(
@@ -100,11 +100,11 @@ describe('Just Testing', () => {
         console.log('forms = ', forms)
 
         /**
-         * use pipe -> bind -> map (pipe -> some -> ap)
+         * use F.pipe -> bind -> map (F.pipe -> some -> ap)
          */
-        // await pipe(
+        // await F.pipe(
         //     TE.bindTo('getForms')(formRepo.getForms()),
-        //     TE.map(({ getForms }) => pipe(
+        //     TE.map(({ getForms }) => F.pipe(
         //         O.some((a: Readonly<Array<IForm>>) => {
         //             forms = a
         //         }),
@@ -116,9 +116,9 @@ describe('Just Testing', () => {
          * replace some by match
          */
         // let forms: Readonly<Array<IForm>> = [];
-        // await pipe(
+        // await F.pipe(
         //     bindTo('getForms')(formRepo.getForms()),
-        //     map(({ getForms }) => pipe(
+        //     map(({ getForms }) => F.pipe(
         //         getForms,
         //         O.match(
         //             () => [],
@@ -136,7 +136,7 @@ describe('Just Testing', () => {
 
     /**
      * 拿出 TaskEither<Option<T>> 的結果T
-     * 用 pipe: TaskEither -> map 拿 right，
+     * 用 match<Error, void, O.Option<Readonly<Array<IForm>>>> 區分error和Option
      * 拿出來的東西再給 match 拿 Option 內的 T
      */
      it('test #4', async () => {
@@ -155,6 +155,20 @@ describe('Just Testing', () => {
         )(formRepo.getForms())()
         console.log('forms = ', forms)
 
+
+        expect(1).toBe(1)
+    })
+
+    /**
+     * String | null => Either
+     */
+     it('test #5', async () => {
+        let a: string | null = null
+        const result = F.pipe(
+            E.fromNullable(null)(a),
+            E.fold(() => "", (i) => i)
+        )
+        console.log('result =', result)
 
         expect(1).toBe(1)
     })

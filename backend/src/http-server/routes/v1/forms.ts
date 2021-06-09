@@ -2,9 +2,9 @@ import { FastifyInstance, RouteShorthandOptions, FastifyReply, FastifyRequest } 
 import { Type, Static } from '@sinclair/typebox';
 import * as TE from 'fp-ts/TaskEither';
 import * as O from 'fp-ts/Option';
-import { pipe } from 'fp-ts/lib/function';
 import { FormRepoImpl, formOf } from '../../../repo/form-repo';
 import { IForm, Status } from '../../../types/form';
+import { Types } from 'mongoose'
 
 /**
  * @api {get} /v1/forms acquires all existing forms
@@ -71,8 +71,10 @@ import { IForm, Status } from '../../../types/form';
  *   HTTP/1.1 500 Internal Server Error
  * 
  */
+
+//  TODO: API doc parameter update (GET /form/:id)
 const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void) => {
-    
+
     const formRepo: FormRepoImpl = FormRepoImpl.of();
 
     const Response =
@@ -95,8 +97,30 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
         )
     };
 
-    type Response = Static<typeof Response>;
+    const SingleResponse =
+    {
+        form:
+            Type.Object(
+                {
+                    _id: Type.String({ format: 'uuid' }),
+                    apiId: Type.String({ format: 'uuid' }),
+                    subscriberId: Type.String(),
+                    submitUser: Type.String(),
+                    status: Type.Enum(Status),
+                    approver: Type.Optional(Type.String()),
+                    approveDate: Type.Optional(Type.String()),
+                    comment: Type.Optional(Type.String()),
+                    createdAt: Type.String(),
+                    updatedAt: Type.String(),
+                }
+            )
 
+    };
+
+    type Response = Static<typeof Response>;
+    type SingleResponse = Static<typeof SingleResponse>;
+
+    let singleOpts = { ...opts, schema: { response: { 200: SingleResponse } } }
     opts = { ...opts, schema: { response: { 200: Response } } };
 
     server.get('/forms', opts, async (request, reply) => {
@@ -104,7 +128,7 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
         await TE.match<Error, FastifyReply, O.Option<Readonly<Array<IForm>>>>(
             e => {
                 request.log.error(`Get forms fail: ${e}`)
-                return reply.status(500)
+                return reply.status(500).send({ msg: `server error: ${e}` })
             },
             r => {
                 let forms: Readonly<Array<IForm>> = [];
@@ -112,29 +136,47 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
                     () => [],
                     (value) => forms = value
                 )(r)
-                return reply.code(200).send({ forms })  
+                return reply.code(200).send({ forms })
             }
-            
+
         )(formRepo.getForms())()
 
     });
 
-    
+    // TODO: reply 400 not implement 
     server.post('/forms', opts, async (request, reply) => {
         const formBody = formOf(request.body);
-        
+
         await TE.match<Error, FastifyReply, IForm>(
             e => {
                 request.log.error(`Add form fail: ${e}`)
-                return reply.status(500)
+                return reply.status(500).send({ msg: `server error: ${e}` })
             },
-            form => reply.status(201).send({form})
+            form => reply.status(201).send({ form })
         )(formRepo.addForm(formBody))()
-        
+
     });
 
+    server.get('/form/:id', singleOpts, async (request, reply) => {
+        const id = (request.params as any).id
+        if ( !Types.ObjectId.isValid(id) ) {
+            return reply.status(400).send({code:400, msg: `Bad Request`});
+        }
+        await TE.match<Error, FastifyReply, IForm | null>(
+            e => {
+                return reply.status(500).send({ code:500, msg: `Server Error: ${e}` })
+            },
+            (form) => {
+                if (form == null) {
+                    return reply.status(404).send({ code:404, msg: 'Not Found' })
+                }
+                return reply.status(200).send({ form })
+            }
+        )(formRepo.getFormById(id))()
+    })
+
     done()
-    
+
 };
 
 export { FormsRouter };

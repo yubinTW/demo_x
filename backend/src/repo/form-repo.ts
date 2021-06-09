@@ -1,12 +1,15 @@
-import { fromNullable, getOrElse, Option, some, none, sequenceArray } from 'fp-ts/lib/Option';
-import { TaskEither, right, map, chain, mapLeft, tryCatch } from 'fp-ts/TaskEither';
+import * as TE from 'fp-ts/TaskEither';
+import * as O from 'fp-ts/lib/Option';
+import * as E from 'fp-ts/Either';
+import * as F from 'fp-ts/lib/function';
 import Form from '../models/form';
 import { IForm } from '../types/form';
 
 
 interface FormRepo {
-    getForms(): TaskEither<Error, Option<Readonly<Array<IForm>>>>;
-    addForm(body: IForm): TaskEither<Error, Readonly<IForm>>;
+    getForms(): TE.TaskEither<Error, O.Option<Readonly<Array<IForm>>>>;
+    addForm(body: IForm): TE.TaskEither<Error, Readonly<IForm>>;
+    getFormById(id: string): TE.TaskEither<Error, Readonly<IForm | null>>;
 }
 
 class FormRepoImpl implements FormRepo {
@@ -15,35 +18,49 @@ class FormRepoImpl implements FormRepo {
     }
 
     static of(): FormRepoImpl {
-        return getOrElse(() => new FormRepoImpl())(fromNullable(FormRepoImpl.instance))
+        return O.getOrElse(() => new FormRepoImpl())(O.fromNullable(FormRepoImpl.instance))
     };
 
-    getForms(): TaskEither<Error, Option<Readonly<Array<IForm>>>> {
-        return tryCatch(
+    getForms(): TE.TaskEither<Error, O.Option<Readonly<Array<IForm>>>> {
+        return TE.tryCatch(
             async () => {
                 const resultArray: Array<IForm> = [];
                 for await (let k of Form.find()) {
                     resultArray.push(k);
                 }
-                return some(resultArray);
+                return O.some(resultArray);
             },
             e => new Error(`Failed to get forms: ${e}`)
         );
     }
 
+
+
+
     /**
-     * addForm :: IForm -> TaskEither Error Form
+     * addForm :: IForm -> TE. Error Form
      * @param formBody - the form data
      * @throws error when creating a form
      */
-    addForm(body: IForm): TaskEither<Error, Readonly<IForm>> {
-        return tryCatch(
+    addForm(body: IForm): TE.TaskEither<Error, Readonly<IForm>> {
+        return TE.tryCatch(
             () => Form.create(body),
             e => new Error(`Failed to create a form: ${e}`)
         );
     }
 
+    getFormById(id: string): TE.TaskEither<Error, Readonly<IForm | null>> {
+        console.log('id in form-repo = ', id);
+        let t = TE.tryCatch(
+            () => Form.findById(id).exec(),
+            e => new Error(`Failed to get form by id : ${e}`)
+        );
+        return t;
+    }
+
 }
+
+
 
 const formOf: (reqBody: any) => Readonly<IForm> =
     (reqBody) => ({
@@ -56,5 +73,5 @@ const formOf: (reqBody: any) => Readonly<IForm> =
         comment: reqBody.comment
     });
 
-    
+
 export { FormRepoImpl, formOf }
