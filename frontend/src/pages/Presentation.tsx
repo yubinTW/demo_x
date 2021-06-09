@@ -7,7 +7,7 @@ import { Col, Row, Image, Button, Container, Navbar, Nav } from '@themesberg/rea
 import { Link } from 'react-router-dom';
 // import { HashLink } from 'react-router-hash-link';
 
-import { Routes } from "../routes";
+import { Routes } from "../routes/routes";
 import TsmcLogo from "../assets/img//Tsmc.svg.png";
 
 export default () => {

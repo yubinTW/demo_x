@@ -8,7 +8,7 @@ import { faBook, faBoxOpen, faChartPie, faCog, faFileAlt, faHandHoldingUsd, faSi
 import { Nav, Badge, Image, Button, Dropdown, Accordion, Navbar } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { Routes } from "../routes";
+import { Routes } from "../routes/routes";
 import TsmcLogo from "../assets/img//Tsmc.svg.png";
 
 import ProfilePicture from "../assets/img/team/profile-picture-3.jpg";
@@ -98,14 +98,15 @@ export default (props = {}) => {
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
               <NavItem title="Product X" link={Routes.Presentation.path} image={TsmcLogo} />
+              <NavItem title="ProductSuites" link={Routes.ProductSuites.path} icon={faTable} />
+              <NavItem title="AppDemo" link={Routes.App.path} badgeText="Demo" icon={faFileAlt} />
 
-              <NavItem title="Overview" link={Routes.DashboardOverview.path} icon={faChartPie} />
+              {/* <NavItem title="Overview" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />
-              <NavItem title="Settings" icon={faCog} link={Routes.Settings.path} />
+              <NavItem title="Settings" icon={faCog} link={Routes.Settings.path} /> */}
 
-              <CollapsableNavItem eventKey="tables/" title="Tables" icon={faTable}>
+              {/* <CollapsableNavItem eventKey="tables/" title="Tables" icon={faTable}>
                 <NavItem title="Bootstrap Table" link={Routes.ProductSuites.path} />
-                {/* <NavItem title="Bootstrap Table" link={Routes.BootstrapTables.path} /> */}
 
               </CollapsableNavItem>
 
@@ -150,7 +151,7 @@ export default (props = {}) => {
                 <NavItem title="Tabs" link={Routes.Tabs.path} />
                 <NavItem title="Toasts" link={Routes.Toasts.path} />
                 <NavItem title="Tooltips" link={Routes.Tooltips.path} />
-              </CollapsableNavItem>
+              </CollapsableNavItem> */}
 
             </Nav>
           </div>

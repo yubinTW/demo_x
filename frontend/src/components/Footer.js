@@ -8,7 +8,7 @@ import BS5Logo from "../assets/img/technologies/bootstrap-5-logo.svg";
 import ReactLogo from "../assets/img/technologies/react-logo.svg";
 // import GitHubButton from 'react-github-btn';
 import { Link } from 'react-router-dom';
-import { Routes } from "../routes";
+import { Routes } from "../routes/routes";
 
 export default (props) => {
   // const currentYear = moment().get("year");

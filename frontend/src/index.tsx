@@ -10,7 +10,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 
 import HomePage from "./pages/HomePage";
-import { HashRouter } from "react-router-dom";
 
 // core styles
 import "./scss/volt.scss";
@@ -67,15 +66,15 @@ import "@fortawesome/fontawesome-free/css/all.css";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <HashRouter>
+      <Router>
         <HomePage />
-      </HashRouter>
+      </Router>
     </Provider>
   </React.StrictMode>,
 
   document.getElementById("root")
 );
-// import {BrowserRouter as Router,Switch, Route} from 'react-router-dom'
+// import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 // import App from './App';
 // import ProductSuites from './routes/productSuites'

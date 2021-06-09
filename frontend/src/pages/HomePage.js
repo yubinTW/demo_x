@@ -1,10 +1,11 @@
 import React, { useState, useEffect, Component } from 'react';
 import { Route, Switch } from "react-router-dom";
-import { Routes } from "../routes";
+import { Routes } from "../routes/routes";
 
 // pages
 import Presentation from "./Presentation";
-import ProductSuites from "../routes/productSuites";
+import ProductSuites from "./productSuites";
+
 import App from "../App";
 
 
@@ -15,6 +16,7 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
+import APIViewer from './apiViewer';
 
 
 export const RouteWithLoader = ({ component: Component, ...rest }) => {
@@ -70,12 +72,14 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
 
 export default () => (
   <Switch>
+
     <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} />
 
 
     {/* pages */}
     <RouteWithSidebar exact path={Routes.ProductSuites.path} component={ProductSuites} />
     <RouteWithSidebar exact path={Routes.App.path} component={App} />
+    <RouteWithSidebar path={Routes.APIViewer.path} component={APIViewer} />
 
 
     {/* components */}
