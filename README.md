@@ -1,6 +1,6 @@
 # Product X
 
-[API Spec](https://hackmd.io/XzxJ0mIjQ5mZVlu2UILk3A?view)
+[API Spec](backend/guides/openapi/demo-x.yaml)
 
 ## Build image
 ```
