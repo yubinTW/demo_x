@@ -1,6 +1,7 @@
-import { FastifyInstance, RouteShorthandOptions, FastifyReply, FastifyRequest } from 'fastify';
-import { Type, Static } from '@sinclair/typebox';
-import * as FormRepo from '../../../repo/form-repo';
+import { FastifyInstance, RouteShorthandOptions } from 'fastify'
+import { Type, Static } from '@sinclair/typebox'
+import * as FormRepo from '../../../repo/form-repo'
+import { map } from 'fp-ts/TaskEither'
 
 /**
  * @api {get} /v1/forms acquires all existing forms
@@ -33,7 +34,6 @@ import * as FormRepo from '../../../repo/form-repo';
  *        }
  *      ]
  *    }
- * 
  * @param server - Fastify server instance
  * @param opts - route configuration
  * @param done - a callback when this end point is done
@@ -49,77 +49,77 @@ import * as FormRepo from '../../../repo/form-repo';
  * it depends on NATS' account configuration
  * @apiSuccess {string} forms.submitUser the Windows user ID
  * @apiSuccess {string} form.status a form's status, either `pending`, `approved` or `rejected`
- * 
  * @apiSuccessExample {json} Success-Response:
  *  HTTP/1.1 201 OK
  *  {
  *    form: {
-        _id: 'b4692118-90c8-4e81-9f3f-93bbb0190a16'
-        apiId: '11f88b66-c434-11eb-adaa-67fca24f6e0a',
-        subscriberId: 'e574022c-c434-11eb-9d7f-9bd525bab798',
-        submitUser: 'ywchuo',
-        status: 'pending'
-      }
+ *       _id: 'b4692118-90c8-4e81-9f3f-93bbb0190a16'
+ *       apiId: '11f88b66-c434-11eb-adaa-67fca24f6e0a',
+ *       subscriberId: 'e574022c-c434-11eb-9d7f-9bd525bab798',
+ *       submitUser: 'ywchuo',
+ *       status: 'pending'
+ *     }
  *  }
- * 
  * @apiError (Error 5xx) InternalServerError Server ran into an error
  * @apiErrorExample Error-Response:
  *   HTTP/1.1 500 Internal Server Error
- * 
  */
-const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void) => {
-    enum Status {
-        Pending = 'pending',
-        Approved = 'approved',
-        Rejected = 'rejected'
-    };
+const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void): void => {
+  enum Status {
+    Pending = 'pending',
+    Approved = 'approved',
+    Rejected = 'rejected'
+  }
 
-    const Response =
-    {
-        forms: Type.Array(
-            Type.Object(
-                {
-                    _id: Type.String({ format: 'uuid' }),
-                    apiId: Type.String({ format: 'uuid' }),
-                    subscriberId: Type.String(),
-                    submitUser: Type.String(),
-                    status: Type.Enum(Status)
-                }
-            )
-        )
-    };
+  const Response = {
+    forms: Type.Array(
+      Type.Object({
+        _id: Type.String({ format: 'uuid' }),
+        apiId: Type.String({ format: 'uuid' }),
+        subscriberId: Type.String(),
+        submitUser: Type.String(),
+        status: Type.Enum(Status)
+      })
+    )
+  }
 
-    type Response = Static<typeof Response>;
+  type Response = Static<typeof Response>
 
-    opts = { ...opts, schema: { response: { 200: Response } } };
+  opts = { ...opts, schema: { response: { 200: Response } } }
 
+  server.get('/forms', opts, async (request, reply) => {
+    return await map((forms) => ({ forms }))(FormRepo.getForms())()
+  })
 
-    server.get('/forms', opts, async (_, reply) => {
-        const forms = await FormRepo.getForms();
-        reply.code(200).send(
-            {
-                forms: forms
-            }
-        );
-    });
+  server.post('/forms', opts, async (request, reply) => {
+    return await map((form) => {
+      reply.status(201)
 
+      return { form }
+    })(FormRepo.addForm(request.body as FormRepo.FormBody))()
 
-    server.post('/forms', opts, async (request, reply) => {
-        request.log.info('Add forms to db');
-        try {
-            const form = await FormRepo.addForm(request.body);
-            reply.status(201).send(
-                {
-                    form: form
-                }
-            );
-        } catch (err) {
-            throw err;
-        }
-    });
+    // await match<Error, FReply, FormRepo.Form>(
+    //     e => {
+    //         request.log.error(e)
 
-    done();
+    //         return reply.status(500)
+    //     },
+    //     form => reply.status(201).send({ form })
+    // )(FormRepo.addForm(request.body as FormRepo.FormBody))()
 
-};
+    // try {
+    //     const form = await FormRepo.addForm(request.body);
+    //     reply.status(201).send(
+    //         {
+    //             form: form
+    //         }
+    //     );
+    // } catch (err) {
+    //     throw err;
+    // }
+  })
 
-export { FormsRouter };
+  done()
+}
+
+export { FormsRouter }
