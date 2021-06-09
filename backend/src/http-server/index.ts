@@ -4,5 +4,6 @@ import { getOrElse } from 'fp-ts/Option'
 
 // Start your server
 const fastifyPort = getOrElse(() => fastifyPortOf(8080))(EnvConfigRepoImpl.of().fastifyPort());
+const server = startFastify(fastifyPort);
 
-startFastify(fastifyPort);
+export { server };
