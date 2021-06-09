@@ -5,7 +5,7 @@ import { faNetworkWired, faDigitalTachograph } from "@fortawesome/free-solid-svg
 
 import { Col, Row, Image, Button, Container, Navbar, Nav } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
+// import { HashLink } from 'react-router-hash-link';
 
 import { Routes } from "../routes";
 import TsmcLogo from "../assets/img//Tsmc.svg.png";
@@ -21,7 +21,7 @@ export default () => {
     <>
       <Navbar variant="dark" expand="lg" bg="dark" className="navbar-transparent navbar-theme-primary sticky-top">
         <Container className="position-relative justify-content-between px-3">
-          <Navbar.Brand as={HashLink} to="#home" className="me-lg-3 d-flex align-items-center">
+          <Navbar.Brand as={Link} to="#home" className="me-lg-3 d-flex align-items-center">
             <Image src={TsmcLogo} />
             <span className="ms-2 brand-text d-none d-md-inline">Product X</span>
           </Navbar.Brand>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Switch } from "react-router-dom";
 import { Routes } from "../routes";
 
 // pages
 import Presentation from "./Presentation";
 import ProductSuites from "../routes/productSuites";
+import APIViewer from '../routes/apiViewer';
 import App from "../App";
 
 
@@ -15,7 +16,6 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
-
 
 export const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
