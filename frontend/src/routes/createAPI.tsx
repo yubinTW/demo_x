@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 
 function CreateAPI() {
@@ -7,7 +7,7 @@ function CreateAPI() {
       <div className="createAPI">
         <h5>createAPI Page</h5>
       </div>
-    );
+    )
   }
   
-  export default CreateAPI;
+  export default CreateAPI

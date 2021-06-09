@@ -1,17 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
 
-import { store } from './app/store';
-import { Provider } from 'react-redux';
-import * as serviceWorker from './serviceWorker';
+import { store } from './app/store'
+import { Provider } from 'react-redux'
+import * as serviceWorker from './serviceWorker'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import App from './App';
-import ProductSuites from './routes/productSuites';
-import CreateAPI from './routes/createAPI';
-import HeaderBar from './component/headerBar';
+
 import HomePage from "./pages/HomePage";
 import { HashRouter } from "react-router-dom";
 
@@ -78,8 +75,39 @@ ReactDOM.render(
 
   document.getElementById("root")
 );
+// import {BrowserRouter as Router,Switch, Route} from 'react-router-dom'
+
+// import App from './App';
+// import ProductSuites from './routes/productSuites'
+// import CreateAPI from './routes/createAPI'
+// import HeaderBar from './component/headerBar'
+// import APIViewer from './routes/apiViewer'
+
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <Provider store={store}>
+//       <div className="indexPage">
+//         <div className="header">
+//           <HeaderBar />
+//         </div>
+//         <div className="inner_page">
+//             <Router>
+//               <Switch>
+//                   <Route exact path="/" component={App} ></Route>
+//                   <Route exact path="/product-suite" component={ProductSuites} ></Route>
+
+//                   <Route exact path="/create-api" component={CreateAPI} ></Route>
+//                   <Route path="/api-viewer/:id" component={APIViewer}></Route>
+//               </Switch>
+//             </Router>
+//           </div>
+//     </div>
+//     </Provider>
+//   </React.StrictMode>,
+//   document.getElementById('root')
+// )
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.unregister()
