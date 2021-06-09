@@ -1,6 +1,6 @@
-import {createServer} from "miragejs";
+import {createServer} from "miragejs"
 
-import mockapi from './../../public/mockapi.json';
+import mockapi from './../../public/mockapi.json'
 
 export function MockServer() {
     createServer({

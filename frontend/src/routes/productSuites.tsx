@@ -1,27 +1,25 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect,useRef } from 'react'
 
-import 'primeicons/primeicons.css';
-import 'primereact/resources/themes/saga-blue/theme.css';
-import 'primereact/resources/primereact.css';
-import 'primeflex/primeflex.css';
+import 'primeicons/primeicons.css'
+import 'primereact/resources/themes/saga-blue/theme.css'
+import 'primereact/resources/primereact.css'
+import 'primeflex/primeflex.css'
 
-import { NodeService } from '../service/NodeService';
-import { TreeTable } from 'primereact/treetable';
-import { Column } from 'primereact/column';
-import { confirmDialog } from 'primereact/confirmdialog';
-import { Toast } from 'primereact/toast';
+import { NodeService } from '../service/NodeService'
+import { TreeTable } from 'primereact/treetable'
+import { Column } from 'primereact/column'
+import { confirmDialog } from 'primereact/confirmdialog'
+import { Toast } from 'primereact/toast'
 
 function ProductSuites() {
-    const [nodes, setNodes] = useState([]);
-    const [nextPath, setNextPath] = useState<string | "">("");
-    const [updateKey,setUpdateKey] = useState<number | 0>(0);
-    const toast = useRef<any | null>(null);
-    const nodeservice = new NodeService();
-
-    
+    const [nodes, setNodes] = useState([])
+    const [nextPath, setNextPath] = useState<string | "">("")
+    const [updateKey,setUpdateKey] = useState<number | 0>(0)
+    const toast = useRef<any | null>(null)
+    const nodeservice = new NodeService()
 
     useEffect(() => {
-        nodeservice.getTreeTableNodes().then(data => setNodes(data));
+        nodeservice.getTreeTableNodes().then(data => setNodes(data)).catch(e => console.error(e));
     }, []);//eslint-disable-line react-hooks/exhaustive-deps
     
     async function setUpSelect(apiId:string)
@@ -32,13 +30,13 @@ function ProductSuites() {
         await setNextPath(pathconcat);
         if(updateKey==1)
         {
-          confirm();
+          confirm()
         }
         
       }
       catch(error)
       {
-        console.log("setNextPath fail: ",error);
+        console.log("setNextPath fail: ",error)
         
       }
       
@@ -49,17 +47,17 @@ function ProductSuites() {
       {
         if(event.node.data.type === "API")
         {
-          await setUpSelect(event.node.data.id);
+          await setUpSelect(event.node.data.id)
           if(updateKey==0)
           {
-            await setUpSelect(event.node.data.id);
-            setUpdateKey(1);
+            await setUpSelect(event.node.data.id)
+            setUpdateKey(1)
           }
         }
       }
       catch(error)
       {
-        console.log("Select error: ", error);
+        console.log("Select error: ", error)
       }
       
     };
@@ -67,26 +65,26 @@ function ProductSuites() {
       console.log('unselect')
     }
     const accept =  ()  => {
-      toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
-      window.location.pathname = nextPath;
+      toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 })
+      window.location.pathname = nextPath
       
       //return <APIViewer apiId={selectedNodeKey} />;
     }
 
     const reject = () => {
-      toast.current.show({ severity: 'info', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+      toast.current.show({ severity: 'info', summary: 'Rejected', detail: 'You have rejected', life: 3000 })
     }
     async function confirm(){
       //await setUpSelect(apiId);
-      await setUpdateKey(0);
-      console.log(nextPath);
+      await setUpdateKey(0)
+      console.log(nextPath)
       confirmDialog({
           message: 'Are you sure you want to proceed?',
           header: 'Confirmation',
           icon: 'pi pi-exclamation-triangle',
           accept,
           reject
-      });
+      })
     };
     
     return (
@@ -114,7 +112,7 @@ function ProductSuites() {
         </div>
         
       </div>
-    );
+    )
   }
   
-  export default ProductSuites;
+  export default ProductSuites
