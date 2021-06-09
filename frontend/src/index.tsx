@@ -16,6 +16,14 @@ import "./scss/volt.scss";
 // vendor styles
 import "@fortawesome/fontawesome-free/css/all.css";
 
+import {MockServer} from './service/MockServer'
+
+const environment = process.env.NODE_ENV
+console.log(environment)
+if(environment !== "production")
+{
+  MockServer({environment})
+}
 // const routes = [
 //   {
 //     path: "/",
