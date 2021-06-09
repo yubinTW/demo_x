@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest --watchAll --verbose --coverage --detectOpenHandles --forceExit",
     "build": "tsc",
-    "start": "ts-node src/http-server/index",
+    "esbuild": "esbuild src/**/*.ts --bundle --outdir=build --platform=node --minify --target=es2020 --external:mongodb --external:fastify",
+    "start": "node build/http-server/index",
     "apidoc": "apidoc -i src/http-server -o ../apidoc/"
   },
   "repository": {
@@ -39,6 +40,7 @@
     "@sinclair/typebox": "^0.16.7",
     "@types/lodash": "^4.14.170",
     "dotenv": "^10.0.0",
+    "esbuild": "^0.12.6",
     "fastify": "^3.15.1",
     "fastify-static": "^4.2.2",
     "lodash": "^4.17.21",
