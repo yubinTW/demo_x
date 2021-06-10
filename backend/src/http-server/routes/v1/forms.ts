@@ -1,10 +1,12 @@
-import { FastifyInstance, RouteShorthandOptions, FastifyReply, FastifyRequest } from 'fastify';
+import { FastifyInstance, RouteShorthandOptions, FastifyReply } from 'fastify'
 import { Type, Static } from '@sinclair/typebox';
 import * as TE from 'fp-ts/TaskEither';
 import * as O from 'fp-ts/Option';
-import { FormRepoImpl, formOf } from '../../../repo/form-repo';
-import { IForm, Status } from '../../../types/form';
+import { FormRepoImpl, formOf } from '../../../repo/form-repo'
+import { IForm, Status } from '../../../types/form'
 import { Types } from 'mongoose'
+import { of } from 'fp-ts/Identity'
+import { zero } from 'fp-ts/Array'
 
 /**
  * @api {get} /v1/forms acquires all existing forms
@@ -75,7 +77,7 @@ import { Types } from 'mongoose'
 //  TODO: API doc parameter update (GET /form/:id)
 const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void) => {
 
-    const formRepo: FormRepoImpl = FormRepoImpl.of();
+    const formRepo: FormRepoImpl = FormRepoImpl.of()
 
     const Response =
     {
@@ -95,7 +97,7 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
                 }
             )
         )
-    };
+    }
 
     const SingleResponse =
     {
@@ -115,27 +117,33 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
                 }
             )
 
-    };
+    }
 
-    type Response = Static<typeof Response>;
-    type SingleResponse = Static<typeof SingleResponse>;
+    type Response = Static<typeof Response>
+    type SingleResponse = Static<typeof SingleResponse>
 
-    let singleOpts = { ...opts, schema: { response: { 200: SingleResponse } } }
-    opts = { ...opts, schema: { response: { 200: Response } } };
+    interface IdParam {
+        id: string
+    }
+
+    const singleOpts = { ...opts, schema: { response: { 200: SingleResponse } } }
+    opts = { ...opts, schema: { response: { 200: Response } } }
 
     server.get('/forms', opts, async (request, reply) => {
 
         await TE.match<Error, FastifyReply, O.Option<Readonly<Array<IForm>>>>(
             e => {
                 request.log.error(`Get forms fail: ${e}`)
+
                 return reply.status(500).send({ msg: `server error: ${e}` })
             },
             r => {
-                let forms: Readonly<Array<IForm>> = [];
-                O.match<Readonly<Array<IForm>>, void>(
-                    () => [],
-                    (value) => forms = value
-                )(r)
+                const forms: Readonly<Array<IForm>> =
+                    O.match<Readonly<Array<IForm>>, Readonly<Array<IForm>>>(
+                        () => { return zero<IForm>() },
+                        (value) => of(value)
+                    )(r)
+
                 return reply.code(200).send({ forms })
             }
 
@@ -145,38 +153,41 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
 
     // TODO: reply 400 not implement 
     server.post('/forms', opts, async (request, reply) => {
-        const formBody = formOf(request.body);
-
         await TE.match<Error, FastifyReply, IForm>(
             e => {
                 request.log.error(`Add form fail: ${e}`)
                 return reply.status(500).send({ msg: `server error: ${e}` })
             },
             form => reply.status(201).send({ form })
-        )(formRepo.addForm(formBody))()
+        )(formRepo.addForm(formOf(request.body)))()
 
-    });
+    })
 
-    server.get('/form/:id', singleOpts, async (request, reply) => {
-        const id = (request.params as any).id
-        if ( !Types.ObjectId.isValid(id) ) {
-            return reply.status(400).send({code:400, msg: `Bad Request`});
+    server.get<{ Params: IdParam }>('/form/:id', singleOpts, async (request, reply) => {
+        const id = request.params.id
+
+        enum IsIdValid { Valid, Invalid }
+
+        const isIdValid: (id: string) => boolean = (id) => { return Types.ObjectId.isValid(id) }
+        const bool2IsIdValid: (b: boolean) => IsIdValid = (b) => b ? IsIdValid.Valid : IsIdValid.Invalid
+
+        switch (bool2IsIdValid(isIdValid(id))) {
+            case IsIdValid.Invalid:
+                return reply.status(400).send({ code: 400, msg: `Bad Request` })
+            case IsIdValid.Valid:
+                await TE.match<Error, FastifyReply, O.Option<Readonly<IForm>>>(
+                    e => { return reply.status(500).send({ code: 500, msg: `Server Error: ${e}` }) },
+                    (r) => {
+                        return O.match<Readonly<IForm>, FastifyReply>(
+                            () => reply.status(404).send({ code: 404, msg: 'Not Found' }),
+                            (form) => reply.status(200).send({ form })
+                        )(r)
+                    }
+                )(formRepo.getFormById(id))()
         }
-        await TE.match<Error, FastifyReply, IForm | null>(
-            e => {
-                return reply.status(500).send({ code:500, msg: `Server Error: ${e}` })
-            },
-            (form) => {
-                if (form == null) {
-                    return reply.status(404).send({ code:404, msg: 'Not Found' })
-                }
-                return reply.status(200).send({ form })
-            }
-        )(formRepo.getFormById(id))()
     })
 
     done()
+}
 
-};
-
-export { FormsRouter };
+export { FormsRouter }
