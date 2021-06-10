@@ -31,7 +31,10 @@ function CreateAPI() {
         <div className="p-col" />
         <div className="p-col-10" >
           <div className="p-fluid p-formgrid p-grid">
-          
+            <div className="p-field p-col-12 p-md-6">
+                <label htmlFor="firstname6">Firstname</label>
+                <InputText id="firstname6" type="text" />
+            </div>
             <div className="p-field p-col-12 p-md-2">
                 <label htmlFor="state">State</label>
                 <Dropdown inputId="state" value={selectedState} options={states} onChange={onStateChange} placeholder="Select" optionLabel="name"/>
