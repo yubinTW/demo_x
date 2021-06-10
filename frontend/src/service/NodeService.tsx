@@ -1,14 +1,26 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export class NodeService {
 
-    getTreeTableNodes() {
-        return axios.get('/treeData.json')
-                .then(res => res.data.root).catch(e => console.log(e));
+    async getTreeTableNodes() {
+        try {
+            const res = await axios.get('/ps')
+            //console.log(res.data.root)
+            return res.data.root
+        } catch (e) {
+            return console.error(e)
+        }
     }
-    getApiData()
+    async getApiData(id:string)
     {
-        return axios.get('/mockapi.json').then(res => res.data).catch(e => console.log(e));
+        console.log("Get id from params: ",id)
+        try {
+            const res = await axios.get('/api')
+            //console.log(res.data.api)
+            return res.data.api
+        } catch (e) {
+            return console.error(e)
+        }
     }
 }
     

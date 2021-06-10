@@ -1,9 +1,9 @@
 import { FastifyInstance, RouteShorthandOptions, FastifyReply } from 'fastify'
-import { Type, Static } from '@sinclair/typebox';
-import * as TE from 'fp-ts/TaskEither';
-import * as O from 'fp-ts/Option';
+import { Type, Static } from '@sinclair/typebox'
+import * as TE from 'fp-ts/TaskEither'
+import * as O from 'fp-ts/Option'
 import { FormRepoImpl, formOf } from '../../../repo/form-repo'
-import { IForm, Status } from '../../../types/form'
+import { IForm, Status, FormBody } from '../../../types/form'
 import { Types } from 'mongoose'
 import { of } from 'fp-ts/Identity'
 import { zero } from 'fp-ts/Array'
@@ -39,7 +39,6 @@ import { zero } from 'fp-ts/Array'
  *        }
  *      ]
  *    }
- * 
  * @param server - Fastify server instance
  * @param opts - route configuration
  * @param done - a callback when this end point is done
@@ -55,139 +54,140 @@ import { zero } from 'fp-ts/Array'
  * it depends on NATS' account configuration
  * @apiSuccess {string} forms.submitUser the Windows user ID
  * @apiSuccess {string} form.status a form's status, either `pending`, `approved` or `rejected`
- * 
  * @apiSuccessExample {json} Success-Response:
  *  HTTP/1.1 201 OK
  *  {
  *    form: {
-        _id: 'b4692118-90c8-4e81-9f3f-93bbb0190a16'
-        apiId: '11f88b66-c434-11eb-adaa-67fca24f6e0a',
-        subscriberId: 'e574022c-c434-11eb-9d7f-9bd525bab798',
-        submitUser: 'ywchuo',
-        status: 'pending'
-      }
+ *       _id: 'b4692118-90c8-4e81-9f3f-93bbb0190a16'
+ *       apiId: '11f88b66-c434-11eb-adaa-67fca24f6e0a',
+ *       subscriberId: 'e574022c-c434-11eb-9d7f-9bd525bab798',
+ *       submitUser: 'ywchuo',
+ *       status: 'pending'
+ *     }
  *  }
- * 
  * @apiError (Error 5xx) InternalServerError Server ran into an error
  * @apiErrorExample Error-Response:
  *   HTTP/1.1 500 Internal Server Error
- * 
  */
 
 //  TODO: API doc parameter update (GET /form/:id)
 const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void) => {
+  const formRepo: FormRepoImpl = FormRepoImpl.of()
 
-    const formRepo: FormRepoImpl = FormRepoImpl.of()
+  const Response = {
+    forms: Type.Array(
+      Type.Object({
+        _id: Type.String({ format: 'uuid' }),
+        apiId: Type.String({ format: 'uuid' }),
+        subscriberId: Type.String(),
+        submitUser: Type.String(),
+        status: Type.Enum(Status),
+        approver: Type.Optional(Type.String()),
+        approveDate: Type.Optional(Type.String()),
+        comment: Type.Optional(Type.String()),
+        createdAt: Type.String(),
+        updatedAt: Type.String()
+      })
+    )
+  }
 
-    const Response =
-    {
-        forms: Type.Array(
-            Type.Object(
-                {
-                    _id: Type.String({ format: 'uuid' }),
-                    apiId: Type.String({ format: 'uuid' }),
-                    subscriberId: Type.String(),
-                    submitUser: Type.String(),
-                    status: Type.Enum(Status),
-                    approver: Type.Optional(Type.String()),
-                    approveDate: Type.Optional(Type.String()),
-                    comment: Type.Optional(Type.String()),
-                    createdAt: Type.String(),
-                    updatedAt: Type.String(),
-                }
-            )
-        )
-    }
-
-    const SingleResponse =
-    {
-        form:
-            Type.Object(
-                {
-                    _id: Type.String({ format: 'uuid' }),
-                    apiId: Type.String({ format: 'uuid' }),
-                    subscriberId: Type.String(),
-                    submitUser: Type.String(),
-                    status: Type.Enum(Status),
-                    approver: Type.Optional(Type.String()),
-                    approveDate: Type.Optional(Type.String()),
-                    comment: Type.Optional(Type.String()),
-                    createdAt: Type.String(),
-                    updatedAt: Type.String(),
-                }
-            )
-
-    }
-
-    type Response = Static<typeof Response>
-    type SingleResponse = Static<typeof SingleResponse>
-
-    interface IdParam {
-        id: string
-    }
-
-    const singleOpts = { ...opts, schema: { response: { 200: SingleResponse } } }
-    opts = { ...opts, schema: { response: { 200: Response } } }
-
-    server.get('/forms', opts, async (request, reply) => {
-
-        await TE.match<Error, FastifyReply, O.Option<Readonly<Array<IForm>>>>(
-            e => {
-                request.log.error(`Get forms fail: ${e}`)
-
-                return reply.status(500).send({ msg: `server error: ${e}` })
-            },
-            r => {
-                const forms: Readonly<Array<IForm>> =
-                    O.match<Readonly<Array<IForm>>, Readonly<Array<IForm>>>(
-                        () => { return zero<IForm>() },
-                        (value) => of(value)
-                    )(r)
-
-                return reply.code(200).send({ forms })
-            }
-
-        )(formRepo.getForms())()
-
-    });
-
-    // TODO: reply 400 not implement 
-    server.post('/forms', opts, async (request, reply) => {
-        await TE.match<Error, FastifyReply, IForm>(
-            e => {
-                request.log.error(`Add form fail: ${e}`)
-                return reply.status(500).send({ msg: `server error: ${e}` })
-            },
-            form => reply.status(201).send({ form })
-        )(formRepo.addForm(formOf(request.body)))()
-
+  const SingleResponse = {
+    form: Type.Object({
+      _id: Type.String({ format: 'uuid' }),
+      apiId: Type.String({ format: 'uuid' }),
+      subscriberId: Type.String(),
+      submitUser: Type.String(),
+      status: Type.Enum(Status),
+      approver: Type.Optional(Type.String()),
+      approveDate: Type.Optional(Type.String()),
+      comment: Type.Optional(Type.String()),
+      createdAt: Type.String(),
+      updatedAt: Type.String()
     })
+  }
 
-    server.get<{ Params: IdParam }>('/form/:id', singleOpts, async (request, reply) => {
-        const id = request.params.id
+  type Response = Static<typeof Response>
+  type SingleResponse = Static<typeof SingleResponse>
 
-        enum IsIdValid { Valid, Invalid }
+  interface IdParam {
+    id: string
+  }
 
-        const isIdValid: (id: string) => boolean = (id) => { return Types.ObjectId.isValid(id) }
-        const bool2IsIdValid: (b: boolean) => IsIdValid = (b) => b ? IsIdValid.Valid : IsIdValid.Invalid
+  const singleOpts = { ...opts, schema: { response: { 200: SingleResponse } } }
+  opts = { ...opts, schema: { response: { 200: Response } } }
 
-        switch (bool2IsIdValid(isIdValid(id))) {
-            case IsIdValid.Invalid:
-                return reply.status(400).send({ code: 400, msg: `Bad Request` })
-            case IsIdValid.Valid:
-                await TE.match<Error, FastifyReply, O.Option<Readonly<IForm>>>(
-                    e => { return reply.status(500).send({ code: 500, msg: `Server Error: ${e}` }) },
-                    (r) => {
-                        return O.match<Readonly<IForm>, FastifyReply>(
-                            () => reply.status(404).send({ code: 404, msg: 'Not Found' }),
-                            (form) => reply.status(200).send({ form })
-                        )(r)
-                    }
-                )(formRepo.getFormById(id))()
-        }
-    })
+  // server.get('/forms', opts, async (request, reply) => {
+  //     return await map((forms) => ({ forms }))(FormRepo.getForms())()
+  // })
 
-    done()
+  server.get('/forms', opts, async (request, reply) => {
+    await TE.match<Error, FastifyReply, O.Option<Readonly<Array<IForm>>>>(
+      (e) => {
+        request.log.error(`Get forms fail: ${e}`)
+
+        return reply.status(500).send({ msg: `server error: ${e}` })
+      },
+      (r) => {
+        const forms: Readonly<Array<IForm>> = O.match<Readonly<Array<IForm>>, Readonly<Array<IForm>>>(
+          () => zero<IForm>(),
+          (value) => of(value)
+        )(r)
+
+        return reply.code(200).send({ forms })
+      }
+    )(formRepo.getForms())()
+  })
+
+  // server.post('/forms', opts, async (request, reply) => {
+  //     return await map((form) => {
+  //         reply.status(201)
+
+  //         return { form }
+  // })(FormRepo.addForm(request.body as FormRepo.FormBody))()
+
+  // TODO: reply 400 not implement
+  server.post('/forms', opts, async (request, reply) => {
+    await TE.match<Error, FastifyReply, IForm>(
+      (e) => {
+        request.log.error(`Add form fail: ${e}`)
+        return reply.status(500).send({ msg: `server error: ${e}` })
+      },
+      (form) => reply.status(201).send({ form })
+    )(formRepo.addForm(request.body as FormBody))()
+  })
+
+  server.get<{ Params: IdParam }>('/form/:id', singleOpts, async (request, reply) => {
+    const id = request.params.id
+
+    enum IsIdValid {
+      Valid,
+      Invalid
+    }
+
+    const isIdValid: (id: string) => boolean = (id) => {
+      return Types.ObjectId.isValid(id)
+    }
+    const bool2IsIdValid: (b: boolean) => IsIdValid = (b) => (b ? IsIdValid.Valid : IsIdValid.Invalid)
+
+    switch (bool2IsIdValid(isIdValid(id))) {
+      case IsIdValid.Invalid:
+        return reply.status(400).send({ code: 400, msg: `Bad Request` })
+      case IsIdValid.Valid:
+        await TE.match<Error, FastifyReply, O.Option<Readonly<IForm>>>(
+          (e) => {
+            return reply.status(500).send({ code: 500, msg: `Server Error: ${e}` })
+          },
+          (r) => {
+            return O.match<Readonly<IForm>, FastifyReply>(
+              () => reply.status(404).send({ code: 404, msg: 'Not Found' }),
+              (form) => reply.status(200).send({ form })
+            )(r)
+          }
+        )(formRepo.getFormById(id))()
+    }
+  })
+
+  done()
 }
 
 export { FormsRouter }

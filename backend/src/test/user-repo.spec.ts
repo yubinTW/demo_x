@@ -1,43 +1,45 @@
-import * as U from '../repo/user-repo';
-import * as E from 'fp-ts/Either';
-import { Option, match, some, ap } from 'fp-ts/Option';
-import * as TE from 'fp-ts/TaskEither';
-import { pipe } from 'fp-ts/lib/function';
-import { connect } from 'mongad';
-import { MongoError, MongoClient } from 'mongodb';
+import * as U from '../repo/user-repo'
+import * as E from 'fp-ts/Either'
+import { Option, match, some, ap } from 'fp-ts/Option'
+import * as TE from 'fp-ts/TaskEither'
+import { pipe } from 'fp-ts/lib/function'
+import { connect } from 'mongad'
+import { MongoError, MongoClient } from 'mongodb'
 import {
   DockerComposeEnvironment,
   StartedDockerComposeEnvironment,
   DownedDockerComposeEnvironment
-} from 'testcontainers';
-import * as path from 'path';
+} from 'testcontainers'
+import * as path from 'path'
 // import { LogWaitStrategy } from 'testcontainers/dist/wait-strategy';
 
 describe('User repository', () => {
-  let mongoDBPort: number;
-  let environment: StartedDockerComposeEnvironment;
+  let mongoDBPort: number
+  let environment: StartedDockerComposeEnvironment
 
   beforeAll(async () => {
-    jest.setTimeout(120000);
+    jest.setTimeout(120000)
 
-    const composeFilePath = path.resolve(__dirname, '../..');
-    const composeFile = 'docker-compose.yml';
+    const composeFilePath = path.resolve(__dirname, '../..')
+    const composeFile = 'docker-compose.yml'
 
-    environment = await new DockerComposeEnvironment(composeFilePath, composeFile).up();
+    environment = await new DockerComposeEnvironment(composeFilePath, composeFile).up()
 
-    const mongoDBContainer = environment.getContainer("mongodb_1");
+    const mongoDBContainer = environment.getContainer('mongodb_1')
 
-    mongoDBPort = mongoDBContainer.getMappedPort(27017);
-  });
+    mongoDBPort = mongoDBContainer.getMappedPort(27017)
+  })
 
   afterAll(async () => {
     await TE.match<Error, void, DownedDockerComposeEnvironment>(
-      e => console.log(e.message),
-      c => console.log(`container: ${JSON.stringify(c, null, 2)} was stopped successfully`)
-    )(TE.tryCatch(
-      () => environment.down(),
-      e => new Error(`Test container closing error: ${JSON.stringify(e)}`)
-    ))();
+      (e) => console.log(e.message),
+      (c) => console.log(`container: ${JSON.stringify(c, null, 2)} was stopped successfully`)
+    )(
+      TE.tryCatch(
+        () => environment.down(),
+        (e) => new Error(`Test container closing error: ${JSON.stringify(e)}`)
+      )
+    )()
 
     // Imperative way of stopping the MongoDB container
     // try {
@@ -45,101 +47,111 @@ describe('User repository', () => {
     // } catch (e) {
     //   console.log(`Test container closing error: ${JSON.stringify(e)}`);
     // }
-  });
+  })
 
   it('should successfully initiate a User instance', () => {
     const richard = {
       name: U.nameOf('Richard Chuo'),
       gender: U.Gender.Male,
       bornYear: U.bornYearOf(1969)
-    };
+    }
 
     expect(richard).toStrictEqual({
       name: U.nameOf('Richard Chuo'),
       gender: U.Gender.Male,
       bornYear: U.bornYearOf(1969)
-    });
-  });
+    })
+  })
 
   it('should successfully insert a User', async () => {
-    const name = U.nameOf('Richard Chuo');
-    const gender = U.Gender.Male;
-    const bornYear = U.bornYearOf(1969);
+    const name = U.nameOf('Richard Chuo')
+    const gender = U.Gender.Male
+    const bornYear = U.bornYearOf(1969)
 
-    const richard: Readonly<U.User> = { name, gender, bornYear };
+    const richard: Readonly<U.User> = { name, gender, bornYear }
 
     // An UserRepo stub;
-    const userRepo = U.TestUserRepoImpl.of();
+    const userRepo = U.TestUserRepoImpl.of()
 
     const foundUsersE = await pipe(
       TE.bindTo('insertedUser')(userRepo.insertUser(name, gender, bornYear)),
       TE.bind('foundUsersByName', (_) => userRepo.findUsersByName(name)),
       TE.bind('foundUsersByGender', (_) => userRepo.findUsersByGender(gender)),
       TE.bind('foundUserByBornYear', (_) => userRepo.findUserByBornYear(bornYear)),
-      TE.map(({ insertedUser, foundUsersByName, foundUsersByGender, foundUserByBornYear }) => pipe(
-        some((a: Readonly<Array<U.User>>) => (b: Readonly<Array<U.User>>) => (c: Readonly<Array<U.User>>) => a.concat(b).concat(c)),
-        ap(foundUsersByName),
-        ap(foundUsersByGender),
-        ap(foundUserByBornYear)
-      ))
-    )();
+      TE.map(({ insertedUser, foundUsersByName, foundUsersByGender, foundUserByBornYear }) =>
+        pipe(
+          some(
+            (a: Readonly<Array<U.User>>) => (b: Readonly<Array<U.User>>) => (c: Readonly<Array<U.User>>) =>
+              a.concat(b).concat(c)
+          ),
+          ap(foundUsersByName),
+          ap(foundUsersByGender),
+          ap(foundUserByBornYear)
+        )
+      )
+    )()
 
     E.match<Error, Option<Readonly<Array<U.User>>>, void>(
-      e => fail(e.message),
-      r => {
+      (e) => fail(e.message),
+      (r) => {
         match<Readonly<Array<U.User>>, void>(
           () => fail('failed to find any user'),
-          ua => {
-            expect(ua.length).toBe(3);
+          (ua) => {
+            expect(ua.length).toBe(3)
             expect(ua).toStrictEqual([richard, richard, richard])
           }
-        )(r);
+        )(r)
       }
-    )(foundUsersE);
+    )(foundUsersE)
 
-    const mongoClientTE = connect(`mongodb://localhost:${mongoDBPort}`);
-    const mongoUserRepo = U.MongoUserRepoImpl.of(mongoClientTE);
+    const mongoClientTE = connect(`mongodb://localhost:${mongoDBPort}`)
+    const mongoUserRepo = U.MongoUserRepoImpl.of(mongoClientTE)
 
     const mFoundUsersE = await pipe(
       TE.bindTo('insertedUser')(mongoUserRepo.insertUser(name, gender, bornYear)),
       TE.bind('foundUsersByName', (_) => mongoUserRepo.findUsersByName(name)),
       TE.bind('foundUsersByGender', (_) => mongoUserRepo.findUsersByGender(gender)),
       TE.bind('foundUserByBornYear', (_) => mongoUserRepo.findUserByBornYear(bornYear)),
-      TE.map(({ insertedUser, foundUsersByName, foundUsersByGender, foundUserByBornYear }) => pipe(
-        some((a: Readonly<Array<U.User>>) => (b: Readonly<Array<U.User>>) => (c: Readonly<Array<U.User>>) => a.concat(b).concat(c)),
-        ap(foundUsersByName),
-        ap(foundUsersByGender),
-        ap(foundUserByBornYear)
-      ))
-    )();
+      TE.map(({ insertedUser, foundUsersByName, foundUsersByGender, foundUserByBornYear }) =>
+        pipe(
+          some(
+            (a: Readonly<Array<U.User>>) => (b: Readonly<Array<U.User>>) => (c: Readonly<Array<U.User>>) =>
+              a.concat(b).concat(c)
+          ),
+          ap(foundUsersByName),
+          ap(foundUsersByGender),
+          ap(foundUserByBornYear)
+        )
+      )
+    )()
 
-/**
- * Note the positions of A & B !!!
- * 
- * TaskEither: 
- * export declare const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: TaskEither<E, A>) => T.Task<B>
+    /**
+     * Note the positions of A & B !!!
+     * 
+     * TaskEither: 
+     * export declare const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: TaskEither<E, A>) => T.Task<B>
 
- * Either:
- * Takes two functions and an Either value, if the value is a Left the inner value is applied to the first function, if the value is a Right the inner value is applied to the second function.
- * export declare const match: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
- */
+     * Either:
+     * Takes two functions and an Either value, if the value is a Left the inner value is applied to the first function, if the value is a Right the inner value is applied to the second function.
+     * export declare const match: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
+    */
 
-    let a = E.match<Error, Option<Array<U.User>>, void>(
-      e => fail(e.message),
-      r => {
+    E.match<Error, Option<Array<U.User>>, void>(
+      (e) => fail(e.message),
+      (r) => {
         match<Array<U.User>, void>(
           () => fail('failed to find any user'),
-          ua => {
-            expect(ua.length).toBe(3);
+          (ua) => {
+            expect(ua.length).toBe(3)
             expect(ua).toStrictEqual([richard, richard, richard])
           }
-        )(r);
+        )(r)
       }
-    )(mFoundUsersE);
+    )(mFoundUsersE)
 
     await TE.match<MongoError, void, void>(
-      e => console.log(`err: ${JSON.stringify(e, null, 2)}`),
-      _ => console.log(`MongoClient was successfully closed`)
-    )(TE.chain<MongoError, MongoClient, void>(client => TE.fromTask(() => client.close(true)))(mongoClientTE))();
-  });
-});
+      (e) => console.log(`err: ${JSON.stringify(e, null, 2)}`),
+      (_) => console.log(`MongoClient was successfully closed`)
+    )(TE.chain<MongoError, MongoClient, void>((client) => TE.fromTask(() => client.close(true)))(mongoClientTE))()
+  })
+})
