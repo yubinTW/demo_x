@@ -29,7 +29,7 @@ function APIViewer() {
         <div className="p-grid">
         <div className="p-col" />
         <div className="p-col-10">
-        <h5>API Viewer Page</h5>
+        
           <AsyncApiComponent schema={apidoc} />
         </div>
         <div className="p-col" />
