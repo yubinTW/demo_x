@@ -3,8 +3,8 @@ import { fastifyPortOf } from '../repo/config-repo'
 import { startFastify } from '../http-server/server'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 import * as dbHandler from './db'
-import { Form } from '../repo/form-repo'
 import { tryCatch, match } from 'fp-ts/Either'
+import { IForm } from '../types/form'
 
 describe('Form test', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>
@@ -62,7 +62,7 @@ describe('Form test', () => {
 
     expect(response.statusCode).toBe(201)
 
-    const res: { form: Form } = JSON.parse(response.body)
+    const res: { form: IForm } = JSON.parse(response.body)
     expect(res.form.apiId).toBe('11f88b66-c434-11eb-adaa-67fca24f6e0a')
     expect(res.form.subscriberId).toBe('e574022c-c434-11eb-9d7f-9bd525bab798')
     expect(res.form.submitUser).toBe('ywchuo')
@@ -71,11 +71,13 @@ describe('Form test', () => {
     // test if add successfully
     const getResponse = await server.inject({ method: 'GET', url: '/v1/forms' })
     expect(getResponse.statusCode).toBe(200)
-    const res2: { forms: Array<Form> } = JSON.parse(getResponse.body)
+    const res2: { forms: Array<IForm> } = JSON.parse(getResponse.body)
     expect(res2.forms.length).toBe(1)
     expect(res2.forms[0].apiId).toBe('11f88b66-c434-11eb-adaa-67fca24f6e0a')
     expect(res2.forms[0].subscriberId).toBe('e574022c-c434-11eb-9d7f-9bd525bab798')
     expect(res2.forms[0].submitUser).toBe('ywchuo')
     expect(res2.forms[0].status).toBe('pending')
   })
+
+  // TODO: test GET /v1/form/:id
 })

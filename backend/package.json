@@ -5,13 +5,14 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "test": "jest --verbose --coverage --detectOpenHandles --forceExit",
+    "test": "jest --watchAll --verbose --coverage --detectOpenHandles --forceExit",
     "build": "tsc",
     "start": "ts-node src/http-server/index",
     "apidoc": "apidoc -i src/http-server -o ../apidoc/",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "prettier": "prettier --list-different \"./{src,test,examples,scripts}/**/*.ts\"",
-    "fix-prettier": "prettier --write \"./{src,test,examples,scripts}/**/*.ts\""
+    "fix-prettier": "prettier --write \"./{src,test,examples,scripts}/**/*.ts\"",
+    "esbuild": "esbuild src/**/*.ts --bundle --outdir=build --platform=node --minify --external:mongodb --external:fastify"
   },
   "repository": {
     "type": "git",
@@ -26,12 +27,14 @@
   "devDependencies": {
     "@microsoft/tsdoc": "^0.13.2",
     "@types/jest": "^26.0.23",
+    "@types/lodash": "^4.14.170",
     "@types/node": "^15.3.1",
     "@typescript-eslint/eslint-plugin": "^4.26.1",
     "@typescript-eslint/parser": "^4.26.1",
     "apidoc": "^0.28.1",
     "docs-ts": "^0.6.10",
     "eslint": "^7.28.0",
+    "esbuild": "^0.12.6",
     "fp-ts": "^2.10.5",
     "io-ts": "^2.2.16",
     "jest": "^26.6.3",
@@ -45,7 +48,6 @@
   },
   "dependencies": {
     "@sinclair/typebox": "^0.16.7",
-    "@types/lodash": "^4.14.170",
     "dotenv": "^10.0.0",
     "fastify": "^3.15.1",
     "fastify-funky": "^1.0.2",

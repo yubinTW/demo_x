@@ -125,6 +125,17 @@ describe('User repository', () => {
       )
     )()
 
+    /**
+     * Note the positions of A & B !!!
+     * 
+     * TaskEither: 
+     * export declare const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: TaskEither<E, A>) => T.Task<B>
+
+     * Either:
+     * Takes two functions and an Either value, if the value is a Left the inner value is applied to the first function, if the value is a Right the inner value is applied to the second function.
+     * export declare const match: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
+    */
+
     E.match<Error, Option<Array<U.User>>, void>(
       (e) => fail(e.message),
       (r) => {
