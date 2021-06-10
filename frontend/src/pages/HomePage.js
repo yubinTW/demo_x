@@ -54,7 +54,7 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
   return (
     <Route {...rest} render={props => (
       <>
-        {/* <Preloader show={loaded ? false : true} /> */}
+        <Preloader show={loaded ? false : true} /> 
         <Sidebar />
 
         <main className="content">
