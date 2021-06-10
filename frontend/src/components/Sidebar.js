@@ -98,8 +98,8 @@ export default (props = {}) => {
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
               <NavItem title="Product X" link={Routes.Presentation.path} image={TsmcLogo} />
-              <NavItem title="ProductSuites" link={Routes.ProductSuites.path} icon={faTable} />
-              <NavItem title="AppDemo" link={Routes.App.path} badgeText="Demo" icon={faFileAlt} />
+              <NavItem title="Product Suites" link={Routes.ProductSuites.path} icon={faTable} />
+              <NavItem title="App Demo" link={Routes.App.path} badgeText="Demo" icon={faFileAlt} />
 
               {/* <NavItem title="Overview" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />

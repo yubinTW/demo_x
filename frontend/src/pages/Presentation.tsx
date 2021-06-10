@@ -33,7 +33,7 @@ export default () => {
                 <Nav.Link as={HashLink} to="#pages">Pages</Nav.Link>
                 <Nav.Link as={HashLink} to="#folder" className="d-sm-none d-xl-inline">Folder Structure</Nav.Link>
                 <Nav.Link as={HashLink} to="#getting-started">Getting Started</Nav.Link> */}
-                <Nav.Link as={Link} to={Routes.ProductSuites.path}>ProductSuites</Nav.Link>
+                <Nav.Link as={Link} to={Routes.ProductSuites.path}>Product Suites</Nav.Link>
                 <Nav.Link as={Link} to={Routes.App.path} >Dashboard</Nav.Link>
               </Nav>
             </Navbar.Collapse>
@@ -119,7 +119,7 @@ export default () => {
               <Image src={TsmcLogo} height={35} className="d-block mx-auto mb-3" alt="Themesberg Logo" />
               {/* </Card.Link> */}
               <div className="d-flex text-center justify-content-center align-items-center" role="contentinfo">
-                <p className="font-weight-normal font-small mb-0">Copyright© Taiwan Semiconductor Manufacturing Company Limited 2012, All Rights Reserved. Version:1.0.0</p>
+                <p className="font-weight-normal font-small mb-0">Copyright© Taiwan Semiconductor Manufacturing Company Limited 2021, All Rights Reserved. Version:1.0.0</p>
               </div>
             </Col>
           </Row>
