@@ -1,5 +1,5 @@
 import fastify, { FastifyInstance } from 'fastify'
-import { Server, IncomingMessage, ServerResponse } from 'http'
+import { Server, IncomingMessage, ServerResponse, request } from 'http'
 import { fromNullable, match, map, getOrElse } from 'fp-ts/Option'
 import { FastifyPort, EnvConfigRepoImpl, RuntimeEnv } from '../repo/config-repo'
 import { healthcheck } from './routes/v1/healthcheck'
@@ -8,6 +8,7 @@ import FastifyStatic from 'fastify-static'
 import path from 'path'
 import { establishConnection } from '../plugins/mongodb'
 import { fastifyFunky } from 'fastify-funky'
+import * as O from 'fp-ts/Option'
 
 /* tslint:disable:no-console */
 const shouldPrettyPrint = getOrElse(() => false)(
@@ -32,6 +33,23 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
         process.exit(0)
       }
     )(fromNullable(err))
+  })
+
+  enum IsError {
+    Error,
+    NonError
+  }
+  const isError: (statusCode: number) => IsError = (statusCode) => (statusCode >= 400 ? IsError.Error : IsError.NonError)
+
+  server.addHook('onSend', (request, reply, payload, next) => {
+    switch (isError(reply.statusCode)) {
+      case IsError.Error:
+        const msg = `Error code ${reply.statusCode} on ${request.method} ${request.routerPath}, request params: ${JSON.stringify(request.params)}, request payload: ${JSON.stringify(request.body)}, reply payload: ${payload}`
+        console.log(msg)
+      case IsError.NonError:
+      default:
+    }
+    next()
   })
 
   server.register(fastifyFunky)
