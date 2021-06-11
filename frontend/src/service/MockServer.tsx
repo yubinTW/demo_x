@@ -18,7 +18,7 @@ export function MockServer({environment = "test"}) {
             }))*/
             this.get("/api/:id",(schema,request) => ({
                 apiId: request.params.id,
-                api: mockapi
+                api_json: mockapi
 
             }))
             this.get("/ps", () => ({

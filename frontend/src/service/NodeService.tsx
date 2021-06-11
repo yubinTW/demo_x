@@ -20,7 +20,7 @@ export class NodeService {
         try {
             const res = await axios.get(`/api/${id}`)
             
-            return res.data.api
+            return res.data.api_json
         } catch (e) {
             return console.error(e)
         }
