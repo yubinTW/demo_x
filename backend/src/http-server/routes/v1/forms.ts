@@ -67,7 +67,7 @@ import { zero } from 'fp-ts/Array'
  *  }
  * @apiError (Error 5xx) InternalServerError Server ran into an error
  * @apiErrorExample Error-Response:
- *   HTTP/1.1 500 Internal Server Error
+ *   HTTP/1.1 500 Internal [Server Error]
  */
 
 //  TODO: API doc parameter update (GET /form/:id)
@@ -109,6 +109,16 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
   type Response = Static<typeof Response>
   type SingleResponse = Static<typeof SingleResponse>
 
+  type Err = {
+    code: number
+      msg: string
+    }
+
+  const ErrOf: (code: number, msg: string) => Err = (code, msg)=> ({
+      code: code,
+      msg: msg
+  })
+
   interface IdParam {
     id: string
   }
@@ -116,6 +126,7 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
   const singleOpts = { ...opts, schema: { response: { 200: SingleResponse } } }
   opts = { ...opts, schema: { response: { 200: Response } } }
 
+  // By fastify funcky 
   // server.get('/forms', opts, async (request, reply) => {
   //     return await map((forms) => ({ forms }))(FormRepo.getForms())()
   // })
@@ -125,7 +136,7 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
       (e) => {
         request.log.error(`Get forms fail: ${e}`)
 
-        return reply.status(500).send({ msg: `server error: ${e}` })
+        return reply.status(500).send(ErrOf(500, `[Server Error]: ${e}`))
       },
       (r) => {
         const forms: Readonly<Array<IForm>> = O.match<Readonly<Array<IForm>>, Readonly<Array<IForm>>>(
@@ -138,6 +149,7 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
     )(formRepo.getForms())()
   })
 
+  // By fastify funcky 
   // server.post('/forms', opts, async (request, reply) => {
   //     return await map((form) => {
   //         reply.status(201)
@@ -145,12 +157,12 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
   //         return { form }
   // })(FormRepo.addForm(request.body as FormRepo.FormBody))()
 
-  // TODO: reply 400 not implement
+  // TODO: reply 422 not implement
   server.post('/forms', opts, async (request, reply) => {
     await TE.match<Error, FastifyReply, IForm>(
       (e) => {
         request.log.error(`Add form fail: ${e}`)
-        return reply.status(500).send({ msg: `server error: ${e}` })
+        return reply.status(500).send(ErrOf(500, `[Server Error] ${e}`))
       },
       (form) => reply.status(201).send({ form })
     )(formRepo.addForm(request.body as FormBody))()
@@ -171,15 +183,15 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
 
     switch (bool2IsIdValid(isIdValid(id))) {
       case IsIdValid.Invalid:
-        return reply.status(400).send({ code: 400, msg: `Bad Request` })
+        return reply.status(400).send(ErrOf(400, `Bad Request`))
       case IsIdValid.Valid:
         await TE.match<Error, FastifyReply, O.Option<Readonly<IForm>>>(
           (e) => {
-            return reply.status(500).send({ code: 500, msg: `Server Error: ${e}` })
+            return reply.status(500).send(ErrOf(500, `[Server Error]: ${e}`))
           },
           (r) => {
             return O.match<Readonly<IForm>, FastifyReply>(
-              () => reply.status(404).send({ code: 404, msg: 'Not Found' }),
+              () => reply.status(404).send(ErrOf(404, `Not Found`)),
               (form) => reply.status(200).send({ form })
             )(r)
           }
