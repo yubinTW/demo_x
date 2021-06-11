@@ -5,6 +5,7 @@ import { Routes } from "../routes/routes";
 // pages
 import Presentation from "./Presentation";
 import ProductSuites from "./productSuites";
+import CreateAPI from "./createAPI";
 
 import App from "../App";
 
@@ -48,7 +49,7 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
 
   const toggleSettings = () => {
     setShowSettings(!showSettings);
-    localStorage.setItem('settingsVisible', !showSettings);//m
+    localStorage.setItem('settingsVisible', String(!showSettings));//m
   }
 
   return (
@@ -80,7 +81,7 @@ export default () => (
     <RouteWithSidebar exact path={Routes.ProductSuites.path} component={ProductSuites} />
     <RouteWithSidebar exact path={Routes.App.path} component={App} />
     <RouteWithSidebar path={Routes.APIViewer.path} component={APIViewer} />
-
+    <RouteWithSidebar path={Routes.CreateAPI.path} component={CreateAPI} />
 
     {/* components */}
 

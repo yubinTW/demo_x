@@ -94,7 +94,11 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/API'
+                type: object
+                properties:
+                  api_json: 
+                    type: json object
+                    description: async api in json format
         '404':
           description: Not Found
           content:

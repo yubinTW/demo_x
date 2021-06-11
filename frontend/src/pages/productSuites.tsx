@@ -86,7 +86,7 @@ function ProductSuites() {
       <div className="p-grid">
         <div className="p-col" />
         <div className="p-col-10">
-          <h5>Hello PS</h5>
+          
         </div>
         <div className="p-col" />
       </div>

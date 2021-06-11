@@ -12,12 +12,12 @@ function APIViewer() {
   const [apidoc, setApidoc] = useState<any | "">("")
   const nodeservice = new NodeService()
   
-  const id:string = useParams()
+  const id:string = useParams()["id"]
   
   //const doc = parser.parse(nodeservice.getApiData());
   async function getData()
   {
-    console.log()
+    console.log(id)
      await nodeservice.getApiData(id).then(ans => setApidoc(ans))
   }
   useEffect( () => {
@@ -29,7 +29,7 @@ function APIViewer() {
         <div className="p-grid">
         <div className="p-col" />
         <div className="p-col-10">
-        <h5>API Viewer Page</h5>
+        
           <AsyncApiComponent schema={apidoc} />
         </div>
         <div className="p-col" />
