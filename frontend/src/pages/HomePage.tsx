@@ -49,7 +49,7 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
 
   const toggleSettings = () => {
     setShowSettings(!showSettings);
-    localStorage.setItem('settingsVisible', !showSettings);//m
+    localStorage.setItem('settingsVisible', String(!showSettings));//m
   }
 
   return (

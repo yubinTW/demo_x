@@ -32,7 +32,7 @@ export default (props) => {
             <Button as={Link} to={Routes.Upgrade.path} variant="secondary" className="mb-3 w-100"><FontAwesomeIcon icon={faRocket} className="me-1" /> Upgrade to Pro</Button>
             <p className="fs-7 text-gray-700 text-center">Available in the following technologies:</p>
             <div className="d-flex justify-content-center">
-              <Card.Link href="https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard" target="_blank">
+              {/* <Card.Link href="https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard" target="_blank">
                 <OverlayTrigger placement="top" trigger={['hover', 'focus']} overlay={<Tooltip>Bootstrap 5 · The most popular HTML, CSS, and JS library in the world.</Tooltip>}>
                   <Image src={BS5Logo} className="image image-xs" />
                 </OverlayTrigger>
@@ -42,7 +42,7 @@ export default (props) => {
                 <OverlayTrigger placement="top" trigger={['hover', 'focus']} overlay={<Tooltip>React · A JavaScript library for building user interfaces.</Tooltip>}>
                   <Image src={ReactLogo} className="image image-xs" />
                 </OverlayTrigger>
-              </Card.Link>
+              </Card.Link> */}
             </div>
           </Card.Body>
         </Card>
