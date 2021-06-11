@@ -19,3 +19,14 @@ run `npm run apidoc` to generate backend's RESTful API doc
 
 - docker
 - docker-compose
+
+## Build with esbuild
+
+```
+npm run esbuild
+```
+
+## Run with node
+```
+node build/http-server/index.js
+```
