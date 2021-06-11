@@ -16,10 +16,10 @@ function ProductSuites() {
   const [nextPath, setNextPath] = useState<string | "">("")
   const [updateKey, setUpdateKey] = useState<number | 0>(0)
   const toast = useRef<any | null>(null)
-  const nodeservice = new NodeService()
+  const nodeService = new NodeService()
 
   useEffect(() => {
-    nodeservice.getTreeTableNodes().then(data => setNodes(data)).catch(e => console.error(e));
+    nodeService.getTreeTableNodes().then(data => setNodes(data)).catch(e => console.error(e));
   }, []);//eslint-disable-line react-hooks/exhaustive-deps
 
   async function setUpSelect(apiId: string) {

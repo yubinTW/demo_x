@@ -3,7 +3,6 @@ export const Routes = {
     Presentation: { path: "/" },
     ProductSuites: { path: "/productsuite" },
     APIViewer: { path: '/api-viewer/:id' },
-    CreateAPI: { path: '/create-api-form'},
     App: { path: "/App" },
 
     DashboardOverview: { path: "/dashboard/overview" },

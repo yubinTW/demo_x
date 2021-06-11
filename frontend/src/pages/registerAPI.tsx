@@ -5,16 +5,19 @@ import {Checkbox} from 'primereact/checkbox';
 import {Dropdown} from 'primereact/dropdown';
 import {InputTextarea} from 'primereact/inputtextarea';
 import { Button } from '@themesberg/react-bootstrap';
+import { NodeService } from '../service/NodeService'
 
 import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 
-function CreateAPI() {
+function RegisterAPI() {
   const [selectedPS, setSelectedPS] = useState<any>(null);
   const [apiName,setApiName] = useState<string | "">("")
-  const [descriptionSection, setDescriptionSection] = useState<string | "">("")
+  const [docsSection, setDocsSection] = useState<string | "">("")
+  const [apiOwner, setApiOwner] = useState<string | "">("")
+  const nodeService = new NodeService()
 
   let psList = [
     {name: 'Arizona', code: 'Arizona'},
@@ -29,11 +32,14 @@ function CreateAPI() {
   const onApiNameChange = (e:any) => {
     setApiName(e.target.value)
   }
-  const onDescriptionChange = (e:any) => {
-    setDescriptionSection(e.target.value)
+  const onApiOwnerChange = (e:any) => {
+    setApiOwner(e.target.value)
+  }
+  const onDocsChange = (e:any) => {
+    setDocsSection(e.target.value)
   }
   const submitForm = () => {
-    
+    nodeService.postRegistApiForm(apiName,selectedPS,apiOwner,docsSection)
   }
     return (
       <div className="createAPI">
@@ -44,7 +50,7 @@ function CreateAPI() {
           <div className="p-fluid p-formgrid p-grid">
         
             <div className="p-field p-col-5 ">
-                <label htmlFor="apiName">API Name</label>
+                <label htmlFor="apiName">Name</label>
                 <InputText value={apiName} onChange={onApiNameChange} />
                 {/* <span>{apiName}</span> */}
             </div>
@@ -52,9 +58,14 @@ function CreateAPI() {
               <label htmlFor="state">Product Suite</label>
               <Dropdown inputId="state" value={selectedPS} options={psList} onChange={onPSChange} placeholder="Select" optionLabel="name"/>
             </div>
+            <div className="p-field p-col-5 ">
+                <label htmlFor="apiName">API Owner</label>
+                <InputText value={apiOwner} onChange={onApiOwnerChange} />
+                {/* <span>{apiName}</span> */}
+            </div>
             <div className="p-field p-col-10">
-                <label htmlFor="address">Description</label>
-                <InputTextarea value={descriptionSection} onChange={onDescriptionChange} rows={4} autoResize/>
+                <label htmlFor="address">Docs</label>
+                <InputTextarea value={docsSection} onChange={onDocsChange} rows={4} autoResize/>
             </div>
             <div className="p-field p-col-2" />
             <div className="p-field p-col-2">
@@ -69,4 +80,4 @@ function CreateAPI() {
     )
   }
   
-  export default CreateAPI
+  export default RegisterAPI
