@@ -12,16 +12,28 @@ import 'primereact/resources/primereact.css';
 import 'primeflex/primeflex.css';
 
 function CreateAPI() {
-  const [selectedState, setSelectedState] = useState<any>(null);
-  let states = [
+  const [selectedPS, setSelectedPS] = useState<any>(null);
+  const [apiName,setApiName] = useState<string | "">("")
+  const [descriptionSection, setDescriptionSection] = useState<string | "">("")
+
+  let psList = [
     {name: 'Arizona', code: 'Arizona'},
     {name: 'California', value: 'California'},
     {name: 'Florida', code: 'Florida'},
     {name: 'Ohio', code: 'Ohio'},
     {name: 'Washington', code: 'Washington'}
   ]
-  const onStateChange = (e:any) => {
-    setSelectedState(e.value);
+  const onPSChange = (e:any) => {
+    setSelectedPS(e.value)
+  }
+  const onApiNameChange = (e:any) => {
+    setApiName(e.target.value)
+  }
+  const onDescriptionChange = (e:any) => {
+    setDescriptionSection(e.target.value)
+  }
+  const submitForm = () => {
+    
   }
     return (
       <div className="createAPI">
@@ -32,20 +44,21 @@ function CreateAPI() {
           <div className="p-fluid p-formgrid p-grid">
         
             <div className="p-field p-col-5 ">
-                <label htmlFor="firstname6">API Name</label>
-                <InputText id="firstname6" type="text" />
+                <label htmlFor="apiName">API Name</label>
+                <InputText value={apiName} onChange={onApiNameChange} />
+                {/* <span>{apiName}</span> */}
             </div>
             <div className="p-field p-col-5">
               <label htmlFor="state">Product Suite</label>
-              <Dropdown inputId="state" value={selectedState} options={states} onChange={onStateChange} placeholder="Select" optionLabel="name"/>
+              <Dropdown inputId="state" value={selectedPS} options={psList} onChange={onPSChange} placeholder="Select" optionLabel="name"/>
             </div>
             <div className="p-field p-col-10">
                 <label htmlFor="address">Description</label>
-                <InputTextarea id="address" rows={4} />
+                <InputTextarea value={descriptionSection} onChange={onDescriptionChange} rows={4} autoResize/>
             </div>
             <div className="p-field p-col-2" />
             <div className="p-field p-col-2">
-              <Button variant="outline-secondary" className=" me-3" >Button</Button>
+              <Button variant="outline-secondary" className=" me-3" onClick={submitForm}>Button</Button>
             </div>
             
           </div>
