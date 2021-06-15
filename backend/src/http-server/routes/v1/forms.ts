@@ -2,7 +2,7 @@ import { FastifyInstance, RouteShorthandOptions, FastifyReply } from 'fastify'
 import { Type, Static } from '@sinclair/typebox'
 import * as TE from 'fp-ts/TaskEither'
 import * as O from 'fp-ts/Option'
-import { FormRepoImpl, formOf } from '../../../repo/form-repo'
+import { FormRepoImpl } from '../../../repo/form-repo'
 import { IForm, Status, FormBody } from '../../../types/form'
 import { Types } from 'mongoose'
 import { of } from 'fp-ts/Identity'
@@ -111,12 +111,12 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
 
   type Err = {
     code: number
-      msg: string
-    }
+    msg: string
+  }
 
-  const ErrOf: (code: number, msg: string) => Err = (code, msg)=> ({
-      code: code,
-      msg: msg
+  const ErrOf: (code: number, msg: string) => Err = (code, msg) => ({
+    code: code,
+    msg: msg
   })
 
   interface IdParam {
@@ -126,7 +126,7 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
   const singleOpts = { ...opts, schema: { response: { 200: SingleResponse } } }
   opts = { ...opts, schema: { response: { 200: Response } } }
 
-  // By fastify funcky 
+  // By fastify funcky
   // server.get('/forms', opts, async (request, reply) => {
   //     return await map((forms) => ({ forms }))(FormRepo.getForms())()
   // })
@@ -149,7 +149,7 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
     )(formRepo.getForms())()
   })
 
-  // By fastify funcky 
+  // By fastify funcky
   // server.post('/forms', opts, async (request, reply) => {
   //     return await map((form) => {
   //         reply.status(201)

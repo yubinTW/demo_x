@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { FastifyInstance } from 'fastify'
 import { fastifyPortOf } from '../repo/config-repo'
 import { startFastify } from '../http-server/server'
