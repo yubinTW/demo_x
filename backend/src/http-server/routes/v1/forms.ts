@@ -228,8 +228,6 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
           }
         )(formRepo.updateForm(id, request.body as FormBody))()
     }
-
-
   })
 
   done()

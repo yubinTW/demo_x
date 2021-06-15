@@ -28,7 +28,7 @@ describe('Form test', () => {
         () => {
           dbHandler.closeDatabase()
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          server.close((): void => { })
+          server.close((): void => {})
         },
         (reason) => new Error(`Failed to close a Fastify server, reason: ${reason}`)
       )
@@ -103,6 +103,4 @@ describe('Form test', () => {
     expect(res4.form.submitUser).toBe('Jia-Wei')
     expect(res4.form.status).toBe('pending')
   })
-
-
 })

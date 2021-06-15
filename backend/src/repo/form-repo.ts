@@ -47,7 +47,7 @@ interface FormRepo {
 
 class FormRepoImpl implements FormRepo {
   private static instance: FormRepoImpl
-  private constructor() { }
+  private constructor() {}
 
   static of(): FormRepoImpl {
     return O.getOrElse(() => new FormRepoImpl())(O.fromNullable(FormRepoImpl.instance))
