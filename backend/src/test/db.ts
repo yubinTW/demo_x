@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import mongoose from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
 import { pipe } from 'fp-ts/function'
@@ -10,7 +11,7 @@ const mongod = new MongoMemoryServer()
 /**
  * Connect to mock memory db.
  */
-export const connect = async () => {
+export const connect = async (): Promise<void> => {
   const uri = await mongod.getUri()
 
   const mongooseOpts = {
@@ -49,7 +50,7 @@ export const closeDatabase: () => Promise<void> = async () => {
 
   await TE.match(
     (e) => console.log(`InMemMongo Error: ${e}`),
-    (b) => console.log(`DB closing result: ${b}`)
+    (_) => ({})
   )(p)()
 
   //     await mongoose.connection.dropDatabase()
