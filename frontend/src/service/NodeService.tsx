@@ -1,7 +1,23 @@
 import axios from 'axios'
 
 export class NodeService {
-    
+    async postRegistApiForm(apiName:string, productSuite:string,apiOwner:string, docs:string){
+        try
+        {
+            const res = await axios.post('/api',{
+                name: apiName,
+                productSuite: productSuite,
+                apiOwner: apiOwner,
+                docs: docs,
+
+            })
+            console.log(res)
+        }
+        catch(e)
+        {
+            return console.error(e);
+        }
+    }
     async getTreeTableNodes() {
         try {
             const res = await axios.get('/ps')
@@ -20,7 +36,7 @@ export class NodeService {
         try {
             const res = await axios.get(`/api/${id}`)
             
-            return res.data.api_json
+            return res.data
         } catch (e) {
             return console.error(e)
         }
