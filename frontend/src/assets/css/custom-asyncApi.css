@@ -1,0 +1,70 @@
+.asyncapi__channel-header-title {
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
+.asyncapi__channel-header-badges {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: inline-flex;
+}
+
+.asyncapi__channel-header-badges > li {
+  display: inline-flex;
+  margin-right: 6px;
+}
+
+.asyncapi__channel-header-badges-deprecated-badge {
+  display: inline-flex;
+  margin-right: 6px;
+}
+
+.asyncapi__channel-header-badges-publish-badge {
+  display: inline-flex;
+  margin-right: 6px;
+}
+
+.asyncapi__channel-header-badges-subscribe-badge {
+  display: inline-flex;
+  margin-right: 6px;
+}
+
+.asyncapi__info-header-main > h1 {
+  flex-grow: 1;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: calc(0.5rem + 1.5vw);
+}
+
+.asyncapi__info {
+  background: #fff;
+  border-radius: 5px;
+  padding: 16px 0px;
+  box-shadow: 0 0 2px 0 rgb(0 0 0 / 16%);
+}
+
+.asyncapi__toggle-header-content > h1,
+.asyncapi__toggle-header-content > h2,
+.asyncapi__toggle-header-content > h3,
+.asyncapi__toggle-header-content > h4 {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  font-size: calc(0.8rem + 0.9vw);
+}
+.asyncapi__channels > div {
+  margin-top: 24px;
+  background: #fff;
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0 0 2px 0 rgb(0 0 0 / 16%);
+}
+.asyncapi__channel-operations .asyncapi__message {
+  margin: 1rem;
+}
+.asyncapi__message-payload-header > h4 {
+  padding: 1rem;
+  margin: 0;
+  font-size: 1rem;
+}

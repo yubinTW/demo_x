@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react'
 import { NodeService } from '../service/NodeService'
 import AsyncApiComponent from "@asyncapi/react-component"
 import { useParams } from 'react-router-dom'
-
+import { Card } from 'primereact/card';
+import { Divider } from 'primereact/divider';
 import "@asyncapi/react-component/lib/styles/fiori.css"
 import 'primereact/resources/primereact.css'
 import 'primeflex/primeflex.css'
+import '../assets/css/custom-asyncApi.css'
 
 function APIViewer() {
   const [apidoc, setApidoc] = useState<string | "">("")
@@ -35,35 +37,32 @@ function APIViewer() {
     getData()
   }, [])
 
+  const cssImportPath: String = "../assets/css/custom-asyncApi.css"
   return (
-    <div className="APIViewer">
+    <div className="">
+      <Card >
       <div className="p-grid">
-        <div className="p-col-1" />
         <div className="p-col-6">
-          <h4>{apiName}</h4>
+          <h1>{apiName}</h1>
+          <p>API Owner: {apiOwner}</p>
         </div>
-        <div className="p-col-5" >
-        <p>API Owner: {apiOwner}</p>
+        <div className="p-col-6 text-right" >
+        <div><small>Created Time: {createdAt}</small></div>
+        <div><small>Updated Time: {updatedAt}</small></div>
         </div>
       </div>
+      <Divider />
       <div className="p-grid">
-      <div className="p-col-1" />
-        <div className="p-col-5">
-        <p>Created Time: {createdAt}</p>
-        </div>
-        <div className="p-col-6">
-          <p>Updated Time: {updatedAt}</p>
-        </div>
-      </div>
-      <div className="p-grid">
-        <div className="p-col" />
-        <div className="p-col-10">
+        {/* <div className="p-col" /> */}
+        <div className="p-col-12">
 
-          <AsyncApiComponent schema={apidoc} />
+          <AsyncApiComponent schema={apidoc}  />
         </div>
-        <div className="p-col" />
+        {/* <div className="p-col" /> */}
       </div>
-    </div>
+    
+      </Card>
+     </div>
   )
 }
 
