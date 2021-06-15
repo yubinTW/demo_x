@@ -44,10 +44,11 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
   server.addHook('onSend', (request, reply, payload, next) => {
     switch (isError(reply.statusCode)) {
       case IsError.Error:
-        const msg = `Error code ${reply.statusCode} on ${request.method} ${request.routerPath
-          }, request params: ${JSON.stringify(request.params)}, request payload: ${JSON.stringify(
-            request.body
-          )}, reply payload: ${payload}`
+        const msg = `Error code ${reply.statusCode} on ${request.method} ${
+          request.routerPath
+        }, request params: ${JSON.stringify(request.params)}, request payload: ${JSON.stringify(
+          request.body
+        )}, reply payload: ${payload}`
 
         request.log.error(msg)
       case IsError.NonError:

@@ -42,6 +42,7 @@ interface FormRepo {
   getForms(): TE.TaskEither<Error, O.Option<Readonly<Array<IForm>>>>
   addForm(body: IForm): TE.TaskEither<Error, Readonly<IForm>>
   getFormById(id: string): TE.TaskEither<Error, O.Option<Readonly<IForm>>>
+  updateForm(id: string, body: IForm): TE.TaskEither<Error, O.Option<Readonly<IForm>>>
 }
 
 class FormRepoImpl implements FormRepo {
@@ -83,6 +84,15 @@ class FormRepoImpl implements FormRepo {
     return TE.map<any, O.Option<Readonly<IForm>>>((f) => (f ? O.some(f) : O.none))(
       TE.tryCatch(
         () => Form.findById(id).exec(),
+        (e) => new Error(`Failed to get form by id : ${e}`)
+      )
+    )
+  }
+
+  updateForm(id: string, body: IForm): TE.TaskEither<Error, O.Option<Readonly<IForm>>> {
+    return TE.map<any, O.Option<Readonly<IForm>>>((f) => (f ? O.some(f) : O.none))(
+      TE.tryCatch(
+        () => Form.findByIdAndUpdate(id, body, { new: true }).exec(),
         (e) => new Error(`Failed to get form by id : ${e}`)
       )
     )
