@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title:  API spec of X
   description: Some API spec of x for handling data transfer between frontend and backend
-  version: 0.0.2
+  version: 0.0.3
 servers:
   - url: http://{apiUrl}
     description: API endpoint of backend
@@ -55,7 +55,7 @@ paths:
       tags:
           - "API"
       summary: register a new API.
-      description: register a new API.
+      description: register a new API. (not need )
       requestBody:
         required: true
         content:
@@ -94,11 +94,8 @@ paths:
           content:
             application/json:
               schema: 
-                type: object
-                properties:
-                  api_json: 
-                    type: json object
-                    description: async api in json format
+                $ref: '#/components/schemas/API'
+
         '404':
           description: Not Found
           content:
@@ -420,20 +417,42 @@ components:
     API:
       type: object
       properties:
-        id:
+        _id:
           type: string
-          description: The ID of the API
+          description: The ID of this API
         name:
           type: string
-          description: The name of the API
+          description: The name of this API
+        productSuite:
+          type: string
+          description: The productSuite of this API
         apiOwner:
           type: string
-          description: The own of the API
-        docs:
+          description: The own of this API
+        doc:
           type: string
-          description: Async API YAML string of the API
+          description: Async API YAML string of this API
+        doc_json:
+          type: string
+          description: Async API in JSON format of this API
+        comment:
+          type: string
+          description: The comment of this API
+        status:
+          type: string
+          description: The status of this API (on, off)
+        createdAt:
+          type: string
+          format: date-time
+          description: create time of this API
+          example: "2021-06-08T07:17:40.541Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: update time of this API
+          example: "2021-06-08T07:17:40.541Z"
       required:
-        - id
+        - name, apiOwner, doc, productSuite
     Form:
       type: object
       properties:
@@ -451,7 +470,7 @@ components:
           description: the ID of who create this form
         status:
           type: string
-          description: status of a form
+          description: status of a form (pending | approved | rejected)
         approver:
           type: string
           description: the ID of who approve this form
@@ -474,7 +493,7 @@ components:
           description: update time of this form
           example: "2021-06-08T07:17:40.541Z"
       required:
-        - _id, apiId, subscriberId, submitUser, status
+        - apiId, subscriberId, submitUser, status
     # Schema for error response body
     Error:
       type: object
