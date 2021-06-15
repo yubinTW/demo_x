@@ -199,6 +199,39 @@ const FormsRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done:
     }
   })
 
+  server.put<{ Params: IdParam }>('/form/:id', singleOpts, async (request, reply) => {
+    const id = request.params.id
+
+    enum IsIdValid {
+      Valid,
+      Invalid
+    }
+
+    const isIdValid: (id: string) => boolean = (id) => {
+      return Types.ObjectId.isValid(id)
+    }
+    const bool2IsIdValid: (b: boolean) => IsIdValid = (b) => (b ? IsIdValid.Valid : IsIdValid.Invalid)
+
+    switch (bool2IsIdValid(isIdValid(id))) {
+      case IsIdValid.Invalid:
+        return reply.status(400).send(ErrOf(400, `Bad Request`))
+      case IsIdValid.Valid:
+        await TE.match<Error, FastifyReply, O.Option<Readonly<IForm>>>(
+          (e) => {
+            return reply.status(500).send(ErrOf(500, `[Server Error]: ${e}`))
+          },
+          (r) => {
+            return O.match<Readonly<IForm>, FastifyReply>(
+              () => reply.status(404).send(ErrOf(404, `Not Found`)),
+              (form) => reply.status(200).send({ form })
+            )(r)
+          }
+        )(formRepo.updateForm(id, request.body as FormBody))()
+    }
+
+
+  })
+
   done()
 }
 
