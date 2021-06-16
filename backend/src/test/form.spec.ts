@@ -78,7 +78,29 @@ describe('Form test', () => {
     expect(res2.forms[0].subscriberId).toBe('e574022c-c434-11eb-9d7f-9bd525bab798')
     expect(res2.forms[0].submitUser).toBe('ywchuo')
     expect(res2.forms[0].status).toBe('pending')
-  })
 
-  // TODO: test GET /v1/form/:id
+    // getById
+    const getByIdResponse = await server.inject({ method: 'GET', url: `/v1/form/${res.form._id}` })
+    expect(getByIdResponse.statusCode).toBe(200)
+    const res3: { form: IForm } = JSON.parse(getByIdResponse.body)
+    expect(res3.form.apiId).toBe('11f88b66-c434-11eb-adaa-67fca24f6e0a')
+    expect(res3.form.subscriberId).toBe('e574022c-c434-11eb-9d7f-9bd525bab798')
+    expect(res3.form.submitUser).toBe('ywchuo')
+    expect(res3.form.status).toBe('pending')
+
+    // updateId
+    const updateByIdResponse = await server.inject({
+      method: 'PUT',
+      url: `/v1/form/${res.form._id}`,
+      payload: {
+        submitUser: 'Jia-Wei'
+      }
+    })
+    expect(updateByIdResponse.statusCode).toBe(200)
+    const res4: { form: IForm } = JSON.parse(updateByIdResponse.body)
+    expect(res4.form.apiId).toBe('11f88b66-c434-11eb-adaa-67fca24f6e0a')
+    expect(res4.form.subscriberId).toBe('e574022c-c434-11eb-9d7f-9bd525bab798')
+    expect(res4.form.submitUser).toBe('Jia-Wei')
+    expect(res4.form.status).toBe('pending')
+  })
 })
