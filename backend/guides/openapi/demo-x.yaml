@@ -22,79 +22,51 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProductSuite'
-  /productsuite/{psId}/api:
-    get:
-      tags:
-          - "Product Suite"
-      summary: return list of API under product suite
-      description: return all API under the product suite.
-      parameters:
-        - name: psId
-          in: path
-          required: true
-          description: the Product Suite ID of the target API list 
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A JSON Array of API infos
-          content:
-            application/json:
-              schema: 
-                type: array
-                items:
-                  $ref: '#/components/schemas/API'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/NotFound'
-  /api:
+  /aapi:
     post:
       tags:
-          - "API"
-      summary: register a new API.
-      description: register a new API. (not need )
+          - "AAPI"
+      summary: register a new AAPI.
+      description: register a new AAPI. (doesn't need )
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/API'
+              $ref: '#/components/schemas/AAPI'
       responses:
         '201':
           description: Created
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/API'
+                $ref: '#/components/schemas/AAPI'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/responses/BadRequest'
-  /api/{apiId}:
+  /aapi/{aapiId}:
     get:
       tags:
-          - "API"
-      summary: return API info JSON format
-      description: Get the detail infomation of a specific API according to apiId. 
+          - "AAPI"
+      summary: return AAPI info JSON format
+      description: Get the detail infomation of a specific AAPI according to aapiId. 
       parameters:
         - in: path
-          name: apiId
+          name: aapiId
           schema:
             type: string
           required: true
-          description: The ID of the API
+          description: The ID of the AAPI
       responses:
         '200':
-          description: Successfully get the detail information of the API
+          description: Successfully get the detail information of the AAPI
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/API'
+                $ref: '#/components/schemas/AAPI'
 
         '404':
           description: Not Found
@@ -104,16 +76,16 @@ paths:
                 $ref: '#/components/responses/NotFound'
     delete:
       tags:
-          - "API"
-      summary: delete specific API
-      description: delete specific API based on apiId
+          - "AAPI"
+      summary: delete specific AAPI
+      description: delete specific AAPI based on apiId (doesn't need?)
       parameters:
         - in: path
-          name: apiId
+          name: aapiId
           schema:
             type: string
           required: true
-          description: The ID of the API
+          description: The ID of the AAPI
       responses:
         '204':
           description: delete operation success
@@ -125,21 +97,21 @@ paths:
                 $ref: '#/components/responses/NotFound'
     put:
       tags:
-          - "API"
-      summary: update api infos
-      description: update api infos
+          - "AAPI"
+      summary: update aapi infos
+      description: update aapi infos (doesn't need?)
       parameters:
         - in: path
-          name: apiId
+          name: aapiId
           schema:
             type: string
           required: true
-          description: The ID of the API
+          description: The ID of the AAPI
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/API' 
+              $ref: '#/components/schemas/AAPI' 
       responses:
         '200':
           description: update operation success
@@ -155,247 +127,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/responses/NotFound'
-  /api/{apiId}/subscriber:
-    get:
-      tags:
-          - "API"
-      summary: return list of subscriber under specific api.
-      description: return list of subscriber under specific api.
-      parameters:
-      - name: apiId
-        in: path
-        required: true
-        description: the API ID of the target subscriber list 
-        schema:
-          type: string
-      responses:
-        '200':
-          description: A JSON Array of API subscribers.
-          content:
-            application/json:
-              schema: 
-                type: array
-                items:
-                  type: string
-                example: ['subscriber01','subscriber02','subscriber03']
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/NotFound'
-    put:
-      tags:
-          - "API"
-      summary: update list of subscriber under specific api.
-      description: update list of subscriber under specific api.
-      parameters:
-      - name: apiId
-        in: path
-        required: true
-        description: the API ID of the target subscriber list 
-        schema:
-          type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
-              example: ['subscriber01','subscriber02','subscriber03']
-      responses:
-        '200':
-          description: update success
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/BadRequest'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/NotFound'
-  /forms:
-    get:
-      tags:
-        - "Form"
-      summary: return list of forms
-      description: return all forms user can view or own.
-      responses:
-        '200':
-          description: A JSON Array of forms infos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Form'
-    post:
-      tags:
-        - "Form"
-      summary: Add a form
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Form'
-      responses:
-        '201':
-          description: Add a form successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Form'
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/BadRequest'
-  /form/{formId}:
-    get:
-      tags:
-        - "Form"
-      summary: return info of form
-      parameters:
-        - name: formId
-          in: path
-          required: true
-          description: form ID
-          schema:
-            type: string
-      responses:
-        '200':
-          description: get info successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Form'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/NotFound'
-    put:
-      tags:
-        - "Form"
-      summary: update a form
-      parameters:
-        - name: formId
-          in: path
-          required: true
-          description: form ID
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Form'
-      responses:
-        '200':
-          description: update a form successfully
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/BadRequest'
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/NotFound'
-    delete:
-      tags:
-        - "Form"
-      summary: delete a form
-      parameters:
-        - name: formId
-          in: path
-          required: true
-          description: form ID
-          schema:
-            type: string
-      responses:
-        '204':
-          description: delete a form successfully
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/NotFound'
-  /subscribe:
-    post:
-      summary: user subscribe a API.
-      description: user subscribe a API.
-      deprecated: true
-      parameters:
-        - name: apiId
-          in: query
-          required: true
-          schema:
-            type: string
-          description: The ID of the API.
-        - name: subscriberId
-          in: query
-          required: true
-          schema:
-            type: string
-          description: The ID of the subscriber.
-      responses:
-        '200':
-          description: user subscribe a API successfully.
-          content:
-            application/json:
-              schema: 
-                type: array
-                items: 
-                  type: string
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/BadRequest'
-  /subscribe/{apiId}/{subscriberId}:
-    delete:
-      summary: user cancel a API subscription.
-      description: user cancel a API subscription.
-      deprecated: true
-      parameters:
-        - name: apiId
-          in: path
-          required: true
-          description: API ID
-          schema:
-            type: string
-        - name: subscriberId
-          in: path
-          required: true
-          description: subscriber ID
-          schema:
-            type: string
-      responses:
-        '204':
-          description: The subscription was deleted successfully.
-        '404':
-          description: Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/responses/NotFound'
-
 components:
   schemas:
     ProductSuite:
@@ -404,55 +135,69 @@ components:
         id:
           type: string
           description: The productSuite ID.
-        name:
+        label:
           type: string
-          description: The productSuite name.
-        apiList:
+          description: The productSuite label.
+        type:
+          type: string
+          description: Folder or List
+        children:
           type: array
-          description: Array of API under product suite.
+          description: Array of ProductSuite Object.
           items:
-            $ref: '#/components/schemas/API'
+            $ref: '#/components/schemas/AAPI'
+        aapi:
+          type: array
+          description: Array of AAPI under product suite.
+          items:
+            $ref: '#/components/schemas/AAPI'
       required:
-        - id
-    API:
+        - id, label, type
+    AAPI:
       type: object
       properties:
         _id:
           type: string
-          description: The ID of this API
+          description: The ID of this AAPI
         name:
           type: string
-          description: The name of this API
+          description: The name of this AAPI
         productSuite:
           type: string
-          description: The productSuite of this API
-        apiOwner:
+          description: The productSuite of this AAPI
+        aapiOwner:
           type: string
-          description: The own of this API
+          description: The own of this AAPI
         doc:
           type: string
-          description: Async API YAML string of this API
+          description: Async AAPI YAML string of this AAPI
         doc_json:
           type: string
           description: Async API in JSON format of this API
+        subscriber:
+          type: array
+          description: The subscriber of this AAPI
+          items:
+            type: string
+            example: ['subscriber01', 'subscriber02', 'subscriber03']
         comment:
           type: string
-          description: The comment of this API
+          description: The comment of this AAPI
         status:
           type: string
-          description: The status of this API (on, off)
+          description: The status of this AAPI (on, off)
         createdAt:
           type: string
           format: date-time
-          description: create time of this API
+          description: create time of this AAPI
           example: "2021-06-08T07:17:40.541Z"
         updatedAt:
           type: string
           format: date-time
-          description: update time of this API
+          description: update time of this AAPI
           example: "2021-06-08T07:17:40.541Z"
       required:
-        - name, apiOwner, doc, productSuite
+        - name, aapiOwner, doc, productSuite
     Form:
       type: object
       properties:
@@ -493,7 +238,7 @@ components:
           description: update time of this form
           example: "2021-06-08T07:17:40.541Z"
       required:
-        - apiId, subscriberId, submitUser, status
+        - aapiId, subscriberId, submitUser, status
     # Schema for error response body
     Error:
       type: object
