@@ -4,6 +4,7 @@ import 'primeicons/primeicons.css'
 import 'primereact/resources/themes/saga-blue/theme.css'
 import 'primereact/resources/primereact.css'
 import 'primeflex/primeflex.css'
+import { Tree } from 'primereact/tree';
 
 import { NodeService } from '../service/NodeService'
 import { TreeTable } from 'primereact/treetable'
@@ -13,13 +14,15 @@ import { Toast } from 'primereact/toast'
 
 function ProductSuites() {
   const [nodes, setNodes] = useState([])
+  const [treenodes, setTreeNodes] = useState([])
   const [nextPath, setNextPath] = useState<string | "">("")
   const [updateKey, setUpdateKey] = useState<number | 0>(0)
   const toast = useRef<any | null>(null)
   const nodeService = new NodeService()
 
   useEffect(() => {
-    nodeService.getTreeTableNodes().then(data => setNodes(data)).catch(e => console.error(e));
+    nodeService.getTreeTableNodes().then(data => setNodes(data)).catch(e => console.error(e))
+    nodeService.getTreeSideBarNodes().then(data => setTreeNodes(data)).catch(e => console.error(e))
   }, []);//eslint-disable-line react-hooks/exhaustive-deps
 
   async function setUpSelect(apiId: string) {
@@ -94,6 +97,7 @@ function ProductSuites() {
         <div className="p-col" />
         <div className="p-col-10">
           <div className="card">
+          <Tree value={treenodes} selectionMode="single"/>
             <TreeTable value={nodes} selectionMode="single" onSelect={onSelect} onUnselect={onUnselect}>
               <Column field="name" header="Name" expander></Column>
               <Column field="id" header="ID"></Column>

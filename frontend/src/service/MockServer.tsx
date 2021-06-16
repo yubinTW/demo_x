@@ -5,6 +5,7 @@ import { runInThisContext } from "vm"
 
 import mockapi from './../resource/mockapi.json'
 import treeData from './../resource/treeData.json'
+import treeSideData from './../resource/TreeSideBar.json'
 
 export function MockServer({environment = "test"}) {
     console.log("start mock server")
@@ -32,7 +33,9 @@ export function MockServer({environment = "test"}) {
             this.get("/ps", () => ({
                 root: treeData["root"],
             }))
-            
+            this.get("/subject-list", ()=> ({
+                root: treeSideData["root"],
+            }))
         },
     })
 }

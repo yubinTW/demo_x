@@ -1,0 +1,50 @@
+{
+    "root": [
+      {
+        "key": "0",
+        "label": "GigaCIM",
+        "type": "Folder",
+        "icon": "pi pi-fw pi-inbox",
+        "children": [
+          {
+            "key": "00",
+            "label": "SiMM",
+            "type": "Folder",
+            "icon": "pi pi-fw pi-inbox",
+            "children": [
+              {
+                "key": "000",
+                "label": "Lot",
+                "icon": "pi pi-fw pi-inbox",
+                "type": "Folder",
+                "children": 
+                [
+                    {
+                      "key": "0000", 
+                        "label": "LotHold",
+                        "icon": "pi pi-fw pi-cog",
+                        "type": "List",
+                        "aapi": [
+                          {"name": "q14ufuiq", "id":"ndiu1fhqioa1", "aapiOwner": "LCLIAOB"},
+                          {"name": "99942icj", "id":"48179rhdqurg", "aapiOwner": "YBHSU"}
+                        ]
+                    }
+                ]
+              },
+              {
+                "key": "1",
+                "label": "Workflow",
+                "icon": "pi pi-fw pi-cog",
+                "type": "List",
+                "aapi": [
+                  {"name": "qhufuiq", "id":"ndiu1fhqioa1", "aapiOwner": "LCLIAOB"},
+                  {"name": "ruqoicj", "id":"48179rhdqurg", "aapiOwner": "LCLIAOB"}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  
