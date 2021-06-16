@@ -7,31 +7,39 @@
         "icon": "pi pi-fw pi-inbox",
         "children": [
           {
-            "key": "0-0",
+            "key": "00",
             "label": "SiMM",
             "type": "Folder",
             "icon": "pi pi-fw pi-inbox",
             "children": [
               {
-                "key": "0-0-0",
+                "key": "000",
                 "label": "Lot",
                 "icon": "pi pi-fw pi-inbox",
                 "type": "Folder",
                 "children": 
                 [
                     {
-                        "key": "0-0-0",
+                      "key": "0000", 
                         "label": "LotHold",
                         "icon": "pi pi-fw pi-cog",
-                        "type": "List"
+                        "type": "List",
+                        "aapi": [
+                          {"name": "q14ufuiq", "id":"ndiu1fhqioa1", "aapiOwner": "LCLIAOB"},
+                          {"name": "99942icj", "id":"48179rhdqurg", "aapiOwner": "YBHSU"}
+                        ]
                     }
                 ]
               },
               {
-                "key": "0-0-1",
+                "key": "1",
                 "label": "Workflow",
                 "icon": "pi pi-fw pi-cog",
-                "type": "List"
+                "type": "List",
+                "aapi": [
+                  {"name": "qhufuiq", "id":"ndiu1fhqioa1", "aapiOwner": "LCLIAOB"},
+                  {"name": "ruqoicj", "id":"48179rhdqurg", "aapiOwner": "LCLIAOB"}
+                ]
               }
             ]
           }
