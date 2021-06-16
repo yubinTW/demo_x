@@ -1,21 +1,17 @@
 import axios from 'axios'
 
 export class NodeService {
-    async postRegistApiForm(apiName:string, productSuite:string,apiOwner:string, docs:string){
+    async getTreeSideBarNodes()
+    {
         try
         {
-            const res = await axios.post('/api',{
-                name: apiName,
-                productSuite: productSuite,
-                apiOwner: apiOwner,
-                docs: docs,
-
-            })
-            console.log(res)
+            const res = await axios.get('/subject-list')
+            console.log(res.data.root)
+            return res.data.root
         }
         catch(e)
         {
-            return console.error(e);
+            return console.error(e)
         }
     }
     async getTreeTableNodes() {
@@ -41,6 +37,23 @@ export class NodeService {
             return console.error(e)
         }
     }
+    async postRegistApiForm(apiName:string, productSuite:string,apiOwner:string, docs:string){
+        try
+        {
+            const res = await axios.post('/api',{
+                name: apiName,
+                productSuite: productSuite,
+                apiOwner: apiOwner,
+                docs: docs,
+
+            })
+            console.log(res)
+        }
+        catch(e)
+        {
+            return console.error(e);
+        }
+    }
     /*
     async getApiData(id:string)
     {
@@ -57,6 +70,8 @@ export class NodeService {
         } catch (e) {
             return console.error(e)
         }
-    }*/
+    }
+    
+    */
 }
     
