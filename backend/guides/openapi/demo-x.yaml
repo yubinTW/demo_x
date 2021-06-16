@@ -174,9 +174,9 @@ components:
         doc_json:
           type: string
           description: Async API in JSON format of this API
-        subscriber:
+        subscribers:
           type: array
-          description: The subscriber of this AAPI
+          description: The subscribers of this AAPI
           items:
             type: string
             example: ['subscriber01', 'subscriber02', 'subscriber03']
@@ -198,47 +198,6 @@ components:
           example: "2021-06-08T07:17:40.541Z"
       required:
         - name, aapiOwner, doc, productSuite
-    Form:
-      type: object
-      properties:
-        _id:
-          type: string
-          description: Form ID
-        apiId:
-          type: string
-          description: API ID
-        subscriberId:
-          type: string
-          description: Subscriber ID
-        submitUser:
-          type: string
-          description: the ID of who create this form
-        status:
-          type: string
-          description: status of a form (pending | approved | rejected)
-        approver:
-          type: string
-          description: the ID of who approve this form
-        approveDate:
-          type: string
-          format: date-time
-          description: approve time of this form
-          example: "2021-06-08T07:17:40.541Z"
-        comment:
-          type: string
-          description: comment of this form
-        createdAt:
-          type: string
-          format: date-time
-          description: create time of this form
-          example: "2021-06-08T07:17:40.541Z"
-        updatedAt:
-          type: string
-          format: date-time
-          description: update time of this form
-          example: "2021-06-08T07:17:40.541Z"
-      required:
-        - aapiId, subscriberId, submitUser, status
     # Schema for error response body
     Error:
       type: object

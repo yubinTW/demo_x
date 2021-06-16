@@ -4,6 +4,7 @@ import { fromNullable, match, map, getOrElse } from 'fp-ts/Option'
 import { FastifyPort, EnvConfigRepoImpl, RuntimeEnv } from '../repo/config-repo'
 import { healthcheck } from './routes/v1/healthcheck'
 import { FormsRouter } from './routes/v1/forms'
+import { AapiRouter } from './routes/v1/aapi'
 import FastifyStatic from 'fastify-static'
 import path from 'path'
 import { establishConnection } from '../plugins/mongodb'
@@ -65,6 +66,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
 
   server.register(healthcheck, { prefix: '/v1' })
   server.register(FormsRouter, { prefix: '/v1' })
+  server.register(AapiRouter, { prefix: '/v1' })
 
   return server
 }
