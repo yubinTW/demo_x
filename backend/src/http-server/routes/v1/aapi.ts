@@ -168,6 +168,37 @@ const AapiRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
     }
   })
 
+  server.delete<{ Params: IdParam }>('/aapi/:id', singleOpts, async (request, reply) => {
+    const id = request.params.id
+
+    enum IsIdValid {
+      Valid,
+      Invalid
+    }
+
+    const isIdValid: (id: string) => boolean = (id) => {
+      return Types.ObjectId.isValid(id)
+    }
+    const bool2IsIdValid: (b: boolean) => IsIdValid = (b) => (b ? IsIdValid.Valid : IsIdValid.Invalid)
+
+    switch (bool2IsIdValid(isIdValid(id))) {
+      case IsIdValid.Invalid:
+        return reply.status(400).send(ErrOf(400, `Bad Request`))
+      case IsIdValid.Valid:
+        await TE.match<Error, FastifyReply, O.Option<Readonly<IAapi>>>(
+          (e) => {
+            return reply.status(500).send(ErrOf(500, `[Server Error]: ${e}`))
+          },
+          (r) => {
+            return O.match<Readonly<IAapi>, FastifyReply>(
+              () => reply.status(404).send(ErrOf(404, `Not Found`)),
+              (aapi) => reply.status(200).send({ aapi })
+            )(r)
+          }
+        )(aapiRepo.deleteAapiById(id))()
+    }
+  })
+
   done()
 }
 

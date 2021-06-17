@@ -75,6 +75,14 @@ class AapiRepoImpl implements AapiRepo {
       )
     )
   }
+  deleteAapiById(id: string): TE.TaskEither<Error, O.Option<Readonly<IAapi>>> {
+    return TE.map<any, O.Option<Readonly<IAapi>>>((f) => (f ? O.some(f) : O.none))(
+      TE.tryCatch(
+        () => Aapi.findByIdAndDelete(id).exec(),
+        (e) => new Error(`Failed to delete aapi by id : ${e}`)
+      )
+    )
+  }
 }
 
 export { AapiRepoImpl }
