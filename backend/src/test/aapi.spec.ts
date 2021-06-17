@@ -54,9 +54,11 @@ describe('Aapi test', () => {
       method: 'POST',
       url: '/v1/aapi',
       payload: {
-        name: 'aapi01',
+        title: 'aapi01',
         productSuite: 'ps01',
+        product: 'product01',
         aapiOwner: 'ywchuo',
+        subject: 'ps01.product01.user01.event01',
         doc: 'this is test1',
         status: 'on'
       }
@@ -65,9 +67,11 @@ describe('Aapi test', () => {
     expect(response.statusCode).toBe(201)
 
     const res: { aapi: IAapi } = JSON.parse(response.body)
-    expect(res.aapi.name).toBe('aapi01')
+    expect(res.aapi.title).toBe('aapi01')
     expect(res.aapi.productSuite).toBe('ps01')
+    expect(res.aapi.product).toBe('product01')
     expect(res.aapi.aapiOwner).toBe('ywchuo')
+    expect(res.aapi.subject).toBe('ps01.product01.user01.event01')
     expect(res.aapi.doc).toBe('this is test1')
     expect(res.aapi.status).toBe('on')
 
@@ -76,19 +80,24 @@ describe('Aapi test', () => {
     expect(getResponse.statusCode).toBe(200)
     const res2: { aapis: Array<IAapi> } = JSON.parse(getResponse.body)
     expect(res2.aapis.length).toBe(1)
-    expect(res2.aapis[0].name).toBe('aapi01')
+    expect(res2.aapis[0].title).toBe('aapi01')
     expect(res2.aapis[0].productSuite).toBe('ps01')
+    expect(res2.aapis[0].product).toBe('product01')
     expect(res2.aapis[0].aapiOwner).toBe('ywchuo')
+    expect(res2.aapis[0].subject).toBe('ps01.product01.user01.event01')
     expect(res2.aapis[0].doc).toBe('this is test1')
     expect(res2.aapis[0].status).toBe('on')
 
+    
     // getById
     const getByIdResponse = await server.inject({ method: 'GET', url: `/v1/aapi/${res.aapi._id}` })
     expect(getByIdResponse.statusCode).toBe(200)
     const res3: { aapi: IAapi } = JSON.parse(getByIdResponse.body)
-    expect(res3.aapi.name).toBe('aapi01')
+    expect(res3.aapi.title).toBe('aapi01')
     expect(res3.aapi.productSuite).toBe('ps01')
+    expect(res3.aapi.product).toBe('product01')
     expect(res3.aapi.aapiOwner).toBe('ywchuo')
+    expect(res3.aapi.subject).toBe('ps01.product01.user01.event01')
     expect(res3.aapi.doc).toBe('this is test1')
     expect(res3.aapi.status).toBe('on')
 
@@ -102,9 +111,11 @@ describe('Aapi test', () => {
     })
     expect(updateByIdResponse.statusCode).toBe(200)
     const res4: { aapi: IAapi } = JSON.parse(updateByIdResponse.body)
-    expect(res4.aapi.name).toBe('aapi01')
+    expect(res4.aapi.title).toBe('aapi01')
     expect(res4.aapi.productSuite).toBe('ps01')
+    expect(res4.aapi.product).toBe('product01')
     expect(res4.aapi.aapiOwner).toBe('Jia-Wei')
+    expect(res4.aapi.subject).toBe('ps01.product01.user01.event01')
     expect(res4.aapi.doc).toBe('this is test1')
     expect(res4.aapi.status).toBe('on')
 
@@ -113,12 +124,22 @@ describe('Aapi test', () => {
       method: 'DELETE',
       url: `/v1/aapi/${res.aapi._id}`
     })
-    expect(deleteByIdResponse.statusCode).toBe(200)
-    const res5: { aapi: IAapi } = JSON.parse(deleteByIdResponse.body)
-    expect(res5.aapi.name).toBe('aapi01')
-    expect(res5.aapi.productSuite).toBe('ps01')
-    expect(res5.aapi.aapiOwner).toBe('Jia-Wei')
-    expect(res5.aapi.doc).toBe('this is test1')
-    expect(res5.aapi.status).toBe('on')
+    expect(deleteByIdResponse.statusCode).toBe(204)
+    // const res5: { aapi: IAapi } = JSON.parse(deleteByIdResponse.body)
+    // expect(res5.aapi.title).toBe('aapi01')
+    // expect(res5.aapi.productSuite).toBe('ps01')
+    // expect(res5.aapi.product).toBe('product01')
+    // expect(res5.aapi.aapiOwner).toBe('Jia-Wei')
+    // expect(res5.aapi.subject).toBe('ps01.product01.user01.event01')
+    // expect(res5.aapi.doc).toBe('this is test1')
+    // expect(res5.aapi.status).toBe('on')
   })
+
+  it('should return not found when delete a non-exist aapi', async () => {
+    const fakeId = '60cabdab34b1d04cc48e01d1'
+    const response = await server.inject({ method: 'DELETE', url: `/v1/aapi/${fakeId}` })
+
+    expect(response.statusCode).toBe(404)
+  })
+
 })

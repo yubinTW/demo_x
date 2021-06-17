@@ -15,9 +15,11 @@ const AapiRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
     aapis: Type.Array(
       Type.Object({
         _id: Type.String(),
-        name: Type.String(),
+        title: Type.String(),
         productSuite: Type.String(),
+        product: Type.String(),
         aapiOwner: Type.String(),
+        subject: Type.String(),
         doc: Type.Optional(Type.String()),
         doc_json: Type.Optional(Type.String()),
         comment: Type.Optional(Type.String()),
@@ -38,9 +40,11 @@ const AapiRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
   const SingleResponse = {
     aapi: Type.Object({
       _id: Type.String(),
-      name: Type.String(),
+      title: Type.String(),
       productSuite: Type.String(),
+      product: Type.String(),
       aapiOwner: Type.String(),
+      subject: Type.String(),
       doc: Type.Optional(Type.String()),
       doc_json: Type.Optional(Type.String()),
       comment: Type.Optional(Type.String()),
@@ -94,7 +98,7 @@ const AapiRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
       }
     )(aapiRepo.getAapis())()
   })
-
+  // TODO: post method would use to create and update an aapi (by subject)
   // TODO: reply 422 not implement
   server.post('/aapi', opts, async (request, reply) => {
     await TE.match<Error, FastifyReply, IAapi>(
@@ -192,7 +196,7 @@ const AapiRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
           (r) => {
             return O.match<Readonly<IAapi>, FastifyReply>(
               () => reply.status(404).send(ErrOf(404, `Not Found`)),
-              (aapi) => reply.status(200).send({ aapi })
+              (aapi) => reply.status(204).send()
             )(r)
           }
         )(aapiRepo.deleteAapiById(id))()
