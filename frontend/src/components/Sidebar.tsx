@@ -99,6 +99,7 @@ export default (props = {}) => {
             <Nav className="flex-column pt-3 pt-md-0">
               <NavItem title="Product X" link={Routes.Presentation.path} image={TsmcLogo} />
               <NavItem title="Product Suites" link={Routes.ProductSuites.path} icon={faTable} />
+              <NavItem title="Summary" link={Routes.SummaryPage.path} icon={faTable} />
               <NavItem title="App Demo" link={Routes.App.path} badgeText="Demo" icon={faFileAlt} />
 
               {/* <NavItem title="Overview" link={Routes.DashboardOverview.path} icon={faChartPie} />

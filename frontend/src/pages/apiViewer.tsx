@@ -24,7 +24,7 @@ function APIViewer() {
   async function getData() {
     console.log(id)
     await nodeservice.getApiData(id).then(ans => {
-      setApiOwner(ans.apiOwner)
+      setApiOwner(ans.aapiOwner)
       setApidoc(ans.doc_json)
       setApiName(ans.name)
       setCreateAt(ans.createdAt)

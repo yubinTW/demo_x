@@ -5,8 +5,7 @@ import { Routes } from "../routes/routes";
 // pages
 import Presentation from "./Presentation";
 import ProductSuites from "./productSuites";
-import RegisterAPI from "./registerAPI";
-
+import SummaryPage from './summary';
 import App from "../App";
 
 
@@ -18,6 +17,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Preloader from "../components/Preloader";
 import APIViewer from './apiViewer';
+
 
 
 export const RouteWithLoader = ({ component: Component, ...rest }) => {
@@ -81,7 +81,7 @@ export default () => (
     <RouteWithSidebar exact path={Routes.ProductSuites.path} component={ProductSuites} />
     <RouteWithSidebar exact path={Routes.App.path} component={App} />
     <RouteWithSidebar path={Routes.APIViewer.path} component={APIViewer} />
-
+    <RouteWithSidebar path={Routes.SummaryPage.path} component={SummaryPage} />
     {/* components */}
 
 

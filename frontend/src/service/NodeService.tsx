@@ -30,7 +30,7 @@ export class NodeService {
         //const path:string = ('/api/'.concat(String(id))) 
         //console.log(path)
         try {
-            const res = await axios.get(`/api/${id}`)
+            const res = await axios.get(`/aapi/${id}`)
             
             return res.data
         } catch (e) {
@@ -40,7 +40,7 @@ export class NodeService {
     async postRegistApiForm(apiName:string, productSuite:string,apiOwner:string, docs:string){
         try
         {
-            const res = await axios.post('/api',{
+            const res = await axios.post('/aapi',{
                 name: apiName,
                 productSuite: productSuite,
                 apiOwner: apiOwner,

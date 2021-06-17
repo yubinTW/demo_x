@@ -21,12 +21,13 @@ export function MockServer({environment = "test"}) {
                 apiId: JSON.parse(request.queryParams.id).id,
                 api: mockapi,
             }))*/
-            this.get("/api/:id",(schema,request) => ({
+            this.get("/aapi/:id",(schema,request) => ({
                 id: request.params.id,
                 name: "test_api_name",
                 productSuite: "NTAP_test",
-                apiOwner: "LCLIAOB",
+                aapiOwner: "LCLIAOB",
                 doc_json: mockapi,
+                subscriber: ["test1","test2"],
                 createdAt: "2021-06-08 08:00:10",
                 updatedAt: "2021-06-08 13:22:17"
             }))
