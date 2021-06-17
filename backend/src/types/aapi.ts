@@ -5,9 +5,11 @@ enum Status {
 
 interface IAapi {
   readonly _id?: string
-  name: string
+  title: string
   productSuite: string
+  product: string
   aapiOwner: string
+  subject: string
   doc: string
   doc_json: string
   subscribers: []
@@ -19,9 +21,11 @@ interface IAapi {
 
 // json body
 type AapiBody = {
-  readonly name: string
+  readonly title: string
   readonly productSuite: string
+  readonly product: string
   readonly aapiOwner: string
+  readonly subject: string
   readonly doc: string
   readonly doc_json: string
   readonly subscribers: []
@@ -32,9 +36,11 @@ type AapiBody = {
 // query from Mongo
 type MongoAapi = {
   readonly _id?: string
-  readonly name: string
+  readonly title: string
   readonly productSuite: string
+  readonly product: string
   readonly aapiOwner: string
+  readonly subject: string
   readonly doc: string
   readonly doc_json: string
   readonly subscribers: []

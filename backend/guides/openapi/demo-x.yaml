@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
-  title:  API spec of X
+  title: API spec of X
   description: Some API spec of x for handling data transfer between frontend and backend
-  version: 0.0.3
+  version: 0.0.4
 servers:
   - url: http://{apiUrl}
     description: API endpoint of backend
@@ -14,18 +14,18 @@ paths:
       summary: return list of product suite
       description: return all product suite user can view or own.
       responses:
-        '200':
+        "200":
           description: A JSON Array of product suite infos
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ProductSuite'
+                  $ref: "#/components/schemas/ProductSuite"
   /aapi:
     post:
       tags:
-          - "AAPI"
+        - "AAPI"
       summary: register a new AAPI.
       description: register a new AAPI. (doesn't need )
       requestBody:
@@ -33,26 +33,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AAPI'
+              $ref: "#/components/schemas/AAPI"
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/AAPI'
-        '400':
+              schema:
+                $ref: "#/components/schemas/AAPI"
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/BadRequest'
+                $ref: "#/components/responses/BadRequest"
   /aapi/{aapiId}:
     get:
       tags:
-          - "AAPI"
+        - "AAPI"
       summary: return AAPI info JSON format
-      description: Get the detail infomation of a specific AAPI according to aapiId. 
+      description: Get the detail infomation of a specific AAPI according to aapiId.
       parameters:
         - in: path
           name: aapiId
@@ -61,22 +61,22 @@ paths:
           required: true
           description: The ID of the AAPI
       responses:
-        '200':
+        "200":
           description: Successfully get the detail information of the AAPI
           content:
             application/json:
-              schema: 
-                $ref: '#/components/schemas/AAPI'
+              schema:
+                $ref: "#/components/schemas/AAPI"
 
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/NotFound'
+                $ref: "#/components/responses/NotFound"
     delete:
       tags:
-          - "AAPI"
+        - "AAPI"
       summary: delete specific AAPI
       description: delete specific AAPI based on apiId (doesn't need?)
       parameters:
@@ -87,17 +87,17 @@ paths:
           required: true
           description: The ID of the AAPI
       responses:
-        '204':
+        "204":
           description: delete operation success
-        '404':
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/NotFound'
+                $ref: "#/components/responses/NotFound"
     put:
       tags:
-          - "AAPI"
+        - "AAPI"
       summary: update aapi infos
       description: update aapi infos (doesn't need?)
       parameters:
@@ -111,48 +111,46 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AAPI' 
+              $ref: "#/components/schemas/AAPI"
       responses:
-        '200':
+        "200":
           description: update operation success
-        '400':
+        "400":
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/BadRequest'
-        '404':
+                $ref: "#/components/responses/BadRequest"
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
-                $ref: '#/components/responses/NotFound'
+                $ref: "#/components/responses/NotFound"
 components:
   schemas:
     ProductSuite:
       type: object
       properties:
-        id:
-          type: string
-          description: The productSuite ID.
-        label:
-          type: string
-          description: The productSuite label.
-        type:
-          type: string
-          description: Folder or List
-        children:
+        aapis:
           type: array
-          description: Array of ProductSuite Object.
+          description: The simpleied aapi structure
           items:
-            $ref: '#/components/schemas/AAPI'
-        aapi:
-          type: array
-          description: Array of AAPI under product suite.
-          items:
-            $ref: '#/components/schemas/AAPI'
+            properties:
+              subject:
+                type: string
+              aapiOwner:
+                type: string
+              description:
+                type: string
+              productSuite:
+                type: string
+                description: The productSuite of this AAPI
+              product:
+                type: string
+                description: The product of this AAPI
       required:
-        - id, label, type
+        - aapis
     AAPI:
       type: object
       properties:
@@ -161,13 +159,16 @@ components:
           description: The ID of this AAPI
         name:
           type: string
-          description: The name of this AAPI
+          description: The name of this AAPI, ps
         productSuite:
           type: string
-          description: The productSuite of this AAPI
+          description: The productSuite of this AAPI, ps
+        product:
+          type: string
+          description: The product of this AAPI, ps
         aapiOwner:
           type: string
-          description: The own of this AAPI
+          description: The own of this AAPI, ps
         doc:
           type: string
           description: Async AAPI YAML string of this AAPI
@@ -179,7 +180,7 @@ components:
           description: The subscribers of this AAPI
           items:
             type: string
-            example: ['subscriber01', 'subscriber02', 'subscriber03']
+            example: ["subscriber01", "subscriber02", "subscriber03"]
         comment:
           type: string
           description: The comment of this AAPI
@@ -215,16 +216,16 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     NotFound:
       description: The specified resource was not found
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     Unauthorized:
       description: Unauthorized
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
