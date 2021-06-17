@@ -107,7 +107,7 @@ function SummaryPage() {
       /> */}
       <div className="card mt-2">
         <DataTable value={subjectList} className="datatable-class">
-          <Column field="subjectName" header="Event Subject"></Column>
+          <Column field="subject" header="Event Subject"></Column>
           <Column field="description" header="Description"></Column>
           <Column field="aapiOwner" header="Owner"></Column>
         </DataTable>
