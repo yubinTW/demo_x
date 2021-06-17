@@ -107,5 +107,18 @@ describe('Aapi test', () => {
     expect(res4.aapi.aapiOwner).toBe('Jia-Wei')
     expect(res4.aapi.doc).toBe('this is test1')
     expect(res4.aapi.status).toBe('on')
+
+    // deleteId
+    const deleteByIdResponse = await server.inject({
+      method: 'DELETE',
+      url: `/v1/aapi/${res.aapi._id}`
+    })
+    expect(deleteByIdResponse.statusCode).toBe(200)
+    const res5: { aapi: IAapi } = JSON.parse(deleteByIdResponse.body)
+    expect(res5.aapi.name).toBe('aapi01')
+    expect(res5.aapi.productSuite).toBe('ps01')
+    expect(res5.aapi.aapiOwner).toBe('Jia-Wei')
+    expect(res5.aapi.doc).toBe('this is test1')
+    expect(res5.aapi.status).toBe('on')
   })
 })

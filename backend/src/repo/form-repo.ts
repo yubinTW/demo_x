@@ -89,7 +89,7 @@ class FormRepoImpl implements FormRepo {
     )
   }
 
-  updateForm(id: string, body: IForm): TE.TaskEither<Error, O.Option<Readonly<IForm>>> {
+  updateForm(id: string, body: FormBody): TE.TaskEither<Error, O.Option<Readonly<IForm>>> {
     return TE.map<any, O.Option<Readonly<IForm>>>((f) => (f ? O.some(f) : O.none))(
       TE.tryCatch(
         () => Form.findByIdAndUpdate(id, body, { new: true }).exec(),
