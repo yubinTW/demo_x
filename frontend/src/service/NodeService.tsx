@@ -1,12 +1,25 @@
 import axios from 'axios'
 
 export class NodeService {
+    async getProductSuiteData()
+    {
+        try
+        {
+            const res = await axios.get('./productsuite')
+            //console.log(res.data.aapis)
+            return res.data.aapis
+        }
+        catch(e)
+        {
+            console.error(e)
+        }
+    }
     async getTreeSideBarNodes()
     {
         try
         {
             const res = await axios.get('/subject-list')
-            console.log(res.data.root)
+            //console.log(res.data.root)
             return res.data.root
         }
         catch(e)

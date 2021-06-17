@@ -36,11 +36,11 @@ function SummaryPage() {
     }
     return (
       <div>
-          <Dropdown value={selectedPs} options={psList} onChange={onPsChange} optionLabel="name" placeholder="Select a Product Suite" />
-          <Dropdown value={selectedProduct} options={productList} onChange={onProductChange} optionLabel="name" placeholder="Select a Product" />
+          <Dropdown value={selectedPs} options={psList} onChange={onPsChange} placeholder="Select a Product Suite" />
+          <Dropdown value={selectedProduct} options={productList} onChange={onProductChange}  placeholder="Select a Product" />
             <div className="card">
                 <DataTable value={subjectList}>
-                    <Column field="subjectName" header="Event Subject"></Column>
+                    <Column field="subject" header="Event Subject"></Column>
                     <Column field="description" header="Description"></Column>
                     <Column field="aapiOwner" header="Owner"></Column>
                 </DataTable>
