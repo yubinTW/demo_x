@@ -16,30 +16,30 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800&display=swap');
 
 // Bootstrap mixins and functions
-@import "../../node_modules/bootstrap/scss/mixins";
-@import "../../node_modules/bootstrap/scss/functions";
+@import '../../node_modules/bootstrap/scss/mixins';
+@import '../../node_modules/bootstrap/scss/functions';
 
 // Change variables here
-@import "volt/variables";
+@import 'volt/variables';
 
 // Bootstrap
-@import "../../node_modules/bootstrap/scss/bootstrap";
+@import '../../node_modules/bootstrap/scss/bootstrap';
 
 // Vendor
-@import "volt/vendor";
+@import 'volt/vendor';
 
 // volt mixins & functions
-@import "volt/mixins";
-@import "volt/functions";
+@import 'volt/mixins';
+@import 'volt/functions';
 
 // Utilities
-@import "volt/reboot";
-@import "volt/utilities";
+@import 'volt/reboot';
+@import 'volt/utilities';
 
 // Layout
-@import "volt/layout";
+@import 'volt/layout';
 
 // Components
-@import "volt/components";
+@import 'volt/components';
 
 // write your custom styles here!
