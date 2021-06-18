@@ -1,34 +1,32 @@
 {
-    "aapis":
-    [
-        {
-            "title":"GigaCIM.SiMM.Lot.LotHold.AMFH",
-            "aapiOwner":"LCLIAOB",
-            "description":"test test test",
-            "productSuite":"GigaCIM",
-            "product":"SiMM"
-        },
-        {
-            "title":"GigaCIM.SiMM.Lot.LotHold.AOAH",
-            "aapiOwner":"LCLIAOB",
-            "description":"test test test",
-            "productSuite":"GigaCIM",
-            "product":"SiMM"
-        },
-        {
-            "title":"GigaCIM.SiMM.Lot.LotHold.AUTO",
-            "aapiOwner":"LCLIAOB",
-            "description":"test test test",
-            "productSuite":"GigaCIM",
-            "product":"SiMM"
-        },
-        {
-            "title":"FAB.testN.Lot.LotHold.JJJJ",
-            "aapiOwner":"LCLIAOB",
-            "description":"test test test",
-            "productSuite":"FAB",
-            "product":"testN"
-        }
-
-    ]
+  "aapis": [
+    {
+      "title": "GigaCIM.SiMM.Lot.LotHold.AMFH",
+      "aapiOwner": "LCLIAOB",
+      "description": "test test test",
+      "productSuite": "GigaCIM",
+      "product": "SiMM"
+    },
+    {
+      "title": "GigaCIM.SiMM.Lot.LotHold.AOAH",
+      "aapiOwner": "LCLIAOB",
+      "description": "test test test",
+      "productSuite": "GigaCIM",
+      "product": "SiMM"
+    },
+    {
+      "title": "GigaCIM.SiMM.Lot.LotHold.AUTO",
+      "aapiOwner": "LCLIAOB",
+      "description": "test test test",
+      "productSuite": "GigaCIM",
+      "product": "SiMM"
+    },
+    {
+      "title": "FAB.testN.Lot.LotHold.JJJJ",
+      "aapiOwner": "LCLIAOB",
+      "description": "test test test",
+      "productSuite": "FAB",
+      "product": "testN"
+    }
+  ]
 }

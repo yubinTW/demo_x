@@ -11,7 +11,7 @@ $sf-group-width: 600px !default;
 // Colors
 $sf-color-primary: $primary !default; // Used for buttons
 $sf-color-secondary: $soft !default; // Used for secondary buttons, helpers. etc.
-$sf-color-tertiary: $soft !default; 
+$sf-color-tertiary: $soft !default;
 $sf-color-border: $light !default; // Used for borders
 $sf-color-black: $dark !default;
 $sf-color-white: $white !default;
@@ -29,4 +29,4 @@ $sf-btn-text-color-inverse: $dark !default;
 $sf-footer-height: 65px !default;
 
 // Transitions
-$sf-transition: .5s ease !default;
+$sf-transition: 0.5s ease !default;

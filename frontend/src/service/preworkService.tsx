@@ -1,6 +1,6 @@
 import subjectData from './../resource/subjectData.json'
 import { NodeService } from './NodeService'
-import { Status,AapiBody } from './serviceObject'
+import { Status, AapiBody } from './serviceObject'
 export class PreworkService {
   psList: any
   psDictProductList: any
