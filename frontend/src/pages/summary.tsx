@@ -17,7 +17,7 @@ function SummaryPage() {
   const [psList, setPsList] = useState([])
   const [selectedPs, setSelectPs] = useState<string | ''>('')
   const [selectedProduct, setSelectProduct] = useState<string | ''>('')
-  const [productList, setProdcuctList] = useState([])
+  const [productList, setProductList] = useState([])
   const [subjectList, setSubjectList] = useState([])
   const preworkService = new PreworkService()
 
@@ -32,14 +32,19 @@ function SummaryPage() {
   //   preworkService.getProductList(e.value).then((data) => setProdcuctList(data))
   // }
   async function onPsChange(e: any) {
-    console.log(e)
-    await setSelectPs(e.value)
-    preworkService.getProductList(e.value).then((data) => setProdcuctList(data))
+    console.log('ps change: ', e.target.value)
+    await setSelectPs(e.target.value)
+    if (e.target.value) {
+      preworkService.getProductList(e.target.value).then((data) => setProductList(data))
+    } else {
+      setProductList([])
+      setSubjectList([])
+    }
   }
   async function onProductChange(e: any) {
-    await setSelectProduct(e.value)
-    console.log(selectedPs, e.value)
-    preworkService.getSubjectData(selectedPs, e.value).then((data) => setSubjectList(data))
+    await setSelectProduct(e.target.value)
+    console.log(selectedPs, e.target.value)
+    preworkService.getSubjectData(selectedPs, e.target.value).then((data) => setSubjectList(data))
   }
 
   return (
@@ -55,10 +60,10 @@ function SummaryPage() {
           <Form.Group id="ps-filter">
             <Form.Label>Product Suites</Form.Label>
             <Form.Select onChange={onPsChange} value={selectedPs}>
-              <option>Select Product Suite</option>
+              <option value="">Select Product Suite</option>
               {psList.map((item) => (
-                <option key={item['name']} value={item['name']}>
-                  {item['name']}
+                <option key={item} value={item}>
+                  {item}
                 </option>
               ))}
             </Form.Select>
@@ -71,8 +76,8 @@ function SummaryPage() {
               <option>Select Product </option>
 
               {productList.map((item) => (
-                <option key={item['name']} value={item['name']}>
-                  {item['name']}
+                <option key={item} value={item}>
+                  {item}
                 </option>
               ))}
             </Form.Select>

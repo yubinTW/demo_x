@@ -41,20 +41,20 @@ export class PreworkService {
     return this.psList
   }
   async getProductList(psName: string) {
-    /*const productList:any = [
-            {name: "SiMM"},
-            {name: "Fab"}
-        ]*/
+    //const productList: any = ['SiMM', 'Fab']
     if (this.statusType == 0) {
       await this.setUpData()
     }
-    return this.psDictProductList[psName]
+    //console.log(psName, this.psDictProductList)
+    //console.log(this.psDictProductList[psName])
+    //return productList
+    return this.psDictProductList[psName] === 'undefined' ? [] : this.psDictProductList[psName]
   }
   async getSubjectData(ps: string, product: string) {
     //const retureData: any = subjectData
     if (this.statusType == 0) {
       await this.setUpData()
     }
-    return this.dataDict[ps][product]
+    return this.dataDict[ps][product] === 'undefined' ? [] : this.dataDict[ps][product]
   }
 }
