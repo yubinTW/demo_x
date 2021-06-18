@@ -6,23 +6,21 @@ import { store } from './app/store'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-
-import HomePage from "./pages/HomePage";
+import HomePage from './pages/HomePage'
 
 // core styles
-import "./scss/volt.scss";
+import './scss/volt.scss'
 // vendor styles
-import "@fortawesome/fontawesome-free/css/all.css";
+import '@fortawesome/fontawesome-free/css/all.css'
 
-import {MockServer} from './service/MockServer'
+import { MockServer } from './service/MockServer'
 
 const environment = process.env.NODE_ENV
 console.log(environment)
-if(environment !== "production")
-{
-  MockServer({environment})
+if (environment !== 'production') {
+  MockServer({ environment })
 }
 // const routes = [
 //   {
@@ -80,8 +78,8 @@ ReactDOM.render(
     </Provider>
   </React.StrictMode>,
 
-  document.getElementById("root")
-);
+  document.getElementById('root')
+)
 // import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
 // import App from './App';

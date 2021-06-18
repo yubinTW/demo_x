@@ -1,6 +1,6 @@
 enum Status {
-    On = 'on',
-    Off = 'off'
+  On = 'on',
+  Off = 'off',
 }
 
 export type AapiBody = {
