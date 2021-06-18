@@ -1,0 +1,40 @@
+.datatable-class .p-datatable-thead > tr > th {
+  text-align: left;
+  padding: 0.75rem 0.75rem;
+  border: 1px solid #e9ecef;
+  border-width: 0 0 1px 0;
+  font-weight: 600;
+  color: #495057;
+  background: #f5efef;
+  transition: box-shadow 0.2s;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  text-align: left;
+  border: 1px solid #e9ecef;
+  border-width: 0 0 1px 0;
+  padding: 0.75rem 0.75rem;
+  outline-color: #a6d5fa;
+}
+
+.datatable-class table {
+  border-collapse: collapse;
+  border-radius: 0.5rem;
+  width: 100%;
+  table-layout: fixed;
+}
+.datatable-class thead,
+.datatable-class tbody,
+.datatable-class td,
+.datatable-class tr {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+  border-radius: inherit;
+}
+.datatable-class th:first-child {
+  border-top-left-radius: inherit;
+}
+.datatable-class th:last-child {
+  border-top-right-radius: inherit;
+}
