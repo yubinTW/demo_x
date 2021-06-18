@@ -1,52 +1,51 @@
-
 .headroom {
-    will-change: transform;
-    background-color: inherit;
-    @include transition($transition-base);
+  will-change: transform;
+  background-color: inherit;
+  @include transition($transition-base);
 }
 .headroom--pinned {
-	@extend .position-fixed;
-    transform: translateY(0%);
+  @extend .position-fixed;
+  transform: translateY(0%);
 }
 .headroom--unpinned {
-	@extend .position-fixed;
-    transform: translateY(-100%);
+  @extend .position-fixed;
+  transform: translateY(-100%);
 }
 
 .headroom--not-top {
-	padding-top: 1rem;
-    padding-bottom: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 
-    @each $color, $value in $theme-colors {
-        &.navbar-theme-#{$color} {
-            background-color: $value;
+  @each $color, $value in $theme-colors {
+    &.navbar-theme-#{$color} {
+      background-color: $value;
 
-            .navbar-brand-light {
-                display: none;
-            }
-            .navbar-brand-dark {
-                display: block;
-            }
+      .navbar-brand-light {
+        display: none;
+      }
+      .navbar-brand-dark {
+        display: block;
+      }
 
-            .nav-link {
-                color: $navbar-dark-color;
+      .nav-link {
+        color: $navbar-dark-color;
 
-                &:hover {
-                    color: $navbar-dark-hover-color;
-                }
-            }
+        &:hover {
+          color: $navbar-dark-hover-color;
         }
+      }
+    }
+  }
+
+  &.navbar-light {
+    .navbar-nav > .nav-item.show > .nav-link,
+    .navbar-nav > .nav-item > .nav-link:focus,
+    .nav-item .nav-link > span {
+      color: $white;
     }
 
-    &.navbar-light {
-        .navbar-nav > .nav-item.show > .nav-link,
-        .navbar-nav > .nav-item > .nav-link:focus,
-        .nav-item .nav-link > span {
-            color: $white;
-        }
-
-        .navbar-toggler-icon {
-            background-image: $navbar-dark-toggler-icon-bg;
-        }
+    .navbar-toggler-icon {
+      background-image: $navbar-dark-toggler-icon-bg;
     }
+  }
 }

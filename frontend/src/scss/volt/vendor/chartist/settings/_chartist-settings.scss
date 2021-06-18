@@ -1,6 +1,42 @@
 // Scales for responsive SVG containers
-$ct-scales: ((1), (15/16), (8/9), (5/6), (4/5), (3/4), (2/3), (5/8), (1/1.618), (3/5), (9/16), (8/15), (1/2), (2/5), (3/8), (1/3), (1/4)) !default;
-$ct-scales-names: (ct-square, ct-minor-second, ct-major-second, ct-minor-third, ct-major-third, ct-perfect-fourth, ct-perfect-fifth, ct-minor-sixth, ct-golden-section, ct-major-sixth, ct-minor-seventh, ct-major-seventh, ct-octave, ct-major-tenth, ct-major-eleventh, ct-major-twelfth, ct-double-octave) !default;
+$ct-scales: (
+  (1),
+  (15/16),
+  (8/9),
+  (5/6),
+  (4/5),
+  (3/4),
+  (2/3),
+  (5/8),
+  (1/1.618),
+  (3/5),
+  (9/16),
+  (8/15),
+  (1/2),
+  (2/5),
+  (3/8),
+  (1/3),
+  (1/4)
+) !default;
+$ct-scales-names: (
+  ct-square,
+  ct-minor-second,
+  ct-major-second,
+  ct-minor-third,
+  ct-major-third,
+  ct-perfect-fourth,
+  ct-perfect-fifth,
+  ct-minor-sixth,
+  ct-golden-section,
+  ct-major-sixth,
+  ct-minor-seventh,
+  ct-major-seventh,
+  ct-octave,
+  ct-major-tenth,
+  ct-major-eleventh,
+  ct-major-twelfth,
+  ct-double-octave
+) !default;
 
 // Class names to be used when generating CSS
 $ct-class-chart: ct-chart !default;
@@ -34,7 +70,7 @@ $ct-text-size: 0.75rem !default;
 $ct-text-align: flex-start !default;
 $ct-text-justify: flex-start !default;
 $ct-text-line-height: 1;
-$ct-font-weight:$font-weight-normal;
+$ct-font-weight: $font-weight-normal;
 
 // Grid styles
 $ct-grid-color: $gray-400 !default;
@@ -71,11 +107,11 @@ $ct-include-alternative-responsive-containers: $ct-include-classes !default;
 // Series names and colors. This can be extended or customized as desired. Just add more series and colors.
 $ct-series-names: (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o) !default;
 $ct-series-colors: (
-  #FA5252,
-  #11AB7C,
+  #fa5252,
+  #11ab7c,
   #17a5ce,
-  #005AD4,
-  #1E90FF,
+  #005ad4,
+  #1e90ff,
   #59922b,
   #0544d3,
   #6b0392,

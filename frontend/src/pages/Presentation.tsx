@@ -1,25 +1,24 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
-import { faBootstrap, faSass } from "@fortawesome/free-brands-svg-icons";
-import { faNetworkWired, faDigitalTachograph } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { faBootstrap, faSass } from '@fortawesome/free-brands-svg-icons'
+import { faNetworkWired, faDigitalTachograph } from '@fortawesome/free-solid-svg-icons'
 
-import { Col, Row, Image, Button, Container, Navbar, Nav } from '@themesberg/react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Col, Row, Image, Button, Container, Navbar, Nav } from '@themesberg/react-bootstrap'
+import { Link } from 'react-router-dom'
 // import { HashLink } from 'react-router-hash-link';
 
-import { Routes } from "../routes/routes";
-import TsmcLogo from "../assets/img//Tsmc.svg.png";
+import { Routes } from '../routes/routes'
+import TsmcLogo from '../assets/img//Tsmc.svg.png'
 
 export default () => {
-
-
-
-
-
-
   return (
     <>
-      <Navbar variant="dark" expand="lg" bg="dark" className="navbar-transparent navbar-theme-primary sticky-top">
+      <Navbar
+        variant="dark"
+        expand="lg"
+        bg="dark"
+        className="navbar-transparent navbar-theme-primary sticky-top"
+      >
         <Container className="position-relative justify-content-between px-3">
           <Navbar.Brand as={Link} to="#home" className="me-lg-3 d-flex align-items-center">
             <Image src={TsmcLogo} />
@@ -33,14 +32,21 @@ export default () => {
                 <Nav.Link as={HashLink} to="#pages">Pages</Nav.Link>
                 <Nav.Link as={HashLink} to="#folder" className="d-sm-none d-xl-inline">Folder Structure</Nav.Link>
                 <Nav.Link as={HashLink} to="#getting-started">Getting Started</Nav.Link> */}
-                <Nav.Link as={Link} to={Routes.ProductSuites.path}>Product Suites</Nav.Link>
-                <Nav.Link as={Link} to={Routes.App.path} >Dashboard</Nav.Link>
+                <Nav.Link as={Link} to={Routes.ProductSuites.path}>
+                  Product Suites
+                </Nav.Link>
+                <Nav.Link as={Link} to={Routes.App.path}>
+                  Dashboard
+                </Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </div>
         </Container>
       </Navbar>
-      <section className="section-header overflow-hidden pt-5 pt-lg-8 pb-12 pb-lg-10 bg-primary text-white" id="home">
+      <section
+        className="section-header overflow-hidden pt-5 pt-lg-8 pb-12 pb-lg-10 bg-primary text-white"
+        id="home"
+      >
         <Container>
           <Row>
             <Col xs={12} className="text-center">
@@ -48,11 +54,18 @@ export default () => {
               <h1 className="fw-bolder text-secondary">Event Driven Data Platform</h1>
               <p className="text-muted fw-light mb-5 h5">AsyncAPI Portal and tutorial document</p>
               <div className="d-flex align-items-center justify-content-center">
-                <Button variant="secondary" as={Link} to={Routes.App.path} className="text-dark me-3">
-                  Go to Platform <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
+                <Button
+                  variant="secondary"
+                  as={Link}
+                  to={Routes.App.path}
+                  className="text-dark me-3"
+                >
+                  Go to Platform{' '}
+                  <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>
                 <Button variant="outline-secondary" className=" me-3">
-                  document <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
+                  document{' '}
+                  <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>
                 {/* <GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton> */}
               </div>
@@ -75,7 +88,6 @@ export default () => {
       </section>
       <div className="section pt-6">
         <Container className="mt-n7 mt-lg-n6 z-2">
-
           <Row className="justify-content-center mt-5 mt-lg-6">
             <Col xs={6} md={3} className="text-center mb-4">
               <div className="icon icon-shape icon-lg bg-white shadow-lg border-light rounded-circle mb-4">
@@ -109,22 +121,31 @@ export default () => {
         </Container>
       </div>
 
-
       <footer className="footer mt-6 bg-dark text-white">
         <Container>
-
           <Row>
             <Col className="mb-md-2 pt-2">
               {/* <Card.Link href="https://themesberg.com" target="_blank" className="d-flex justify-content-center"> */}
-              <Image src={TsmcLogo} height={35} className="d-block mx-auto mb-3" alt="Themesberg Logo" />
+              <Image
+                src={TsmcLogo}
+                height={35}
+                className="d-block mx-auto mb-3"
+                alt="Themesberg Logo"
+              />
               {/* </Card.Link> */}
-              <div className="d-flex text-center justify-content-center align-items-center" role="contentinfo">
-                <p className="font-weight-normal font-small mb-0">Copyright© Taiwan Semiconductor Manufacturing Company Limited 2021, All Rights Reserved. Version:1.0.0</p>
+              <div
+                className="d-flex text-center justify-content-center align-items-center"
+                role="contentinfo"
+              >
+                <p className="font-weight-normal font-small mb-0">
+                  Copyright© Taiwan Semiconductor Manufacturing Company Limited 2021, All Rights
+                  Reserved. Version:1.0.0
+                </p>
               </div>
             </Col>
           </Row>
         </Container>
       </footer>
     </>
-  );
-};
+  )
+}

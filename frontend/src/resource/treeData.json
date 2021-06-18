@@ -1,120 +1,116 @@
-
 {
-    "root":
-    [
+  "root": [
+    {
+      "key": "0",
+      "data": {
+        "name": "test_PS_1",
+        "id": "ebb09e1e-64d7-4972-887b-6915e023fe45",
+        "type": "Product Suite"
+      },
+      "children": [
         {
-            "key": "0",
-            "data":{
-                "name":"test_PS_1",
-                "id":"ebb09e1e-64d7-4972-887b-6915e023fe45",
-                "type":"Product Suite"
-            },
-            "children":[
-                {
-                    "key": "0-0",
-                    "data":{
-                        "name":"FAB 1",
-                        "id":"c00d4b7d-c862-44e7-83a7-956be5e50b50",
-                        "type":"API"
-                    }
-                },
-                {
-                    "key": "0-1",
-                    "data":{
-                        "name":"FAB 2",
-                        "id":"1ea1ccb3-d532-4a62-8dba-7f23bd25a4c3",
-                        "type":"API"
-                    }
-                },
-                {
-                    "key": "0-2",
-                    "data":{
-                        "name":"FAB 3",
-                        "id":"b5a95b74-18e6-4378-8c07-4db9967654e4",
-                        "type":"API"
-                    }
-                }
-            ]
+          "key": "0-0",
+          "data": {
+            "name": "FAB 1",
+            "id": "c00d4b7d-c862-44e7-83a7-956be5e50b50",
+            "type": "API"
+          }
         },
         {
-            "key": "1",
-            "data":{
-                "name":"test_PS_2",
-                "id":"826baafe-41ed-4486-809c-e4c628687f14",
-                "type":"Product Suite"
-            },
-            "children":[
-                {
-                    "key": "1-0",
-                    "data":{
-                        "name":"MITD",
-                        "id":"fa87d1cd-c6c7-4ee6-9ba4-af674d7903e1",
-                        "type":"API"
-                    }
-                },
-                {
-                    "key": "1-1",
-                    "data":{
-                        "name":"MQSI",
-                        "id":"3c4346c2-fb0e-486e-a962-34ce6baca723",
-                        "type":"API"
-                    }
-                }
-            ]
+          "key": "0-1",
+          "data": {
+            "name": "FAB 2",
+            "id": "1ea1ccb3-d532-4a62-8dba-7f23bd25a4c3",
+            "type": "API"
+          }
         },
         {
-            "key": "2",
-            "data": {
-                "name":"test_PS_3",
-                "id":"753e1ae8-f695-4066-abc7-d99db05577de",
-                "type":"Product Suite"
-            },
-            "children":[
-                {
-                    "key": "2-0",
-                    "data":{
-                        "name":"TSID",
-                        "id":"2b8a8900-9191-4985-872a-7e6afeca35c1",
-                        "type":"API"
-                    }
-                },
-                {
-                    "key": "2-1",
-                    "data":{
-                        "name":"AAID",
-                        "id":"aa0a0957-e87e-4cc0-830d-caf7374ee4f6",
-                        "type":"API"
-                    }
-                }
-            ]
-        },
-        {
-            "key": "3",
-            "data":{
-                "name":"test_PS_4",
-                "id":"13a20670-3145-4e51-b1be-d7d8b6c3ffa5",
-                "type":"Product Suite"
-            },
-            "children":[
-                {
-                    "key": "3-0",
-                    "data":{
-                        "name":"Gas",
-                        "id":"00d3470c-8b6e-4271-8dc0-00e8d6737db4",
-                        "type":"API"
-                    }
-                },
-                {
-                    "key": "3-1",
-                    "data":{
-                        "name":"Water",
-                        "id":"cc98f12b-30a4-4e82-8e80-4671cf2e53f5",
-                        "type":"API"
-                    }
-                }
-            ]
+          "key": "0-2",
+          "data": {
+            "name": "FAB 3",
+            "id": "b5a95b74-18e6-4378-8c07-4db9967654e4",
+            "type": "API"
+          }
         }
-        
-    ]
+      ]
+    },
+    {
+      "key": "1",
+      "data": {
+        "name": "test_PS_2",
+        "id": "826baafe-41ed-4486-809c-e4c628687f14",
+        "type": "Product Suite"
+      },
+      "children": [
+        {
+          "key": "1-0",
+          "data": {
+            "name": "MITD",
+            "id": "fa87d1cd-c6c7-4ee6-9ba4-af674d7903e1",
+            "type": "API"
+          }
+        },
+        {
+          "key": "1-1",
+          "data": {
+            "name": "MQSI",
+            "id": "3c4346c2-fb0e-486e-a962-34ce6baca723",
+            "type": "API"
+          }
+        }
+      ]
+    },
+    {
+      "key": "2",
+      "data": {
+        "name": "test_PS_3",
+        "id": "753e1ae8-f695-4066-abc7-d99db05577de",
+        "type": "Product Suite"
+      },
+      "children": [
+        {
+          "key": "2-0",
+          "data": {
+            "name": "TSID",
+            "id": "2b8a8900-9191-4985-872a-7e6afeca35c1",
+            "type": "API"
+          }
+        },
+        {
+          "key": "2-1",
+          "data": {
+            "name": "AAID",
+            "id": "aa0a0957-e87e-4cc0-830d-caf7374ee4f6",
+            "type": "API"
+          }
+        }
+      ]
+    },
+    {
+      "key": "3",
+      "data": {
+        "name": "test_PS_4",
+        "id": "13a20670-3145-4e51-b1be-d7d8b6c3ffa5",
+        "type": "Product Suite"
+      },
+      "children": [
+        {
+          "key": "3-0",
+          "data": {
+            "name": "Gas",
+            "id": "00d3470c-8b6e-4271-8dc0-00e8d6737db4",
+            "type": "API"
+          }
+        },
+        {
+          "key": "3-1",
+          "data": {
+            "name": "Water",
+            "id": "cc98f12b-30a4-4e82-8e80-4671cf2e53f5",
+            "type": "API"
+          }
+        }
+      ]
+    }
+  ]
 }
-    
