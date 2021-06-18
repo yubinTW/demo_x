@@ -32,14 +32,14 @@ function SummaryPage() {
   //   preworkService.getProductList(e.value).then((data) => setProdcuctList(data))
   // }
   async function onPsChange(e: any) {
-    console.log(e)
-    await setSelectPs(e.value)
-    preworkService.getProductList(e.value).then((data) => setProdcuctList(data))
+    //console.log(e)
+    await setSelectPs(e.target.value)
+    preworkService.getProductList(e.target.value).then((data) => setProdcuctList(data))
   }
   async function onProductChange(e: any) {
-    await setSelectProduct(e.value)
-    console.log(selectedPs, e.value)
-    preworkService.getSubjectData(selectedPs, e.value).then((data) => setSubjectList(data))
+    await setSelectProduct(e.target.value)
+    console.log(selectedPs, e.target.value)
+    preworkService.getSubjectData(selectedPs, e.target.value).then((data) => setSubjectList(data))
   }
 
   return (
@@ -57,8 +57,8 @@ function SummaryPage() {
             <Form.Select onChange={onPsChange} value={selectedPs}>
               <option>Select Product Suite</option>
               {psList.map((item) => (
-                <option key={item['name']} value={item['name']}>
-                  {item['name']}
+                <option key={item} value={item}>
+                  {item}
                 </option>
               ))}
             </Form.Select>
@@ -71,8 +71,8 @@ function SummaryPage() {
               <option>Select Product </option>
 
               {productList.map((item) => (
-                <option key={item['name']} value={item['name']}>
-                  {item['name']}
+                <option key={item} value={item}>
+                  {item}
                 </option>
               ))}
             </Form.Select>
@@ -107,7 +107,7 @@ function SummaryPage() {
       /> */}
       <div className="card mt-2">
         <DataTable value={subjectList} className="datatable-class">
-          <Column field="subject" header="Event Subject"></Column>
+          <Column field="title" header="Event Subject"></Column>
           <Column field="description" header="Description"></Column>
           <Column field="aapiOwner" header="Owner"></Column>
         </DataTable>

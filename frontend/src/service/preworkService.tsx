@@ -1,5 +1,6 @@
 import subjectData from './../resource/subjectData.json'
 import { NodeService } from './NodeService'
+import { Status,AapiBody } from './serviceObject'
 export class PreworkService {
   psList: any
   psDictProductList: any
@@ -7,23 +8,24 @@ export class PreworkService {
   statusType: number = 0
   async setUpData() {
     const nodeservice = new NodeService()
-    const data: any = await nodeservice.getProductSuiteData()
+    const data: AapiBody[] = await nodeservice.getProductSuiteData()
     //this.data = nodeservice.getProductSuiteData()
+    //console.log(typeof data)
     this.psList = []
     this.psDictProductList = {}
     this.dataDict = {}
     this.statusType = 1
     for (var aapi of data) {
-      if (this.psList.includes(aapi['productSuite']) === false) {
-        this.psList.push(aapi['productSuite'])
-        this.psDictProductList[aapi['productSuite']] = []
-        this.dataDict[aapi['productSuite']] = {}
+      if (this.psList.includes(aapi.productSuite) === false) {
+        this.psList.push(aapi.productSuite)
+        this.psDictProductList[aapi.productSuite] = []
+        this.dataDict[aapi.productSuite] = {}
       }
-      if (this.psDictProductList[aapi['productSuite']].includes(aapi['product']) === false) {
-        this.psDictProductList[aapi['productSuite']].push(aapi['product'])
-        this.dataDict[aapi['productSuite']][aapi['product']] = []
+      if (this.psDictProductList[aapi.productSuite].includes(aapi.product) === false) {
+        this.psDictProductList[aapi.productSuite].push(aapi['product'])
+        this.dataDict[aapi.productSuite][aapi.product] = []
       }
-      this.dataDict[aapi['productSuite']][aapi['product']].push(aapi)
+      this.dataDict[aapi.productSuite][aapi.product].push(aapi)
     }
     //console.log(this.psList)
   }

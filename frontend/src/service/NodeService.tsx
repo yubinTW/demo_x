@@ -1,18 +1,22 @@
 import axios from 'axios'
+import * as A from 'fp-ts/Array'
+import * as TE from 'fp-ts/TaskEither'
+import * as O from 'fp-ts/lib/Option'
+import * as E from 'fp-ts/Either'
+import { of } from 'fp-ts/Identity'
+import { zero } from 'fp-ts/Array'
+import { Status, AapiBody } from './serviceObject'
+
 
 export class NodeService {
     async getProductSuiteData()
     {
-        try
-        {
-            const res = await axios.get('./productsuite')
-            //console.log(res.data.aapis)
-            return res.data.aapis
-        }
-        catch(e)
-        {
-            console.error(e)
-        }
+        
+        const res = await axios.get<AapiBody[]>('./productsuite')
+        //console.log(res.data.aapis)
+        //switch(res.status === 200)
+
+        return res.data
     }
     async getTreeSideBarNodes()
     {
@@ -87,4 +91,5 @@ export class NodeService {
     
     */
 }
+
     

@@ -2,28 +2,28 @@
     "aapis":
     [
         {
-            "subject":"GigaCIM.SiMM.Lot.LotHold.AMFH",
+            "title":"GigaCIM.SiMM.Lot.LotHold.AMFH",
             "aapiOwner":"LCLIAOB",
             "description":"test test test",
             "productSuite":"GigaCIM",
             "product":"SiMM"
         },
         {
-            "subject":"GigaCIM.SiMM.Lot.LotHold.AOAH",
+            "title":"GigaCIM.SiMM.Lot.LotHold.AOAH",
             "aapiOwner":"LCLIAOB",
             "description":"test test test",
             "productSuite":"GigaCIM",
             "product":"SiMM"
         },
         {
-            "subject":"GigaCIM.SiMM.Lot.LotHold.AUTO",
+            "title":"GigaCIM.SiMM.Lot.LotHold.AUTO",
             "aapiOwner":"LCLIAOB",
             "description":"test test test",
             "productSuite":"GigaCIM",
             "product":"SiMM"
         },
         {
-            "subject":"FAB.testN.Lot.LotHold.JJJJ",
+            "title":"FAB.testN.Lot.LotHold.JJJJ",
             "aapiOwner":"LCLIAOB",
             "description":"test test test",
             "productSuite":"FAB",

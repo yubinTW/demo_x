@@ -38,9 +38,9 @@ export function MockServer({environment = "test"}) {
             this.get("/subject-list", ()=> ({
                 root: treeSideData["root"],
             }))
-            this.get("/productsuite", ()=> ({
-                aapis: psData["aapis"]
-            }))
+            this.get("/productsuite", ()=> (
+                psData["aapis"]
+            ))
         },
     })
 }
