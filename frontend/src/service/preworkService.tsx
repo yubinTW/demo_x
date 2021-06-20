@@ -1,6 +1,9 @@
+import * as TE from 'fp-ts/TaskEither'
+import { zero } from 'fp-ts/Array'
 import subjectData from './../resource/subjectData.json'
 import { NodeService } from './NodeService'
 import { Status, AapiBody } from './serviceObject'
+
 export class PreworkService {
   psList: any
   psDictProductList: any
@@ -8,7 +11,17 @@ export class PreworkService {
   statusType: number = 0
   async setUpData() {
     const nodeservice = new NodeService()
-    const data: AapiBody[] = await nodeservice.getProductSuiteData()
+
+    // const data: AapiBody[] = await nodeservice.getProductSuiteData()
+
+    const data = await TE.match<Error, Array<AapiBody>, Array<AapiBody>>(
+      (e) => {
+        console.log(`Get ProductSuite Data Error: ${e}`)
+        return zero<AapiBody>()
+      },
+      (r) => r
+    )(nodeservice.getProductSuiteData())()
+
     //this.data = nodeservice.getProductSuiteData()
     //console.log(typeof data)
     this.psList = []

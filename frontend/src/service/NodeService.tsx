@@ -1,20 +1,28 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import * as A from 'fp-ts/Array'
 import * as TE from 'fp-ts/TaskEither'
 import * as O from 'fp-ts/lib/Option'
 import * as E from 'fp-ts/Either'
 import { of } from 'fp-ts/Identity'
 import { zero } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/lib/function'
 import { Status, AapiBody } from './serviceObject'
 
 export class NodeService {
-  async getProductSuiteData() {
-    const res = await axios.get<AapiBody[]>('./productsuite')
-    //console.log(res.data.aapis)
-    //switch(res.status === 200)
+  // async getProductSuiteData() {
+  //   return await axios.get<AapiBody[]>('./productsuite')
+  // }
 
-    return res.data
+  getProductSuiteData(): TE.TaskEither<Error, AapiBody[]> {
+    return pipe(
+      TE.tryCatch<Error, AxiosResponse<Array<AapiBody>>>(
+        () => axios.get<AapiBody[]>('/v1/productsuite'),
+        (err) => new Error(`GET ProductSuite Error: ${err}`)
+      ),
+      TE.map<AxiosResponse, Array<AapiBody>>((res) => res.data['aapis'])
+    )
   }
+
   async getTreeSideBarNodes() {
     try {
       const res = await axios.get('/subject-list')
