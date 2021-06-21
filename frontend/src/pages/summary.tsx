@@ -17,7 +17,7 @@ function SummaryPage() {
   const [psList, setPsList] = useState([])
   const [selectedPs, setSelectPs] = useState<string | ''>('')
   const [selectedProduct, setSelectProduct] = useState<string | ''>('')
-  const [productList, setProdcuctList] = useState([])
+  const [productList, setProductList] = useState([])
   const [subjectList, setSubjectList] = useState([])
   const preworkService = new PreworkService()
 
@@ -34,7 +34,12 @@ function SummaryPage() {
   async function onPsChange(e: any) {
     //console.log(e)
     await setSelectPs(e.target.value)
-    preworkService.getProductList(e.target.value).then((data) => setProdcuctList(data))
+    if (e.target.value) {
+      preworkService.getProductList(e.target.value).then((data) => setProductList(data))
+    } else {
+      setProductList([])
+      setSubjectList([])
+    }
   }
   async function onProductChange(e: any) {
     await setSelectProduct(e.target.value)
@@ -55,7 +60,7 @@ function SummaryPage() {
           <Form.Group id="ps-filter">
             <Form.Label>Product Suites</Form.Label>
             <Form.Select onChange={onPsChange} value={selectedPs}>
-              <option>Select Product Suite</option>
+              <option value="">Select Product Suite</option>
               {psList.map((item) => (
                 <option key={item} value={item}>
                   {item}
@@ -106,7 +111,7 @@ function SummaryPage() {
         placeholder="Select a Product"
       /> */}
       <div className="card mt-2">
-        <DataTable value={subjectList} className="datatable-class">
+        <DataTable value={subjectList} className="datatable-class" paginator>
           <Column field="title" header="Event Subject"></Column>
           <Column field="description" header="Description"></Column>
           <Column field="aapiOwner" header="Owner"></Column>
