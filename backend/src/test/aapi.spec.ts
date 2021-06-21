@@ -88,7 +88,6 @@ describe('Aapi test', () => {
     expect(res2.aapis[0].doc).toBe('this is test1')
     expect(res2.aapis[0].status).toBe('on')
 
-    
     // getById
     const getByIdResponse = await server.inject({ method: 'GET', url: `/v1/aapi/${res.aapi._id}` })
     expect(getByIdResponse.statusCode).toBe(200)
@@ -141,5 +140,4 @@ describe('Aapi test', () => {
 
     expect(response.statusCode).toBe(404)
   })
-
 })
