@@ -19,7 +19,9 @@ export class NodeService {
         () => axios.get<AapiBody[]>('/v1/productsuite'),
         (err) => new Error(`GET ProductSuite Error: ${err}`)
       ),
-      TE.map<AxiosResponse, Array<AapiBody>>((res) => res.data['aapis'])
+      TE.map<AxiosResponse<Array<AapiBody>>, Array<AapiBody>>(
+        res => 'aapis' in res.data ? res.data['aapis'] : zero<AapiBody>()
+      )
     )
   }
 
