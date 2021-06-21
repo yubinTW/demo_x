@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 import { Routes } from '../routes/routes'
 import TsmcLogo from '../assets/img//Tsmc.svg.png'
 
-export default () => {
+const Presentation = () => {
   return (
     <>
       <Navbar
@@ -149,3 +149,5 @@ export default () => {
     </>
   )
 }
+
+export default Presentation

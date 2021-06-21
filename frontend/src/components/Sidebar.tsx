@@ -10,6 +10,7 @@ import {
   faCog,
   faFileAlt,
   faHandHoldingUsd,
+  faListAlt,
   faSignOutAlt,
   faTable,
   faTimes,
@@ -22,7 +23,7 @@ import TsmcLogo from '../assets/img//Tsmc.svg.png'
 
 import ProfilePicture from '../assets/img/team/profile-picture-3.jpg'
 
-export default (props = {}) => {
+const Sidebar = (props = {}) => {
   const location = useLocation()
   const { pathname } = location
   const [show, setShow] = useState(false)
@@ -128,10 +129,10 @@ export default (props = {}) => {
                 <div className="d-block">
                   <h6>Hi, Jane</h6>
                   <Button
-                    as={Link}
+                    // as={Link}
                     variant="secondary"
                     size="sm"
-                    to={Routes.Signin.path}
+                    // to={Routes.Signin.path}
                     className="text-dark"
                   >
                     <FontAwesomeIcon icon={faSignOutAlt} className="me-2" /> Sign Out
@@ -146,6 +147,7 @@ export default (props = {}) => {
               <NavItem title="Product X" link={Routes.Presentation.path} image={TsmcLogo} />
               <NavItem title="Product Suites" link={Routes.ProductSuites.path} icon={faTable} />
               <NavItem title="Summary" link={Routes.SummaryPage.path} icon={faTable} />
+              <NavItem title="My Events" link={Routes.MyEventPage.path} icon={faListAlt} />
               <NavItem title="App Demo" link={Routes.App.path} badgeText="Demo" icon={faFileAlt} />
 
               {/* <NavItem title="Overview" link={Routes.DashboardOverview.path} icon={faChartPie} />
@@ -206,3 +208,4 @@ export default (props = {}) => {
     </>
   )
 }
+export default Sidebar
