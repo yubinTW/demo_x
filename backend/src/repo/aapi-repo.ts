@@ -4,7 +4,7 @@ import * as O from 'fp-ts/lib/Option'
 import * as E from 'fp-ts/Either'
 import Aapi from '../models/aapi'
 import { Status, IAapi, AapiBody, MongoAapi } from '../types/aapi'
-
+import { psSummaryItem } from '../types/productSuite'
 // const str2Status: (v: string) => Status = (v) => {
 //     switch (v.toLowerCase()) {
 //       case Status.On:
@@ -80,6 +80,15 @@ class AapiRepoImpl implements AapiRepo {
       TE.tryCatch(
         () => Aapi.findByIdAndDelete(id).exec(),
         (e) => new Error(`Failed to delete aapi by id : ${e}`)
+      )
+    )
+  }
+
+  getProductSuiteSummary(): TE.TaskEither<Error, O.Option<Readonly<Array<psSummaryItem>>>> {
+    return TE.map<any, O.Option<Readonly<Array<psSummaryItem>>>>((f) => (f instanceof Array ? O.some(f) : O.none))(
+      TE.tryCatch(
+        () => Aapi.find().exec(),
+        (e) => new Error(`Failed to get all API: ${e}`)
       )
     )
   }
