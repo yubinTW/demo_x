@@ -6,6 +6,7 @@ import { Server, IncomingMessage, ServerResponse } from 'http'
 import * as dbHandler from './db'
 import { tryCatch, match } from 'fp-ts/Either'
 import { IAapi } from '../types/aapi'
+import { psSummaryItem } from '../types/productSuite'
 
 describe('Aapi test', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>
@@ -55,6 +56,7 @@ describe('Aapi test', () => {
       url: '/v1/aapi',
       payload: {
         title: 'aapi01',
+        description: 'test',
         productSuite: 'ps01',
         product: 'product01',
         aapiOwner: 'ywchuo',
@@ -68,6 +70,7 @@ describe('Aapi test', () => {
 
     const res: { aapi: IAapi } = JSON.parse(response.body)
     expect(res.aapi.title).toBe('aapi01')
+    expect(res.aapi.description).toBe('test')
     expect(res.aapi.productSuite).toBe('ps01')
     expect(res.aapi.product).toBe('product01')
     expect(res.aapi.aapiOwner).toBe('ywchuo')
@@ -81,6 +84,7 @@ describe('Aapi test', () => {
     const res2: { aapis: Array<IAapi> } = JSON.parse(getResponse.body)
     expect(res2.aapis.length).toBe(1)
     expect(res2.aapis[0].title).toBe('aapi01')
+    expect(res2.aapis[0].description).toBe('test')
     expect(res2.aapis[0].productSuite).toBe('ps01')
     expect(res2.aapis[0].product).toBe('product01')
     expect(res2.aapis[0].aapiOwner).toBe('ywchuo')
@@ -93,6 +97,7 @@ describe('Aapi test', () => {
     expect(getByIdResponse.statusCode).toBe(200)
     const res3: { aapi: IAapi } = JSON.parse(getByIdResponse.body)
     expect(res3.aapi.title).toBe('aapi01')
+    expect(res3.aapi.description).toBe('test')
     expect(res3.aapi.productSuite).toBe('ps01')
     expect(res3.aapi.product).toBe('product01')
     expect(res3.aapi.aapiOwner).toBe('ywchuo')
@@ -111,6 +116,7 @@ describe('Aapi test', () => {
     expect(updateByIdResponse.statusCode).toBe(200)
     const res4: { aapi: IAapi } = JSON.parse(updateByIdResponse.body)
     expect(res4.aapi.title).toBe('aapi01')
+    expect(res4.aapi.description).toBe('test')
     expect(res4.aapi.productSuite).toBe('ps01')
     expect(res4.aapi.product).toBe('product01')
     expect(res4.aapi.aapiOwner).toBe('Jia-Wei')
@@ -139,5 +145,39 @@ describe('Aapi test', () => {
     const response = await server.inject({ method: 'DELETE', url: `/v1/aapi/${fakeId}` })
 
     expect(response.statusCode).toBe(404)
+  })
+
+  it('should return empty array when get /v1/productSuite', async () => {
+    const response = await server.inject({ method: 'GET', url: `/v1/productSuite` })
+    expect(response.statusCode).toBe(200)
+    const resultData = JSON.parse(response.body)
+    expect(resultData['aapis'].length).toBe(0)
+  })
+
+  it('should return psSummaryItem list', async () => {
+    const response = await server.inject({
+      method: 'POST',
+      url: '/v1/aapi',
+      payload: {
+        title: 'aapi01',
+        description: 'test',
+        productSuite: 'ps01',
+        product: 'product01',
+        aapiOwner: 'ywchuo',
+        subject: 'ps01.product01.user01.event01',
+        doc: 'this is test1',
+        status: 'on'
+      }
+    })
+
+    const getResponse = await server.inject({ method: 'GET', url: '/v1/productSuite' })
+    expect(getResponse.statusCode).toBe(200)
+    const res: { aapis: Array<psSummaryItem> } = JSON.parse(getResponse.body)
+    expect(res.aapis.length).toBe(1)
+    expect(res.aapis[0].title).toBe('aapi01')
+    expect(res.aapis[0].description).toBe('test')
+    expect(res.aapis[0].productSuite).toBe('ps01')
+    expect(res.aapis[0].product).toBe('product01')
+    expect(res.aapis[0].aapiOwner).toBe('ywchuo')
   })
 })
