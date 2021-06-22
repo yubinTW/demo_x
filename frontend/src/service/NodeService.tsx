@@ -6,21 +6,36 @@ import * as E from 'fp-ts/Either'
 import { of } from 'fp-ts/Identity'
 import { zero } from 'fp-ts/Array'
 import { pipe } from 'fp-ts/lib/function'
-import { Status, AapiBody } from './serviceObject'
+import { Status, AapiBody, EventBody } from './serviceObject'
 
 export class NodeService {
   // async getProductSuiteData() {
   //   return await axios.get<AapiBody[]>('./productsuite')
   // }
 
-  getProductSuiteData(): TE.TaskEither<Error, AapiBody[]> {
+  getProductSuiteData(): TE.TaskEither<Error, Array<AapiBody>> {
     return pipe(
       TE.tryCatch<Error, AxiosResponse<Array<AapiBody>>>(
         () => axios.get<AapiBody[]>('/v1/productsuite'),
         (err) => new Error(`GET ProductSuite Error: ${err}`)
       ),
-      TE.map<AxiosResponse<Array<AapiBody>>, Array<AapiBody>>(
-        res => 'aapis' in res.data ? res.data['aapis'] : zero<AapiBody>()
+      TE.map<AxiosResponse<Array<AapiBody>>, Array<AapiBody>>((res) =>
+        'aapis' in res.data ? res.data['aapis'] : zero<AapiBody>()
+      )
+    )
+  }
+  getMyEventData(): TE.TaskEither<Error, EventBody> {
+    return pipe(
+      TE.tryCatch<Error, AxiosResponse<EventBody>>(
+        () => axios.get<EventBody>('/v1/myevent'),
+        (err) => new Error(`GET My Event Page Error: ${err}`)
+      ),
+      TE.map<AxiosResponse<EventBody>, EventBody>((res) =>
+        'event' in res.data
+          ? 'own' in res.data['event'] && 'subscribe' in res.data['event']
+            ? res.data['event']
+            : zero<EventBody>()
+          : zero<EventBody>()
       )
     )
   }
@@ -48,7 +63,7 @@ export class NodeService {
     //const path:string = ('/api/'.concat(String(id)))
     //console.log(path)
     try {
-      const res = await axios.get(`/aapi/${id}`)
+      const res = await axios.get(`/v1/aapi/${id}`)
 
       return res.data
     } catch (e) {
@@ -58,7 +73,7 @@ export class NodeService {
   async postRegistApiForm(apiName: string, productSuite: string, apiOwner: string, docs: string) {
     try {
       const res = await axios.post('/aapi', {
-        name: apiName,
+        title: apiName,
         productSuite: productSuite,
         apiOwner: apiOwner,
         docs: docs,

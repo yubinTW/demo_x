@@ -48,7 +48,7 @@ export class PreworkService {
     /*const psList:any = [
             {name: "GigaCIM"}
         ]*/
-    if (this.statusType == 0) {
+    if (this.statusType === 0) {
       await this.setUpData()
     }
 
@@ -60,14 +60,14 @@ export class PreworkService {
             {name: "SiMM"},
             {name: "Fab"}
         ]*/
-    if (this.statusType == 0) {
+    if (this.statusType === 0) {
       await this.setUpData()
     }
     return this.psDictProductList[psName]
   }
   async getSubjectData(ps: string, product: string) {
     //const retureData: any = subjectData
-    if (this.statusType == 0) {
+    if (this.statusType === 0) {
       await this.setUpData()
     }
     return this.dataDict[ps][product]
