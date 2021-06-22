@@ -16,6 +16,7 @@ const AapiRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
       Type.Object({
         _id: Type.String(),
         title: Type.String(),
+        description: Type.String(),
         productSuite: Type.String(),
         product: Type.String(),
         aapiOwner: Type.String(),
@@ -41,6 +42,7 @@ const AapiRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
     aapi: Type.Object({
       _id: Type.String(),
       title: Type.String(),
+      description: Type.String(),
       productSuite: Type.String(),
       product: Type.String(),
       aapiOwner: Type.String(),
