@@ -19,53 +19,39 @@ import { SourceMap } from 'module'
 import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
 import { zero } from 'fp-ts/Array'
-import { EventBody } from '../service/serviceObject'
+import { AapiBody, EventBody } from '../service/serviceObject'
 function MyEventPage() {
   const [displayBasic, setDisplayBasic] = useState(false)
+  const [eventOwnerPage,setEventOwnerPage] = useState<Array<AapiBody>>([])
+  const [eventSubscriberPage,setEventSubscriberPage] = useState<Array<AapiBody>>([])
   const nodeService = new NodeService()
 
-  useEffect(() => {
-    TE.match<Error, EventBody, EventBody>(
+  async function setUpData(){
+    const data = await TE.match<Error, EventBody, EventBody>(
       (e) => {
         console.error(`Get My Event Data Error: ${e}`)
         return {} as EventBody
       },
       (r) => {
-        console.log(r)
+        //console.log(r)
+        if('own' in r && 'subscribe' in r)
+        {
+          setEventOwnerPage(r.own)
+          setEventSubscriberPage(r.subscribe)
+        }
+        else
+        {
+          console.error("Get data error")
+        }
         return r
       }
     )(nodeService.getMyEventData())()
+    
+  }
+  useEffect(() => {
+    setUpData()
   }, [])
-  const eventList = [
-    {
-      title: 'GigaCIM.SiMM.Lot.LotHold.AMFH',
-      aapiOwner: 'LCLIAOB',
-      description: 'test test test',
-      productSuite: 'GigaCIM',
-      product: 'SiMM',
-    },
-    {
-      title: 'GigaCIM.SiMM.Lot.LotHold.AOAH',
-      aapiOwner: 'LCLIAOB',
-      description: 'test test test',
-      productSuite: 'GigaCIM',
-      product: 'SiMM',
-    },
-    {
-      title: 'GigaCIM.SiMM.Lot.LotHold.AUTO',
-      aapiOwner: 'LCLIAOB',
-      description: 'test test test',
-      productSuite: 'GigaCIM',
-      product: 'SiMM',
-    },
-    {
-      title: 'FAB.testN.Lot.LotHold.JJJJ',
-      aapiOwner: 'LCLIAOB',
-      description: 'test test test',
-      productSuite: 'FAB',
-      product: 'testN',
-    },
-  ]
+
   const sList = ['susciber1', 'susciber2', 'susciber3', 'susciber4', 'susciber5', 'susciber6']
   const viewSubscriberTemplate = (rowData) => {
     return (
@@ -112,7 +98,7 @@ function MyEventPage() {
       </div>
 
       <div className="card mt-2">
-        <DataTable value={eventList} className="datatable-class" paginator>
+        <DataTable value={eventOwnerPage} className="datatable-class" paginator>
           <Column field="title" header="Event Subject"></Column>
           <Column field="description" header="Description"></Column>
           <Column field="aapiOwner" header="Owner"></Column>
