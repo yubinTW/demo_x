@@ -2,11 +2,35 @@ openapi: 3.0.0
 info:
   title: API spec of X
   description: Some API spec of x for handling data transfer between frontend and backend
-  version: 0.0.4
+  version: 0.0.5
 servers:
-  - url: http://{apiUrl}
+  - url: http://{apiUrl}/v1
     description: API endpoint of backend
 paths:
+  /myevent:
+    get:
+      tags:
+        - "Product Suite"
+      summary: return aapi list according to user permission
+      description: return aapi list user can view or own.
+      responses:
+        "200":
+          description: A JSON Array of product suite infos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  own:
+                    type: array
+                    description: aapi list which is owned or managed by this user 
+                    items:
+                      $ref: "#/components/schemas/AAPI"
+                  subscribe:
+                    type: array
+                    description: aapi list which is subscribed by this user
+                    items:
+                      $ref: "#/components/schemas/AAPI"
   /productsuite:
     get:
       tags:
@@ -157,15 +181,21 @@ components:
         _id:
           type: string
           description: The ID of this AAPI
-        name:
+        title:
           type: string
-          description: The name of this AAPI, ps
+          description: The title of this AAPI, ps
+        description:
+          type: string
+          description: The description of this AAPI
         productSuite:
           type: string
           description: The productSuite of this AAPI, ps
         product:
           type: string
           description: The product of this AAPI, ps
+        subject:
+          type: string
+          description: The subject (channel) of this AAPI
         aapiOwner:
           type: string
           description: The own of this AAPI, ps

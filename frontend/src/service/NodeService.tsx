@@ -13,7 +13,7 @@ export class NodeService {
   //   return await axios.get<AapiBody[]>('./productsuite')
   // }
 
-  getProductSuiteData(): TE.TaskEither<Error, AapiBody[]> {
+  getProductSuiteData(): TE.TaskEither<Error, Array<AapiBody>> {
     return pipe(
       TE.tryCatch<Error, AxiosResponse<Array<AapiBody>>>(
         () => axios.get<AapiBody[]>('/v1/productsuite'),
@@ -48,7 +48,7 @@ export class NodeService {
     //const path:string = ('/api/'.concat(String(id)))
     //console.log(path)
     try {
-      const res = await axios.get(`/aapi/${id}`)
+      const res = await axios.get(`/v1/aapi/${id}`)
 
       return res.data
     } catch (e) {
@@ -58,7 +58,7 @@ export class NodeService {
   async postRegistApiForm(apiName: string, productSuite: string, apiOwner: string, docs: string) {
     try {
       const res = await axios.post('/aapi', {
-        name: apiName,
+        title: apiName,
         productSuite: productSuite,
         apiOwner: apiOwner,
         docs: docs,

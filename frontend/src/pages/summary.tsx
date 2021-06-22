@@ -36,6 +36,7 @@ function SummaryPage() {
     await setSelectPs(e.target.value)
     if (e.target.value) {
       preworkService.getProductList(e.target.value).then((data) => setProductList(data))
+      setSubjectList([])
     } else {
       setProductList([])
       setSubjectList([])

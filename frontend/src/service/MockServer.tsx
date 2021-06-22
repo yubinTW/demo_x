@@ -20,9 +20,12 @@ export function MockServer({ environment = 'test' }) {
                 apiId: JSON.parse(request.queryParams.id).id,
                 api: mockapi,
             }))*/
-      this.get('/aapi/:id', (schema, request) => ({
+      this.get('/v1/myevent', (schema, request) => ({
+
+      }))
+      this.get('/v1/aapi/:id', (schema, request) => ({
         id: request.params.id,
-        name: 'test_api_name',
+        title: 'test_api_name',
         productSuite: 'NTAP_test',
         aapiOwner: 'LCLIAOB',
         doc_json: mockapi,
