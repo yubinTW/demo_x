@@ -6,8 +6,4 @@ export const Routes = {
   App: { path: '/App' },
   SummaryPage: { path: '/summary-board' },
   MyEventPage: { path: '/my-event' },
-
- 
-
-  
 }
