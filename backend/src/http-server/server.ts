@@ -68,10 +68,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
 
   /* auth user by a4 token before User Handler */
   server.addHook('preHandler', (request: FastifyRequest, reply: FastifyReply, done) => {
-    // 'A4Token' need to replace in production
-    const a4Token = 'A4Token' in request.cookies ? request.cookies.A4Token : ''
-    console.log('a4Token = ', a4Token)
-    // TODO: validate the token
+    // TODO: implement by KeyCloak
 
     done()
   })
