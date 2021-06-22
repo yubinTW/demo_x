@@ -18,5 +18,7 @@ export type AapiBody = {
   readonly subscribers: []
   readonly status: Status
   readonly comment: string
+  readonly createdAt: string
+  readonly updatedAt:string
 }
 export { Status }

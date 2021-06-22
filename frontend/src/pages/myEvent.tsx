@@ -14,7 +14,8 @@ import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faListAlt } from '@fortawesome/free-solid-svg-icons'
+import { TabView, TabPanel } from 'primereact/tabview';
+import { faListAlt, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { SourceMap } from 'module'
 import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
@@ -23,6 +24,7 @@ import { AapiBody, EventBody } from '../service/serviceObject'
 function MyEventPage() {
   const [displayBasic, setDisplayBasic] = useState(false)
   const [eventOwnerPage,setEventOwnerPage] = useState<Array<AapiBody>>([])
+  const [subscriberList,setSubscriberList] = useState<Array<String>>([])
   const [eventSubscriberPage,setEventSubscriberPage] = useState<Array<AapiBody>>([])
   const nodeService = new NodeService()
 
@@ -52,19 +54,39 @@ function MyEventPage() {
     setUpData()
   }, [])
 
-  const sList = ['susciber1', 'susciber2', 'susciber3', 'susciber4', 'susciber5', 'susciber6']
+  //const sList = ['susciber1', 'susciber2', 'susciber3', 'susciber4', 'susciber5', 'susciber6']
   const viewSubscriberTemplate = (rowData) => {
+    //console.log(rowData)
     return (
-      <Button className="p-button-primary p-button-sm" onClick={() => onClick()}>
+      <Button className="p-button-primary p-button-sm" onClick={() => onClick(rowData["subscribers"])}>
         <FontAwesomeIcon icon={faListAlt} className="d-none d-md-inline ms-0" />
+      </Button>
+    )
+  }
+  const redirectAPI = (apiId: string) => {
+    const npath = '/api-viewer/'
+    const pathconcat = npath.concat(apiId)
+   // window.location.pathname = pathconcat
+   window.open(pathconcat,"_blank")
+  }
+  const viewAPITemplate = (rowData) => {
+    //console.log(rowData)
+    return (
+      <Button className="p-button-primary p-button-sm" onClick={() => redirectAPI(rowData["id"])}>
+        <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-md-inline ms-0 m-1" /> view API
       </Button>
     )
   }
   const onHide = () => {
     setDisplayBasic(false)
   }
-  const onClick = () => {
+  const onClick = (subList: Array<String>) => {
     setDisplayBasic(true)
+    if(subList !== undefined)
+    {
+      setSubscriberList(subList)
+    }
+    
   }
   const renderFooter = () => {
     return (
@@ -76,48 +98,85 @@ function MyEventPage() {
 
   return (
     <div>
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-        <div className="d-block mb-4 mb-md-0">
-          <h4>My Event List</h4>
-          <p className="mb-0">show all events you have authorization to review subscribers</p>
+      <TabView>
+      <TabPanel header="My Event List">
+        {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+          <div className="d-block mb-4 mb-md-0">
+          
+            
+            <p className="mb-0">show all events you have authorization to review subscribers</p>
+          </div>
+        </div> */}
+        <div className="p-grid">
+          <div className="p-col-6"></div>
+          <div className="p-offset-3 p-col-3">
+            <Form.Group id="pd-filter">
+              {/* <Form.Label>Event Subject Search</Form.Label> */}
+              <InputGroup>
+                <InputGroup.Text>
+                  <FontAwesomeIcon icon={faSearch} />
+                </InputGroup.Text>
+                <Form.Control type="text" placeholder="Search" />
+              </InputGroup>
+            </Form.Group>
+          </div>
         </div>
-      </div>
-      <div className="p-grid">
-        <div className="p-col-6"></div>
-        <div className="p-offset-3 p-col-3">
-          <Form.Group id="pd-filter">
-            {/* <Form.Label>Event Subject Search</Form.Label> */}
-            <InputGroup>
-              <InputGroup.Text>
-                <FontAwesomeIcon icon={faSearch} />
-              </InputGroup.Text>
-              <Form.Control type="text" placeholder="Search" />
-            </InputGroup>
-          </Form.Group>
-        </div>
-      </div>
 
-      <div className="card mt-2">
-        <DataTable value={eventOwnerPage} className="datatable-class" paginator>
-          <Column field="title" header="Event Subject"></Column>
-          <Column field="description" header="Description"></Column>
-          <Column field="aapiOwner" header="Owner"></Column>
-          <Column field="subsriber" header="View Subscibers" body={viewSubscriberTemplate}></Column>
-        </DataTable>
-      </div>
-      <Dialog
-        header="Suscriber List"
-        visible={displayBasic}
-        style={{ width: '50vw' }}
-        footer={renderFooter()}
-        onHide={() => onHide()}
-      >
-        <ul>
-          {sList.map((item) => (
-            <li>{item}</li>
-          ))}
-        </ul>
-      </Dialog>
+        <div className="card mt-2">
+          <DataTable value={eventOwnerPage} className="datatable-class" paginator>
+            <Column field="title" header="Event Subject"></Column>
+            <Column field="description" header="Description"></Column>
+            <Column field="aapiOwner" header="Owner"></Column>
+            <Column field="subsriber" header="View Subscibers" body={viewSubscriberTemplate}></Column>
+          </DataTable>
+        </div>
+        <Dialog
+          header="Suscriber List"
+          visible={displayBasic}
+          style={{ width: '50vw' }}
+          footer={renderFooter()}
+          onHide={() => onHide()}
+        >
+          <ul>
+            {subscriberList.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </Dialog>
+        </TabPanel>
+        <TabPanel header="My Subscribe List">
+        {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+          <div className="d-block mb-4 mb-md-0">
+          
+            
+            <p className="mb-0">show all events you have authorization to review subscribers</p>
+          </div>
+        </div> */}
+        <div className="p-grid">
+          <div className="p-col-6"></div>
+          <div className="p-offset-3 p-col-3">
+            <Form.Group id="pd-filter">
+              {/* <Form.Label>Event Subject Search</Form.Label> */}
+              <InputGroup>
+                <InputGroup.Text>
+                  <FontAwesomeIcon icon={faSearch} />
+                </InputGroup.Text>
+                <Form.Control type="text" placeholder="Search" />
+              </InputGroup>
+            </Form.Group>
+          </div>
+        </div>
+
+        <div className="card mt-2">
+          <DataTable value={eventSubscriberPage} className="datatable-class" paginator>
+            <Column field="title" header="Event Subject"></Column>
+            <Column field="description" header="Description"></Column>
+            <Column field="aapiOwner" header="Owner"></Column>
+            <Column field="api_infos" header="View API Document" body={viewAPITemplate}></Column>
+          </DataTable>
+        </div>
+        </TabPanel>
+      </TabView>
     </div>
   )
 }

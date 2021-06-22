@@ -19,6 +19,7 @@ function SummaryPage() {
   const [selectedProduct, setSelectProduct] = useState<string | ''>('')
   const [productList, setProductList] = useState([])
   const [subjectList, setSubjectList] = useState([])
+  const [loadDataState,setLoadDataState] = useState<number>(0)
   const preworkService = new PreworkService()
 
   //const doc = parser.parse(nodeservice.getApiData());
@@ -45,7 +46,7 @@ function SummaryPage() {
   async function onProductChange(e: any) {
     await setSelectProduct(e.target.value)
     console.log(selectedPs, e.target.value)
-    preworkService.getSubjectData(selectedPs, e.target.value).then((data) => setSubjectList(data))
+    preworkService.getSubjectData( selectedPs, e.target.value).then((data) => setSubjectList(data))
   }
 
   return (

@@ -5,6 +5,10 @@ import AsyncApiComponent from '@asyncapi/react-component'
 import { useParams } from 'react-router-dom'
 import { Card } from 'primereact/card'
 import { Divider } from 'primereact/divider'
+import * as TE from 'fp-ts/TaskEither'
+import { zero } from 'fp-ts/Array'
+import { AapiBody, EventBody } from '../service/serviceObject'
+
 import '@asyncapi/react-component/lib/styles/fiori.css'
 import 'primereact/resources/primereact.css'
 import 'primeflex/primeflex.css'
@@ -16,20 +20,28 @@ function APIViewer() {
   const [apiName, setApiName] = useState<string | ''>('')
   const [createdAt, setCreateAt] = useState<string | ''>('')
   const [updatedAt, setUpdatedAt] = useState<string | ''>('')
-  const nodeservice = new NodeService()
+  const nodeService = new NodeService()
 
   const id: string = useParams()['id']
 
   //const doc = parser.parse(nodeservice.getApiData());
   async function getData() {
     console.log(id)
-    await nodeservice.getApiData(id).then((ans) => {
-      setApiOwner(ans.aapiOwner)
-      setApidoc(ans.doc_json)
-      setApiName(ans.name)
-      setCreateAt(ans.createdAt)
-      setUpdatedAt(ans.updatedAt)
-    })
+    const data = await TE.match<Error, AapiBody, AapiBody>(
+      (e) => {
+        console.error(`Get My API Info  Error: ${e}`)
+        return {} as AapiBody
+      },
+      (r) => {
+        //console.log(r)
+        setApiOwner(r.aapiOwner)
+        setApidoc(r.doc_json)
+        setApiName(r.title)
+        setCreateAt(r.createdAt)
+        setUpdatedAt(r.updatedAt)
+        return r
+      }
+    )(nodeService.getApiData(id))()
   }
   useEffect(() => {
     getData()
