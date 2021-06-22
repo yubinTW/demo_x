@@ -69,8 +69,8 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
             <Navbar />
             <Component {...props} />
             {/* <Footer toggleSettings={toggleSettings} showSettings={showSettings} /> */}
-            <Footer toggleSettings={toggleSettings} showSettings={false} />
           </main>
+          <Footer toggleSettings={toggleSettings} showSettings={false} />
         </>
       )}
     />
