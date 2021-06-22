@@ -1,4 +1,6 @@
-import fastify, { FastifyInstance } from 'fastify'
+import fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyCookieOptions } from 'fastify-cookie'
+import cookie from 'fastify-cookie'
 import { Server, IncomingMessage, ServerResponse, request } from 'http'
 import { fromNullable, match, map, getOrElse } from 'fp-ts/Option'
 import { FastifyPort, EnvConfigRepoImpl, RuntimeEnv } from '../repo/config-repo'
@@ -9,6 +11,7 @@ import FastifyStatic from 'fastify-static'
 import path from 'path'
 import { establishConnection } from '../plugins/mongodb'
 import { fastifyFunky } from 'fastify-funky'
+import * as O from 'fp-ts/Option'
 
 /* tslint:disable:no-console */
 const shouldPrettyPrint = getOrElse(() => false)(
@@ -18,6 +21,11 @@ const server: FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify
   logger: { prettyPrint: shouldPrettyPrint }
 })
 
+server.register(cookie, {
+  secret: '', // for cookies signature
+  parseOptions: {} // options for parsing cookies
+} as FastifyCookieOptions)
+
 /**
  * Start a Fastify server
  *
@@ -26,7 +34,7 @@ const server: FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify
  */
 const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessage, ServerResponse> = (port) => {
   server.listen(port, (err, _) => {
-    match<Error, void>(
+    O.match<Error, void>(
       () => establishConnection(),
       (e) => {
         console.error(e)
@@ -56,6 +64,13 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
       default:
     }
     next()
+  })
+
+  /* auth user by a4 token before User Handler */
+  server.addHook('preHandler', (request: FastifyRequest, reply: FastifyReply, done) => {
+    // TODO: implement by KeyCloak
+
+    done()
   })
 
   server.register(fastifyFunky)
