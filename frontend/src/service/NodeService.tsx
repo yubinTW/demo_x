@@ -6,7 +6,7 @@ import * as E from 'fp-ts/Either'
 import { of } from 'fp-ts/Identity'
 import { zero } from 'fp-ts/Array'
 import { pipe } from 'fp-ts/lib/function'
-import { Status, AapiBody } from './serviceObject'
+import { Status, AapiBody, EventBody } from './serviceObject'
 
 export class NodeService {
   // async getProductSuiteData() {
@@ -19,8 +19,23 @@ export class NodeService {
         () => axios.get<AapiBody[]>('/v1/productsuite'),
         (err) => new Error(`GET ProductSuite Error: ${err}`)
       ),
-      TE.map<AxiosResponse<Array<AapiBody>>, Array<AapiBody>>(
-        res => 'aapis' in res.data ? res.data['aapis'] : zero<AapiBody>()
+      TE.map<AxiosResponse<Array<AapiBody>>, Array<AapiBody>>((res) =>
+        'aapis' in res.data ? res.data['aapis'] : zero<AapiBody>()
+      )
+    )
+  }
+  getMyEventData(): TE.TaskEither<Error, EventBody> {
+    return pipe(
+      TE.tryCatch<Error, AxiosResponse<EventBody>>(
+        () => axios.get<EventBody>('/v1/myevent'),
+        (err) => new Error(`GET My Event Page Error: ${err}`)
+      ),
+      TE.map<AxiosResponse<EventBody>, EventBody>((res) =>
+        'event' in res.data
+          ? 'own' in res.data['event'] && 'subscribe' in res.data['event']
+            ? res.data['event']
+            : zero<EventBody>()
+          : zero<EventBody>()
       )
     )
   }

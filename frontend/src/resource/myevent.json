@@ -1,4 +1,67 @@
 {
-    "own":[],
-    "subscribe":[]
+  "event": {
+    "own": [
+      {
+        "id": "ebb09e1e-64d7-4972-887b-6915e023fe45",
+        "title": "GigaCIM.SiMM.Lot.LotHold.AMFH",
+        "aapiOwner": "LCLIAOB",
+        "description": "test test test",
+        "productSuite": "GigaCIM",
+        "product": "SiMM",
+        "subscribers:": ["LCLIAOW", "LCLIAOC", "LCLIAOD", "JWLINV"]
+      },
+      {
+        "id": "c00d4b7d-c862-44e7-83a7-956be5e50b50",
+        "title": "GigaCIM.SiMM.Lot.LotHold.AOAH",
+        "aapiOwner": "LCLIAOB",
+        "description": "test test test",
+        "productSuite": "GigaCIM",
+        "product": "SiMM",
+        "subscribers:": ["LCLIAOE", "LCLIAOF", "LCLIAOG", "LCLIAOH"]
+      },
+      {
+        "id": "1ea1ccb3-d532-4a62-8dba-7f23bd25a4c3",
+        "title": "GigaCIM.SiMM.Lot.LotHold.AUTO",
+        "aapiOwner": "LCLIAOB",
+        "description": "test test test",
+        "productSuite": "GigaCIM",
+        "product": "SiMM",
+        "subscribers:": ["LCLIAOI", "LCLIAOJ", "LCLIAOK", "LCLIAOL", "LCLIAOM"]
+      }
+    ],
+    "subscribe": [
+      {
+        "id": "b5a95b74-18e6-4378-8c07-4db9967654e4",
+        "title": "GigaCIM.SiMM.Lot.LotHold.OURT",
+        "aapiOwner": "LCLIAOK",
+        "description": "test test test",
+        "productSuite": "GigaCIM",
+        "product": "SiMM"
+      },
+      {
+        "id": "826baafe-41ed-4486-809c-e4c628687f14",
+        "title": "GigaCIM.SiMM.Lot.LotHold.SAFE",
+        "aapiOwner": "LCLIAOU",
+        "description": "test test test",
+        "productSuite": "GigaCIM",
+        "product": "SiMM"
+      },
+      {
+        "id": "fa87d1cd-c6c7-4ee6-9ba4-af674d7903e1",
+        "title": "GigaCIM.SiMM.Lot.LotHold.POTS",
+        "aapiOwner": "LCLIAOZ",
+        "description": "test test test",
+        "productSuite": "GigaCIM",
+        "product": "SiMM"
+      },
+      {
+        "id": "3c4346c2-fb0e-486e-a962-34ce6baca723",
+        "title": "FAB.testN.Lot.LotHold.LOCK",
+        "aapiOwner": "LCLIAOP",
+        "description": "test test test",
+        "productSuite": "FAB",
+        "product": "testN"
+      }
+    ]
+  }
 }

@@ -16,9 +16,26 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faListAlt } from '@fortawesome/free-solid-svg-icons'
 import { SourceMap } from 'module'
+import { NodeService } from './../service/NodeService'
+import * as TE from 'fp-ts/TaskEither'
+import { zero } from 'fp-ts/Array'
+import { EventBody } from '../service/serviceObject'
 function MyEventPage() {
   const [displayBasic, setDisplayBasic] = useState(false)
+  const nodeService = new NodeService()
 
+  useEffect(() => {
+    TE.match<Error, EventBody, EventBody>(
+      (e) => {
+        console.error(`Get My Event Data Error: ${e}`)
+        return {} as EventBody
+      },
+      (r) => {
+        console.log(r)
+        return r
+      }
+    )(nodeService.getMyEventData())()
+  }, [])
   const eventList = [
     {
       title: 'GigaCIM.SiMM.Lot.LotHold.AMFH',

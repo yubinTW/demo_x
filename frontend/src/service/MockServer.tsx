@@ -7,6 +7,7 @@ import mockapi from './../resource/mockapi.json'
 import treeData from './../resource/treeData.json'
 import treeSideData from './../resource/TreeSideBar.json'
 import psData from './../resource/productSuite.json'
+import myevent from './../resource/myevent.json'
 
 export function MockServer({ environment = 'test' }) {
   console.log('start mock server')
@@ -20,9 +21,7 @@ export function MockServer({ environment = 'test' }) {
                 apiId: JSON.parse(request.queryParams.id).id,
                 api: mockapi,
             }))*/
-      this.get('/v1/myevent', (schema, request) => ({
-
-      }))
+      this.get('/v1/myevent', () => myevent)
       this.get('/v1/aapi/:id', (schema, request) => ({
         id: request.params.id,
         title: 'test_api_name',
