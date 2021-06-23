@@ -29,7 +29,7 @@ describe('Aapi test', () => {
         () => {
           dbHandler.closeDatabase()
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          server.close((): void => {})
+          server.close((): void => { })
         },
         (reason) => new Error(`Failed to close a Fastify server, reason: ${reason}`)
       )
@@ -62,6 +62,7 @@ describe('Aapi test', () => {
         aapiOwner: 'ywchuo',
         subject: 'ps01.product01.user01.event01',
         doc: 'this is test1',
+        subscribers: [{ 'name': 'jwlinv' }],
         status: 'on'
       }
     })
@@ -76,6 +77,8 @@ describe('Aapi test', () => {
     expect(res.aapi.aapiOwner).toBe('ywchuo')
     expect(res.aapi.subject).toBe('ps01.product01.user01.event01')
     expect(res.aapi.doc).toBe('this is test1')
+    expect(res.aapi.subscribers.length).toBe(1)
+    expect(res.aapi.subscribers[0].name).toBe('jwlinv')
     expect(res.aapi.status).toBe('on')
 
     // test if add successfully
@@ -90,6 +93,8 @@ describe('Aapi test', () => {
     expect(res2.aapis[0].aapiOwner).toBe('ywchuo')
     expect(res2.aapis[0].subject).toBe('ps01.product01.user01.event01')
     expect(res2.aapis[0].doc).toBe('this is test1')
+    expect(res2.aapis[0].subscribers.length).toBe(1)
+    expect(res2.aapis[0].subscribers[0].name).toBe('jwlinv')
     expect(res2.aapis[0].status).toBe('on')
 
     // getById
@@ -103,6 +108,8 @@ describe('Aapi test', () => {
     expect(res3.aapi.aapiOwner).toBe('ywchuo')
     expect(res3.aapi.subject).toBe('ps01.product01.user01.event01')
     expect(res3.aapi.doc).toBe('this is test1')
+    expect(res3.aapi.subscribers.length).toBe(1)
+    expect(res3.aapi.subscribers[0].name).toBe('jwlinv')
     expect(res3.aapi.status).toBe('on')
 
     // updateId
@@ -122,6 +129,8 @@ describe('Aapi test', () => {
     expect(res4.aapi.aapiOwner).toBe('Jia-Wei')
     expect(res4.aapi.subject).toBe('ps01.product01.user01.event01')
     expect(res4.aapi.doc).toBe('this is test1')
+    expect(res4.aapi.subscribers.length).toBe(1)
+    expect(res4.aapi.subscribers[0].name).toBe('jwlinv')
     expect(res4.aapi.status).toBe('on')
 
     // deleteId
@@ -130,14 +139,6 @@ describe('Aapi test', () => {
       url: `/v1/aapi/${res.aapi._id}`
     })
     expect(deleteByIdResponse.statusCode).toBe(204)
-    // const res5: { aapi: IAapi } = JSON.parse(deleteByIdResponse.body)
-    // expect(res5.aapi.title).toBe('aapi01')
-    // expect(res5.aapi.productSuite).toBe('ps01')
-    // expect(res5.aapi.product).toBe('product01')
-    // expect(res5.aapi.aapiOwner).toBe('Jia-Wei')
-    // expect(res5.aapi.subject).toBe('ps01.product01.user01.event01')
-    // expect(res5.aapi.doc).toBe('this is test1')
-    // expect(res5.aapi.status).toBe('on')
   })
 
   it('should return not found when delete a non-exist aapi', async () => {
@@ -166,6 +167,7 @@ describe('Aapi test', () => {
         aapiOwner: 'ywchuo',
         subject: 'ps01.product01.user01.event01',
         doc: 'this is test1',
+        subscribers: [{ 'name': 'jwlinv' }],
         status: 'on'
       }
     })

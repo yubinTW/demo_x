@@ -4,9 +4,7 @@ import * as TE from 'fp-ts/TaskEither'
 import * as O from 'fp-ts/Option'
 import { of } from 'fp-ts/Identity'
 import { zero } from 'fp-ts/Array'
-import { Types } from 'mongoose'
 import { AapiRepoImpl } from '../../../repo/aapi-repo'
-import { Status, IAapi, AapiBody } from '../../../types/aapi'
 import { psSummaryItem } from '../../../types/productSuite'
 
 const ProductSuiteRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void) => {
