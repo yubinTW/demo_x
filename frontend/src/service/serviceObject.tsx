@@ -6,8 +6,7 @@ export type EventBody = {
   readonly own: Array<AapiBody>
   readonly subscribe: Array<AapiBody>
 }
-export type SubscriberBody = 
-{
+export type SubscriberBody = {
   readonly name: string
 }
 export type AapiBody = {
@@ -23,6 +22,8 @@ export type AapiBody = {
   readonly status: Status
   readonly comment: string
   readonly createdAt: string
-  readonly updatedAt:string
+  readonly updatedAt: string
 }
 export { Status }
+export type ProductSuiteMap = { [productSuite: string]: string[] }
+export type DataDictionary = { [productSuite: string]: { [product: string]: AapiBody[] } }
