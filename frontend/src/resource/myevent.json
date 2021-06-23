@@ -8,7 +8,12 @@
         "description": "test test test",
         "productSuite": "GigaCIM",
         "product": "SiMM",
-        "subscribers": ["LCLIAOW", "LCLIAOC", "LCLIAOD", "JWLINV"]
+        "subscribers": [
+          {"name":"LCLIAOW"},
+          {"name":"JWLINV"},
+          {"name":"LCLIAOC"},
+          {"name":"LCLIAOD"}
+          ]
       },
       {
         "id": "c00d4b7d-c862-44e7-83a7-956be5e50b50",
@@ -17,7 +22,12 @@
         "description": "test test test",
         "productSuite": "GigaCIM",
         "product": "SiMM",
-        "subscribers": ["LCLIAOE", "LCLIAOF", "LCLIAOG", "LCLIAOH"]
+        "subscribers": [
+          {"name":"LCLIAOT"},
+          {"name":"CCWUO"},
+          {"name":"YBHSU"},
+          {"name":"STLEE"}
+          ]
       },
       {
         "id": "1ea1ccb3-d532-4a62-8dba-7f23bd25a4c3",
@@ -26,7 +36,12 @@
         "description": "test test test",
         "productSuite": "GigaCIM",
         "product": "SiMM",
-        "subscribers": ["LCLIAOI", "LCLIAOJ", "LCLIAOK", "LCLIAOL", "LCLIAOM"]
+        "subscribers": [
+          {"name":"ABSC"},
+          {"name":"LCLIAOK"},
+          {"name":"LCIAOU"},
+          {"name":"LCOOOO"}
+          ]
       }
     ],
     "subscribe": [
