@@ -216,6 +216,8 @@
 .content {
   overflow: visible;
   padding: 0 $spacer 0 $spacer;
+  min-height: 100%;
+  margin-bottom: -100px;
   @include transition(all 0.3s);
 
   @include media-breakpoint-up(md) {

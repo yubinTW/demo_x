@@ -39,7 +39,19 @@ export class NodeService {
       )
     )
   }
-
+  getApiData(id: string): TE.TaskEither<Error, AapiBody> {
+    console.log('Get id from params: ', id)
+    return pipe(
+      TE.tryCatch<Error, AxiosResponse<AapiBody>>(
+        () => axios.get<AapiBody>(`/v1/aapi/${id}`),
+        (err) => new Error(`GET API Info Error: ${err}`)
+      ),
+      TE.map<AxiosResponse<AapiBody>, AapiBody>((res) => res.data
+      )
+    )
+  }
+  
+  
   async getTreeSideBarNodes() {
     try {
       const res = await axios.get('/subject-list')
@@ -58,6 +70,20 @@ export class NodeService {
       return console.error(e)
     }
   }
+  async postRegistApiForm(apiName: string, productSuite: string, apiOwner: string, docs: string) {
+    try {
+      const res = await axios.post('/aapi', {
+        title: apiName,
+        productSuite: productSuite,
+        apiOwner: apiOwner,
+        docs: docs,
+      })
+      console.log(res)
+    } catch (e) {
+      return console.error(e)
+    }
+  }
+  /*
   async getApiData(id: string) {
     console.log('Get id from params: ', id)
     //const path:string = ('/api/'.concat(String(id)))
@@ -83,7 +109,7 @@ export class NodeService {
       return console.error(e)
     }
   }
-  /*
+
     async getApiData(id:string)
     {
         console.log("Get id from params: ",id)
