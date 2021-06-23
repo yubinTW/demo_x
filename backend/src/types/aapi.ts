@@ -22,6 +22,22 @@ interface IAapi {
   readonly updatedAt?: Date
 }
 
+type AapiWithoutScbscribers = {
+  readonly _id?: string
+  readonly title: string
+  readonly description: string
+  readonly productSuite: string
+  readonly product: string
+  readonly aapiOwner: string
+  readonly subject: string
+  readonly doc: string
+  readonly doc_json: string
+  readonly comment: string
+  readonly status: Status
+  readonly createdAt?: Date
+  readonly updatedAt?: Date
+}
+
 // json body
 type AapiBody = {
   readonly title: string
@@ -55,4 +71,8 @@ type MongoAapi = {
   readonly updatedAt?: Date
 }
 
-export { Status, IAapi, AapiBody, MongoAapi }
+type EventBody = {
+  own: Array<IAapi>
+  subscribe: Array<AapiWithoutScbscribers>
+}
+export { Status, IAapi, AapiBody, MongoAapi, EventBody }

@@ -5,7 +5,7 @@ import { startFastify } from '../http-server/server'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 import * as dbHandler from './db'
 import { tryCatch, match } from 'fp-ts/Either'
-import { IAapi } from '../types/aapi'
+import { IAapi, EventBody } from '../types/aapi'
 import { psSummaryItem } from '../types/productSuite'
 
 describe('Aapi test', () => {
@@ -62,7 +62,7 @@ describe('Aapi test', () => {
         aapiOwner: 'ywchuo',
         subject: 'ps01.product01.user01.event01',
         doc: 'this is test1',
-        subscribers: [{ 'name': 'jwlinv' }],
+        subscribers: [{ name: 'jwlinv' }],
         status: 'on'
       }
     })
@@ -167,7 +167,7 @@ describe('Aapi test', () => {
         aapiOwner: 'ywchuo',
         subject: 'ps01.product01.user01.event01',
         doc: 'this is test1',
-        subscribers: [{ 'name': 'jwlinv' }],
+        subscribers: [{ name: 'jwlinv' }],
         status: 'on'
       }
     })
@@ -181,5 +181,16 @@ describe('Aapi test', () => {
     expect(res.aapis[0].productSuite).toBe('ps01')
     expect(res.aapis[0].product).toBe('product01')
     expect(res.aapis[0].aapiOwner).toBe('ywchuo')
+  })
+
+  it('should return empty EventBody', async () => {
+    const response = await server.inject({
+      method: 'GET',
+      url: '/v1/myevent'
+    })
+    expect(response.statusCode).toBe(200)
+    const res: { event: EventBody } = JSON.parse(response.body)
+    expect(res.event.own).toStrictEqual([])
+    expect(res.event.subscribe).toStrictEqual([])
   })
 })

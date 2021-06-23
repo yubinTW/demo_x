@@ -1,5 +1,5 @@
 type Subscriber = {
-    name: string
+  name: string
 }
 
 export { Subscriber }

@@ -36,13 +36,12 @@ describe('Just Testing', () => {
         () => {
           dbHandler.closeDatabase()
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          server.close((): void => { })
+          server.close((): void => {})
         },
         (reason) => new Error(`Failed to close a Fastify server, reason: ${reason}`)
       )
     )
   })
-
 
   /**
    * 用 O.some 取 Option<T> 的 T value
