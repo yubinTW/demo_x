@@ -51,38 +51,6 @@ export class NodeService {
     )
   }
   
-  
-  async getTreeSideBarNodes() {
-    try {
-      const res = await axios.get('/subject-list')
-      //console.log(res.data.root)
-      return res.data.root
-    } catch (e) {
-      return console.error(e)
-    }
-  }
-  async getTreeTableNodes() {
-    try {
-      const res = await axios.get('/ps')
-      //console.log(res.data.root)
-      return res.data.root
-    } catch (e) {
-      return console.error(e)
-    }
-  }
-  async postRegistApiForm(apiName: string, productSuite: string, apiOwner: string, docs: string) {
-    try {
-      const res = await axios.post('/aapi', {
-        title: apiName,
-        productSuite: productSuite,
-        apiOwner: apiOwner,
-        docs: docs,
-      })
-      console.log(res)
-    } catch (e) {
-      return console.error(e)
-    }
-  }
   /*
   async getApiData(id: string) {
     console.log('Get id from params: ', id)

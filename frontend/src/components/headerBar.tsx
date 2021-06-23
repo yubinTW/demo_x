@@ -14,15 +14,15 @@ function HeaderBar() {
       icon: 'pi pi-fw pi-bars',
       items: [
         {
-          label: 'Create API',
+          label: 'My Event',
           command: (event: any) => {
-            window.location.pathname = '/create-api'
+            window.location.pathname = '/my-event'
           },
         },
         {
-          label: 'Product Suite',
+          label: 'Summary',
           command: (event: any) => {
-            window.location.pathname = '/product-suite'
+            window.location.pathname = '/summary-board'
           },
         },
       ],

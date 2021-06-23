@@ -32,8 +32,8 @@ const Presentation = () => {
                 <Nav.Link as={HashLink} to="#pages">Pages</Nav.Link>
                 <Nav.Link as={HashLink} to="#folder" className="d-sm-none d-xl-inline">Folder Structure</Nav.Link>
                 <Nav.Link as={HashLink} to="#getting-started">Getting Started</Nav.Link> */}
-                <Nav.Link as={Link} to={Routes.ProductSuites.path}>
-                  Product Suites
+                <Nav.Link as={Link} to={Routes.SummaryPage.path}>
+                  Summary
                 </Nav.Link>
                 <Nav.Link as={Link} to={Routes.App.path}>
                   Dashboard
