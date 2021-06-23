@@ -35,6 +35,10 @@ export function MockServer({ environment = 'test' }) {
       this.get('/ps', () => ({
         root: treeData['root'],
       }))
+      this.get('/v1/login', () => ({
+        account: "LCLIAOB",
+        state: "login"
+      }))
       this.get('/subject-list', () => ({
         root: treeSideData['root'],
       }))
