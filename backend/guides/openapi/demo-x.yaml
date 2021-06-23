@@ -7,6 +7,27 @@ servers:
   - url: http://{apiUrl}/v1
     description: API endpoint of backend
 paths:
+  /login:
+    get:
+      tags:
+        - "Get login status and info"
+      summary: check if login or not
+      description: check if login or not, if login should return account name
+      responses:
+        "200":
+          description: login info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account:
+                    type: string
+                    description: window account
+                  status:
+                    type: string
+                    description: login | logout
+
   /myevent:
     get:
       tags:
