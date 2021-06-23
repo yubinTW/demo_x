@@ -20,11 +20,11 @@ import { SourceMap } from 'module'
 import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
 import { zero } from 'fp-ts/Array'
-import { AapiBody, EventBody } from '../service/serviceObject'
+import { AapiBody, EventBody ,SubscriberBody} from '../service/serviceObject'
 function MyEventPage() {
   const [displayBasic, setDisplayBasic] = useState(false)
   const [eventOwnerPage, setEventOwnerPage] = useState<Array<AapiBody>>([])
-  const [subscriberList, setSubscriberList] = useState<Array<String>>([])
+  const [subscriberList, setSubscriberList] = useState<Array<SubscriberBody>>([])
   const [eventSubscriberPage, setEventSubscriberPage] = useState<Array<AapiBody>>([])
   const nodeService = new NodeService()
 
@@ -80,7 +80,7 @@ function MyEventPage() {
   const onHide = () => {
     setDisplayBasic(false)
   }
-  const onClick = (subList: Array<String>) => {
+  const onClick = (subList: Array<SubscriberBody>) => {
     setDisplayBasic(true)
     if (subList !== undefined) {
       setSubscriberList(subList)
@@ -133,7 +133,7 @@ function MyEventPage() {
             </DataTable>
           </div>
           <Dialog
-            header="Suscriber List"
+            header="Subscriber List"
             visible={displayBasic}
             style={{ width: '50vw' }}
             footer={renderFooter()}
@@ -141,7 +141,7 @@ function MyEventPage() {
           >
             <ul>
               {subscriberList.map((item) => (
-                <li>{item}</li>
+                <li key={item.name}>{item.name}</li>
               ))}
             </ul>
           </Dialog>
