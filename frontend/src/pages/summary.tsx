@@ -12,31 +12,59 @@ import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { NodeService } from '../service/NodeService'
+import { Status, AapiBody } from '../service/serviceObject'
+import * as TE from 'fp-ts/TaskEither'
+import { zero } from 'fp-ts/Array'
 
 function SummaryPage() {
-  const [psList, setPsList] = useState([])
+  const [psDictProductList, setPsDictProductList] = useState({})
+  const [dataDict, setDataDict] = useState({})
+
+  const [psList, setPsList] = useState<string[]>([])
   const [selectedPs, setSelectPs] = useState<string | ''>('')
   const [selectedProduct, setSelectProduct] = useState<string | ''>('')
   const [productList, setProductList] = useState([])
   const [subjectList, setSubjectList] = useState([])
-  const [loadDataState,setLoadDataState] = useState<number>(0)
+  const [loadDataState, setLoadDataState] = useState<number>(0)
   const preworkService = new PreworkService()
 
   //const doc = parser.parse(nodeservice.getApiData());
 
   useEffect(() => {
-    preworkService.getPsList().then((data) => setPsList(data))
+    setUpData()
+    // preworkService.getPsList().then((data) => setPsList(data))
   }, [])
 
-  // async function onPsChange(e: { value: any }) {
-  //   await setSelectPs(e.value)
-  //   preworkService.getProductList(e.value).then((data) => setProdcuctList(data))
-  // }
+  // ================================
+  // let data:AapiBody[] = zero()
+  // const dataDict = {}
+  const setUpData = async () => {
+    const nodeservice = new NodeService()
+
+    // const data: AapiBody[] = await nodeservice.getProductSuiteData()
+
+    const data = await TE.match<Error, Array<AapiBody>, Array<AapiBody>>(
+      (e) => {
+        console.log(`Get ProductSuite Data Error: ${e}`)
+        return zero<AapiBody>()
+      },
+      (r) => r
+    )(nodeservice.getProductSuiteData())()
+
+    setPsList(preworkService.collectProductSuiteNames(data))
+    setDataDict(preworkService.collectDataDictionary(data))
+    setPsDictProductList(preworkService.collectProductMap(data))
+    console.log(preworkService.collectDataDictionary(data))
+  }
+
+  // =========================
   async function onPsChange(e: any) {
     //console.log(e)
     await setSelectPs(e.target.value)
     if (e.target.value) {
-      preworkService.getProductList(e.target.value).then((data) => setProductList(data))
+      setProductList(psDictProductList[e.target.value])
+      // preworkService.getProductList(e.target.value).then((data) => setProductList(data))
       setSubjectList([])
     } else {
       setProductList([])
@@ -45,8 +73,9 @@ function SummaryPage() {
   }
   async function onProductChange(e: any) {
     await setSelectProduct(e.target.value)
-    console.log(selectedPs, e.target.value)
-    preworkService.getSubjectData( selectedPs, e.target.value).then((data) => setSubjectList(data))
+    setSubjectList(dataDict[selectedPs][e.target.value])
+    // console.log(selectedPs, e.target.value)
+    // preworkService.getSubjectData(selectedPs, e.target.value).then((data) => setSubjectList(data))
   }
 
   return (
@@ -75,7 +104,7 @@ function SummaryPage() {
           <Form.Group id="pd-filter">
             <Form.Label>Products</Form.Label>
             <Form.Select onChange={onProductChange} value={selectedProduct}>
-              <option>Select Product </option>
+              <option value="">Select Product </option>
 
               {productList.map((item) => (
                 <option key={item} value={item}>
