@@ -145,7 +145,6 @@ const Sidebar = (props = {}) => {
             </div>
             <Nav className="flex-column pt-3 pt-md-0">
               <NavItem title="Product X" link={Routes.Presentation.path} image={TsmcLogo} />
-              <NavItem title="Product Suites" link={Routes.ProductSuites.path} icon={faTable} />
               <NavItem title="Summary" link={Routes.SummaryPage.path} icon={faTable} />
               <NavItem title="My Events" link={Routes.MyEventPage.path} icon={faListAlt} />
               <NavItem title="App Demo" link={Routes.App.path} badgeText="Demo" icon={faFileAlt} />
