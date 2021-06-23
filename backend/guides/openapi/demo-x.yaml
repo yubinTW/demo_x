@@ -7,6 +7,27 @@ servers:
   - url: http://{apiUrl}/v1
     description: API endpoint of backend
 paths:
+  /login:
+    get:
+      tags:
+        - "Get login status and info"
+      summary: check if login or not
+      description: check if login or not, if login should return account name
+      responses:
+        "200":
+          description: login info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account:
+                    type: string
+                    description: window account
+                  status:
+                    type: string
+                    description: login | logout
+
   /myevent:
     get:
       tags:
@@ -23,7 +44,7 @@ paths:
                 properties:
                   own:
                     type: array
-                    description: aapi list which is owned or managed by this user 
+                    description: aapi list which is owned or managed by this user
                     items:
                       $ref: "#/components/schemas/AAPI"
                   subscribe:
@@ -209,8 +230,7 @@ components:
           type: array
           description: The subscribers of this AAPI
           items:
-            type: string
-            example: ["subscriber01", "subscriber02", "subscriber03"]
+            $ref: "#/components/schemas/Subscriber"
         comment:
           type: string
           description: The comment of this AAPI
@@ -229,6 +249,12 @@ components:
           example: "2021-06-08T07:17:40.541Z"
       required:
         - name, aapiOwner, doc, productSuite
+    Subscriber:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of this AAPI
     # Schema for error response body
     Error:
       type: object

@@ -3,7 +3,7 @@ import * as TE from 'fp-ts/TaskEither'
 import * as O from 'fp-ts/lib/Option'
 import * as E from 'fp-ts/Either'
 import Aapi from '../models/aapi'
-import { Status, IAapi, AapiBody, MongoAapi } from '../types/aapi'
+import { Status, IAapi, AapiBody, MongoAapi, EventBody } from '../types/aapi'
 import { psSummaryItem } from '../types/productSuite'
 // const str2Status: (v: string) => Status = (v) => {
 //     switch (v.toLowerCase()) {
@@ -91,6 +91,26 @@ class AapiRepoImpl implements AapiRepo {
         (e) => new Error(`Failed to get all API: ${e}`)
       )
     )
+  }
+
+  getMyEvent(): TE.TaskEither<Error, O.Option<Readonly<EventBody>>> {
+    return TE.map<any, O.Option<Readonly<EventBody>>>((f) => (f ? O.some(f) : O.none))(
+      TE.tryCatch(
+        () => this.getEvent(),
+        (e) => new Error(`Failed to get all API: ${e}`)
+      )
+    )
+  }
+
+  // return EventBody according to permissions of the user
+  async getEvent(): Promise<EventBody> {
+    // TODO: implement method by authorized user.
+    // get user's A4 role
+    const result = {
+      own: [],
+      subscribe: []
+    }
+    return Promise.resolve(result)
   }
 }
 
