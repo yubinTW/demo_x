@@ -23,7 +23,7 @@ export class PreworkService {
             O.fromNullable(dict.get(x.productSuite)),
             O.match(
               () =>
-                dict.set(x.productSuite, zero<string>()) &&
+                // dict.set(x.productSuite, zero<string>()) &&
                 dict.set(x.productSuite, Array.from(new Set(append(x.product)([])))),
               (a) => dict.set(x.productSuite, Array.from(new Set(append(x.product)(a))))
             )
