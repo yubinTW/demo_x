@@ -1,75 +1,70 @@
 import * as TE from 'fp-ts/TaskEither'
-import { zero } from 'fp-ts/Array'
+import { zero, map, append } from 'fp-ts/Array'
 import subjectData from './../resource/subjectData.json'
 import { NodeService } from './NodeService'
-import { Status, AapiBody } from './serviceObject'
-
+import { Status, AapiBody, ProductSuiteMap, DataDictionary } from './serviceObject'
+import { pipe } from 'fp-ts/function'
+// import * as I from 'fp-ts/Identity'
+import * as fp from 'lodash/fp'
+import * as O from 'fp-ts/Option'
 export class PreworkService {
-  psList: any
-  psDictProductList: any
-  dataDict: any
-  statusType: number = 0
-  async setUpData() {
-    const nodeservice = new NodeService()
-
-    // const data: AapiBody[] = await nodeservice.getProductSuiteData()
-
-    const data = await TE.match<Error, Array<AapiBody>, Array<AapiBody>>(
-      (e) => {
-        console.log(`Get ProductSuite Data Error: ${e}`)
-        return zero<AapiBody>()
-      },
-      (r) => r
-    )(nodeservice.getProductSuiteData())()
-
-    //this.data = nodeservice.getProductSuiteData()
-    //console.log(typeof data)
-    this.psList = []
-    this.psDictProductList = {}
-    this.dataDict = {}
-    this.statusType = 1
-    for (var aapi of data) {
-      if (this.psList.includes(aapi.productSuite) === false) {
-        this.psList.push(aapi.productSuite)
-        this.psDictProductList[aapi.productSuite] = []
-        this.dataDict[aapi.productSuite] = {}
-      }
-      if (this.psDictProductList[aapi.productSuite].includes(aapi.product) === false) {
-        this.psDictProductList[aapi.productSuite].push(aapi['product'])
-        this.dataDict[aapi.productSuite][aapi.product] = []
-      }
-      this.dataDict[aapi.productSuite][aapi.product].push(aapi)
-    }
-    //console.log(this.psList)
+  // collectProductSuiteNames :: [AapiData] -> [ProductSuiteName]
+  collectProductSuiteNames: (data: AapiBody[]) => string[] = (d) => {
+    return Array.from(new Set(d.map((x) => x.productSuite)))
   }
-  constructor() {}
-
-  async getPsList() {
-    /*const psList:any = [
-            {name: "GigaCIM"}
-        ]*/
-    if (this.statusType=== 0) {
-      await this.setUpData()
-    }
-
-    console.log(this.psList)
-    return this.psList
+  // collectProductMap :: [AapiData] -> [ProductSuiteMap]
+  collectProductMap: (data: AapiBody[]) => ProductSuiteMap = (d) => {
+    const dict = new Map<string, string[]>()
+    return Object.fromEntries(
+      pipe(
+        d,
+        map((x) =>
+          pipe(
+            O.fromNullable(dict.get(x.productSuite)),
+            O.match(
+              () =>
+                dict.set(x.productSuite, zero<string>()) &&
+                dict.set(x.productSuite, Array.from(new Set(append(x.product)([])))),
+              (a) => dict.set(x.productSuite, Array.from(new Set(append(x.product)(a))))
+            )
+          )
+        )
+      )[0]
+    )
   }
-  async getProductList( psName: string) {
-    /*const productList:any = [
-            {name: "SiMM"},
-            {name: "Fab"}
-        ]*/
-    if (this.statusType === 0) {
-      await this.setUpData()
-    }
-    return this.psDictProductList[psName]
-  }
-  async getSubjectData( ps: string, product: string) {
-    //const retureData: any = subjectData
-    if (this.statusType === 0) {
-      await this.setUpData()
-    }
-    return this.dataDict[ps][product]
+
+  // collectDataDictionary :: [AapiData] -> [DataDictionary]
+  collectDataDictionary: (data: AapiBody[]) => DataDictionary = (d) => {
+    let dDict: DataDictionary = {}
+
+    pipe(
+      d,
+      map((x) => {
+        fp.has(`${x.productSuite}.${x.product}`, dDict)
+          ? (dDict = fp.update(
+              `${x.productSuite}.${x.product}`,
+              (p) => {
+                p.push(x)
+                return p
+              },
+              dDict
+            ))
+          : (dDict = fp.defaultsDeep({ [x.productSuite]: { [x.product]: [x] } }, dDict))
+
+        return dDict
+      })
+    )
+    return dDict
+
+    // return pipe(
+    //   d,
+    //   map((x) => {
+    //     fp.has(`${x.productSuite}.${x.product}`, dDict)
+    //       ? fp.update(`${x.productSuite}.${x.product}`, (p) => p.push(x), dDict)
+    //       : (dDict = fp.defaultsDeep(dDict, { [x.productSuite]: { [x.product]: [x] } }))
+
+    //     return dDict
+    //   })
+    // )[0]
   }
 }
