@@ -29,7 +29,7 @@ describe('Aapi test', () => {
         () => {
           dbHandler.closeDatabase()
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          server.close((): void => { })
+          server.close((): void => {})
         },
         (reason) => new Error(`Failed to close a Fastify server, reason: ${reason}`)
       )
@@ -192,5 +192,115 @@ describe('Aapi test', () => {
     const res: { event: EventBody } = JSON.parse(response.body)
     expect(res.event.own).toStrictEqual([])
     expect(res.event.subscribe).toStrictEqual([])
+  })
+
+  it('should get myevent, after create aapi data', async () => {
+    await server.inject({
+      method: 'POST',
+      url: '/v1/aapi',
+      payload: {
+        title: 'aapi01',
+        description: 'test',
+        productSuite: 'ps01',
+        product: 'product01',
+        aapiOwner: 'YWCHUO',
+        subject: 'ps01.product01.user01.event01',
+        doc: 'this is test1',
+        subscribers: [{ name: 'jwlinb' }],
+        status: 'on'
+      }
+    })
+
+    await server.inject({
+      method: 'POST',
+      url: '/v1/aapi',
+      payload: {
+        title: 'aapi02',
+        description: 'test',
+        productSuite: 'ps02',
+        product: 'product02',
+        aapiOwner: 'JWLINV',
+        subject: 'ps02.product02.user02.event02',
+        doc: 'this is test2',
+        subscribers: [{ name: 'jwlinc' }],
+        status: 'on'
+      }
+    })
+
+    await server.inject({
+      method: 'POST',
+      url: '/v1/aapi',
+      payload: {
+        title: 'aapi03',
+        description: 'test',
+        productSuite: 'NTAP',
+        product: 'product03',
+        aapiOwner: 'LC',
+        subject: 'NTAP.product03.user03.event03',
+        doc: 'this is test3',
+        subscribers: [{ name: 'jwlind' }],
+        status: 'on'
+      }
+    })
+
+    await server.inject({
+      method: 'POST',
+      url: '/v1/aapi',
+      payload: {
+        title: 'aapi04',
+        description: 'test',
+        productSuite: 'NTAP',
+        product: 'product04',
+        aapiOwner: 'YBHSU',
+        subject: 'NTAP.product04.user04.event04',
+        doc: 'this is test4',
+        subscribers: [{ name: 'jwlind' }],
+        status: 'on'
+      }
+    })
+
+    const response = await server.inject({
+      method: 'GET',
+      url: '/v1/myevent'
+    })
+
+    // current user: JWLINV, is the productSuite owner of NATP
+    // current productSuite of user: NTAP
+    process.env.loginUser = 'JWLINV'
+
+    expect(response.statusCode).toBe(200)
+    const res: { event: EventBody } = JSON.parse(response.body)
+
+    expect(res.event.own.filter((obj) => obj.aapiOwner === 'JWLINV').length).toBe(1)
+    expect(res.event.own.filter((obj) => obj.productSuite === 'NTAP').length).toBe(2)
+    expect(res.event.own.filter((obj) => obj.title === 'aapi01').length).toBe(0)
+    expect(res.event.own.filter((obj) => obj.title === 'aapi02').length).toBe(1)
+    expect(res.event.own.filter((obj) => obj.title === 'aapi03').length).toBe(1)
+    expect(res.event.own.filter((obj) => obj.title === 'aapi04').length).toBe(1)
+
+    // test for subscribe aapi
+    // Scenario 1: 我是同一個 Product Suite 的 developer
+
+    expect(res.event.subscribe.filter((obj) => obj.title === 'aapi04').length).toBe(1)
+
+    // current user: YBHSU, is the developer of NATP, and own aapi04
+    // current productSuite of user: NTAP
+    process.env.loginUser = 'YBHSU'
+    const response2 = await server.inject({
+      method: 'GET',
+      url: '/v1/myevent'
+    })
+    expect(response2.statusCode).toBe(200)
+    const res2: { event: EventBody } = JSON.parse(response2.body)
+    expect(res2.event.own.length).toBe(1)
+    expect(res2.event.own.filter((obj) => obj.title === 'aapi01').length).toBe(0)
+    expect(res2.event.own.filter((obj) => obj.title === 'aapi02').length).toBe(0)
+    expect(res2.event.own.filter((obj) => obj.title === 'aapi03').length).toBe(0)
+    expect(res2.event.own.filter((obj) => obj.title === 'aapi04').length).toBe(1)
+    expect(res2.event.subscribe.filter((obj) => obj.productSuite === 'NTAP').length).toBe(1)
+    expect(res2.event.subscribe.filter((obj) => obj.title === 'aapi01').length).toBe(0)
+    expect(res2.event.subscribe.filter((obj) => obj.title === 'aapi02').length).toBe(0)
+    expect(res2.event.subscribe.filter((obj) => obj.title === 'aapi03').length).toBe(1)
+    expect(res2.event.subscribe.filter((obj) => obj.title === 'aapi04').length).toBe(0)
   })
 })

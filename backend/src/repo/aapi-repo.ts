@@ -5,6 +5,8 @@ import * as E from 'fp-ts/Either'
 import Aapi from '../models/aapi'
 import { Status, IAapi, AapiBody, MongoAapi, EventBody } from '../types/aapi'
 import { psSummaryItem } from '../types/productSuite'
+import { MockA4RepoImpl } from './a4-repo'
+import { constant } from 'lodash'
 // const str2Status: (v: string) => Status = (v) => {
 //     switch (v.toLowerCase()) {
 //       case Status.On:
@@ -21,6 +23,12 @@ interface AapiRepo {
   addAapi(body: IAapi): TE.TaskEither<Error, Readonly<IAapi>>
   getAapiById(id: string): TE.TaskEither<Error, O.Option<Readonly<IAapi>>>
   updateAapi(id: string, body: IAapi): TE.TaskEither<Error, O.Option<Readonly<IAapi>>>
+}
+
+const a4repo = MockA4RepoImpl.of()
+
+type psCondition = {
+  productSuite: string
 }
 
 class AapiRepoImpl implements AapiRepo {
@@ -105,10 +113,41 @@ class AapiRepoImpl implements AapiRepo {
   // return EventBody according to permissions of the user
   async getEvent(): Promise<EventBody> {
     // TODO: implement method by authorized user.
+
+    // case1: find which aapi's owner is the login user
+    const userAccount = a4repo.getLoginAccount()
+
+    // case2: if user is productSuite owner, show all aapis with that productSuite
+    const ownedProductSuite = O.match<string, string>(
+      () => '',
+      (ps) => ps
+    )(a4repo.getOwnedProductSuiteByAccount(userAccount))
+    // const  = await Aapi.find({ productSuite: ownedProductSuite }).exec()
+
+    const ownAapis = await Aapi.find()
+      .or([{ aapiOwner: userAccount }, { productSuite: ownedProductSuite }])
+      .exec()
+
+    // subscribe
+    // Scenario 1: 我是同一個 Product Suite 的 developer
+    const psArray = a4repo.getProductSuiteByAccount(userAccount)
+
+    const productSuiteCondition: Array<psCondition> = []
+    psArray.forEach((ps) => {
+      productSuiteCondition.push({
+        productSuite: ps
+      } as psCondition)
+    })
+
+    const subscribeAapis = await Aapi.find().or(productSuiteCondition).where('aapiOwner').nin([userAccount]).exec()
+
+    // TODO: Scenario 2: 我不是同一個 Product Suite 的 developer, 但是我隸屬於被授權的 Product Suite
+    // ...
+
     // get user's A4 role
     const result = {
-      own: [],
-      subscribe: []
+      own: ownAapis,
+      subscribe: subscribeAapis
     }
     return Promise.resolve(result)
   }
