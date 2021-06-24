@@ -16,6 +16,7 @@ import { NodeService } from '../service/NodeService'
 import { Status, AapiBody } from '../service/serviceObject'
 import * as TE from 'fp-ts/TaskEither'
 import { zero } from 'fp-ts/Array'
+import { Toast } from 'primereact/toast'
 
 function SummaryPage() {
   const [psDictProductList, setPsDictProductList] = useState({})
@@ -29,7 +30,15 @@ function SummaryPage() {
   const [loadDataState, setLoadDataState] = useState<number>(0)
   const preworkService = new PreworkService()
 
-  //const doc = parser.parse(nodeservice.getApiData());
+  const toast = useRef(null)
+  const showError = (e) => {
+    ;(toast.current as any).show({
+      severity: 'error',
+      summary: 'Error Message',
+      detail: `Get ProductSuite Data Error: ${e}`,
+      life: 3000,
+    })
+  }
 
   useEffect(() => {
     setUpData()
@@ -47,6 +56,7 @@ function SummaryPage() {
     const data = await TE.match<Error, Array<AapiBody>, Array<AapiBody>>(
       (e) => {
         console.log(`Get ProductSuite Data Error: ${e}`)
+        showError(e)
         return zero<AapiBody>()
       },
       (r) => r
@@ -80,6 +90,8 @@ function SummaryPage() {
 
   return (
     <div>
+      <Toast ref={toast} />
+
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
         <div className="d-block mb-4 mb-md-0">
           <h4>Event Summary</h4>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import 'primeicons/primeicons.css'
 import 'primereact/resources/themes/saga-blue/theme.css'
@@ -20,7 +20,9 @@ import { SourceMap } from 'module'
 import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
 import { zero } from 'fp-ts/Array'
-import { AapiBody, EventBody ,SubscriberBody} from '../service/serviceObject'
+import { AapiBody, EventBody, SubscriberBody } from '../service/serviceObject'
+import { Toast } from 'primereact/toast'
+
 function MyEventPage() {
   const [displayBasic, setDisplayBasic] = useState(false)
   const [eventOwnerPage, setEventOwnerPage] = useState<Array<AapiBody>>([])
@@ -28,9 +30,20 @@ function MyEventPage() {
   const [eventSubscriberPage, setEventSubscriberPage] = useState<Array<AapiBody>>([])
   const nodeService = new NodeService()
 
+  const toast = useRef(null)
+  const showError = (e) => {
+    ;(toast.current as any).show({
+      severity: 'error',
+      summary: 'Error Message',
+      detail: `Get MyEvent Data Error: ${e}`,
+      life: 3000,
+    })
+  }
+
   async function setUpData() {
     const data = await TE.match<Error, EventBody, EventBody>(
       (e) => {
+        showError(e)
         console.error(`Get My Event Data Error: ${e}`)
         return {} as EventBody
       },
@@ -96,6 +109,7 @@ function MyEventPage() {
 
   return (
     <div>
+      <Toast ref={toast} />
       <TabView>
         <TabPanel header="My Event List">
           {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
