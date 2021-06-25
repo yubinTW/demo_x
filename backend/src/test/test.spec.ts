@@ -33,8 +33,8 @@ describe('Just Testing', () => {
       (_) => console.log('Closing Fastify server is done!')
     )(
       E.tryCatch(
-        async () => {
-          await dbHandler.closeDatabase()
+        () => {
+          dbHandler.closeDatabase()
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           server.close((): void => {})
         },

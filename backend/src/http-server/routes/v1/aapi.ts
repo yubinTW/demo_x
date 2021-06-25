@@ -28,7 +28,7 @@ const AapiRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
         subscribers: Type.Optional(
           Type.Array(
             Type.Object({
-              subscriber: Type.String()
+              name: Type.String()
             })
           )
         ),
@@ -54,7 +54,7 @@ const AapiRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: 
       subscribers: Type.Optional(
         Type.Array(
           Type.Object({
-            subscriber: Type.String()
+            name: Type.String()
           })
         )
       ),

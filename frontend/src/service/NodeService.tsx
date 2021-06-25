@@ -6,7 +6,7 @@ import * as E from 'fp-ts/Either'
 import { of } from 'fp-ts/Identity'
 import { zero } from 'fp-ts/Array'
 import { pipe } from 'fp-ts/lib/function'
-import { Status, AapiBody, EventBody } from './serviceObject'
+import { Status, AapiBody, EventBody,UserState } from './serviceObject'
 
 export class NodeService {
   // async getProductSuiteData() {
@@ -50,6 +50,18 @@ export class NodeService {
       )
     )
   }
+  getLoginState(): TE.TaskEither<Error, UserState>{
+    console.log('Check Login status')
+    return pipe(
+      TE.tryCatch<Error, AxiosResponse<UserState>>(
+        () => axios.get<UserState>('/v1/login'),
+        (err) => new Error(`GET User Status Error: ${err}`)
+      ),
+      TE.map<AxiosResponse<UserState>, UserState>((res) => res.data
+      )
+    )
+  }
+  
   
   /*
   async getApiData(id: string) {

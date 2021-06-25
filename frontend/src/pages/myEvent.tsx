@@ -15,7 +15,7 @@ import { Dialog } from 'primereact/dialog'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TabView, TabPanel } from 'primereact/tabview'
-import { faListAlt, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { faListAlt, faExternalLinkAlt, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { SourceMap } from 'module'
 import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
@@ -67,12 +67,18 @@ function MyEventPage() {
   const viewSubscriberTemplate = (rowData) => {
     //console.log(rowData)
     return (
-      <Button
-        className="p-button-primary p-button-sm"
-        onClick={() => onClick(rowData['subscribers'])}
-      >
-        <FontAwesomeIcon icon={faListAlt} className="d-none d-md-inline ms-0" />
-      </Button>
+      <div>
+        <Button
+          className="p-button-warning p-button-sm p-mr-1"
+          onClick={() => onClick(rowData['subscribers'])}
+        >
+          <FontAwesomeIcon icon={faUsers} className="d-none d-md-inline ms-0 p-mr-1" /> Subscribers
+        </Button>
+        <Button className="p-button-primary p-button-sm" onClick={() => redirectAPI(rowData['id'])}>
+          <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-md-inline ms-0 p-mr-1" />{' '}
+          View API
+        </Button>
+      </div>
     )
   }
   const redirectAPI = (apiId: string) => {
@@ -139,11 +145,7 @@ function MyEventPage() {
               <Column field="title" header="Event Subject"></Column>
               <Column field="description" header="Description"></Column>
               <Column field="aapiOwner" header="Owner"></Column>
-              <Column
-                field="subsriber"
-                header="View Subscibers"
-                body={viewSubscriberTemplate}
-              ></Column>
+              <Column field="subsriber" header="" body={viewSubscriberTemplate}></Column>
             </DataTable>
           </div>
           <Dialog
@@ -160,7 +162,7 @@ function MyEventPage() {
             </ul>
           </Dialog>
         </TabPanel>
-        <TabPanel header="My Subscribe List">
+        <TabPanel header="My Authorization List">
           {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
           <div className="d-block mb-4 mb-md-0">
           
