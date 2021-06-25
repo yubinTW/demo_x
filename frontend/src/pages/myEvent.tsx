@@ -15,7 +15,7 @@ import { Dialog } from 'primereact/dialog'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TabView, TabPanel } from 'primereact/tabview'
-import { faListAlt, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { faListAlt, faExternalLinkAlt, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { SourceMap } from 'module'
 import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
@@ -69,14 +69,14 @@ function MyEventPage() {
     return (
       <div>
         <Button
-          className="p-button-primary p-button-sm"
+          className="p-button-warning p-button-sm p-mr-1"
           onClick={() => onClick(rowData['subscribers'])}
         >
-          <FontAwesomeIcon icon={faListAlt} className="d-none d-md-inline ms-0" />
+          <FontAwesomeIcon icon={faUsers} className="d-none d-md-inline ms-0 p-mr-1" /> Subscribers
         </Button>
         <Button className="p-button-primary p-button-sm" onClick={() => redirectAPI(rowData['id'])}>
-          <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-md-inline ms-0 p-mr-1" /> view
-          API
+          <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-md-inline ms-0 p-mr-1" />{' '}
+          View API
         </Button>
       </div>
     )
@@ -145,11 +145,7 @@ function MyEventPage() {
               <Column field="title" header="Event Subject"></Column>
               <Column field="description" header="Description"></Column>
               <Column field="aapiOwner" header="Owner"></Column>
-              <Column
-                field="subsriber"
-                header=""
-                body={viewSubscriberTemplate}
-              ></Column>
+              <Column field="subsriber" header="" body={viewSubscriberTemplate}></Column>
             </DataTable>
           </div>
           <Dialog
