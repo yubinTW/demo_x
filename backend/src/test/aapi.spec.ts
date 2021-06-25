@@ -302,5 +302,25 @@ describe('Aapi test', () => {
     expect(res2.event.subscribe.filter((obj) => obj.title === 'aapi02').length).toBe(0)
     expect(res2.event.subscribe.filter((obj) => obj.title === 'aapi03').length).toBe(1)
     expect(res2.event.subscribe.filter((obj) => obj.title === 'aapi04').length).toBe(0)
+
+    // test for subscribe aapi
+    // Scenario 2: 另一個使用者，沒有任何 own 權限，該使用者的 productSuite 被授權使用 aapi01
+    console.log('developer01 start testing ...')
+    process.env.loginUser = 'developer01'
+    const response3 = await server.inject({
+      method: 'GET',
+      url: '/v1/myevent'
+    })
+    expect(response3.statusCode).toBe(200)
+    const res3: { event: EventBody } = JSON.parse(response3.body)
+    expect(res3.event.own.length).toBe(0)
+    expect(res3.event.own.filter((obj) => obj.title === 'aapi01').length).toBe(0)
+    expect(res3.event.own.filter((obj) => obj.title === 'aapi02').length).toBe(0)
+    expect(res3.event.own.filter((obj) => obj.title === 'aapi03').length).toBe(0)
+    expect(res3.event.own.filter((obj) => obj.title === 'aapi04').length).toBe(0)
+    expect(res3.event.subscribe.filter((obj) => obj.title === 'aapi01').length).toBe(1)
+    expect(res3.event.subscribe.filter((obj) => obj.title === 'aapi02').length).toBe(0)
+    expect(res3.event.subscribe.filter((obj) => obj.title === 'aapi03').length).toBe(0)
+    expect(res3.event.subscribe.filter((obj) => obj.title === 'aapi04').length).toBe(0)
   })
 })

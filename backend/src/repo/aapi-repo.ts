@@ -6,6 +6,7 @@ import Aapi from '../models/aapi'
 import { Status, IAapi, AapiBody, MongoAapi, EventBody } from '../types/aapi'
 import { psSummaryItem } from '../types/productSuite'
 import { MockA4RepoImpl } from './a4-repo'
+import { MockPermissionRepoImpl } from './permission-repo'
 import { constant } from 'lodash'
 // const str2Status: (v: string) => Status = (v) => {
 //     switch (v.toLowerCase()) {
@@ -25,7 +26,8 @@ interface AapiRepo {
   updateAapi(id: string, body: IAapi): TE.TaskEither<Error, O.Option<Readonly<IAapi>>>
 }
 
-const a4repo = MockA4RepoImpl.of()
+const a4Repo = MockA4RepoImpl.of()
+const permissionRepo = MockPermissionRepoImpl.of()
 
 type psCondition = {
   productSuite: string
@@ -115,13 +117,13 @@ class AapiRepoImpl implements AapiRepo {
     // TODO: implement method by authorized user.
 
     // case1: find which aapi's owner is the login user
-    const userAccount = a4repo.getLoginAccount()
+    const userAccount = a4Repo.getLoginAccount()
 
     // case2: if user is productSuite owner, show all aapis with that productSuite
     const ownedProductSuite = O.match<string, string>(
       () => '',
       (ps) => ps
-    )(a4repo.getOwnedProductSuiteByAccount(userAccount))
+    )(a4Repo.getOwnedProductSuiteByAccount(userAccount))
     // const  = await Aapi.find({ productSuite: ownedProductSuite }).exec()
 
     const ownAapis = await Aapi.find()
@@ -130,7 +132,7 @@ class AapiRepoImpl implements AapiRepo {
 
     // subscribe
     // Scenario 1: 我是同一個 Product Suite 的 developer
-    const psArray = a4repo.getProductSuiteByAccount(userAccount)
+    const psArray = a4Repo.getProductSuiteByAccount(userAccount)
 
     const productSuiteCondition: Array<psCondition> = []
     psArray.forEach((ps) => {
@@ -139,10 +141,24 @@ class AapiRepoImpl implements AapiRepo {
       } as psCondition)
     })
 
-    const subscribeAapis = await Aapi.find().or(productSuiteCondition).where('aapiOwner').nin([userAccount]).exec()
-
+    const subscribeAapis: Array<IAapi> = await Aapi.find()
+      .or(productSuiteCondition)
+      .where('aapiOwner')
+      .nin([userAccount])
+      .exec()
     // TODO: Scenario 2: 我不是同一個 Product Suite 的 developer, 但是我隸屬於被授權的 Product Suite
-    // ...
+
+    await Promise.all(
+      psArray.map(async (ps) => {
+        const authorizedAapis: Array<IAapi> = await permissionRepo.getAuthorizedAapisByProductSuite(ps)
+
+        authorizedAapis
+          .filter((x) => !subscribeAapis.includes(x))
+          .forEach((aapi) => {
+            subscribeAapis.push(aapi)
+          })
+      })
+    )
 
     // get user's A4 role
     const result = {
