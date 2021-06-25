@@ -67,12 +67,18 @@ function MyEventPage() {
   const viewSubscriberTemplate = (rowData) => {
     //console.log(rowData)
     return (
-      <Button
-        className="p-button-primary p-button-sm"
-        onClick={() => onClick(rowData['subscribers'])}
-      >
-        <FontAwesomeIcon icon={faListAlt} className="d-none d-md-inline ms-0" />
-      </Button>
+      <div>
+        <Button
+          className="p-button-primary p-button-sm"
+          onClick={() => onClick(rowData['subscribers'])}
+        >
+          <FontAwesomeIcon icon={faListAlt} className="d-none d-md-inline ms-0" />
+        </Button>
+        <Button className="p-button-primary p-button-sm" onClick={() => redirectAPI(rowData['id'])}>
+          <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-md-inline ms-0 p-mr-1" /> view
+          API
+        </Button>
+      </div>
     )
   }
   const redirectAPI = (apiId: string) => {
@@ -141,7 +147,7 @@ function MyEventPage() {
               <Column field="aapiOwner" header="Owner"></Column>
               <Column
                 field="subsriber"
-                header="View Subscibers"
+                header=""
                 body={viewSubscriberTemplate}
               ></Column>
             </DataTable>
@@ -160,7 +166,7 @@ function MyEventPage() {
             </ul>
           </Dialog>
         </TabPanel>
-        <TabPanel header="My Subscribe List">
+        <TabPanel header="My Authorization List">
           {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
           <div className="d-block mb-4 mb-md-0">
           
