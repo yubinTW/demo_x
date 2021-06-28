@@ -7,17 +7,7 @@ import { Status, IAapi, AapiBody, MongoAapi, EventBody } from '../types/aapi'
 import { psSummaryItem } from '../types/productSuite'
 import { MockA4RepoImpl } from './a4-repo'
 import { MockPermissionRepoImpl } from './permission-repo'
-import { constant } from 'lodash'
-// const str2Status: (v: string) => Status = (v) => {
-//     switch (v.toLowerCase()) {
-//       case Status.On:
-//         return Status.On
-//       case Status.Off:
-//         return Status.Off
-//       default:
-//         return Status.On
-//     }
-//   }
+
 
 interface AapiRepo {
   getAapis(): TE.TaskEither<Error, O.Option<Readonly<Array<IAapi>>>>
@@ -160,10 +150,12 @@ class AapiRepoImpl implements AapiRepo {
       })
     )
 
+    const sortRuleAapis: (a: IAapi, b: IAapi) => number = (a, b) => a.title.localeCompare(b.title)
+    
     // get user's A4 role
     const result = {
-      own: ownAapis,
-      subscribe: subscribeAapis
+      own: ownAapis.sort(sortRuleAapis),
+      subscribe: subscribeAapis.sort(sortRuleAapis)
     }
     return Promise.resolve(result)
   }
