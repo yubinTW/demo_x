@@ -155,11 +155,18 @@ function MyEventPage() {
             footer={renderFooter()}
             onHide={() => onHide()}
           >
-            <ul>
+            {/* <ul>
               {subscriberList.map((item) => (
                 <li key={item.name}>{item.name}</li>
               ))}
-            </ul>
+            </ul> */}
+            <div className="card mt-2">
+              <DataTable value={subscriberList} className="datatable-class" paginator>
+                <Column field="name" header="User Name"></Column>
+                <Column field="productSuite" header="Product Suite"></Column>
+                <Column field="product" header="product"></Column>
+              </DataTable>
+            </div>
           </Dialog>
         </TabPanel>
         <TabPanel header="My Authorization List">
