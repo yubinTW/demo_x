@@ -9,10 +9,10 @@
         "productSuite": "GigaCIM",
         "product": "SiMM",
         "subscribers": [
-          {"name":"LCLIAOW"},
-          {"name":"JWLINV"},
-          {"name":"LCLIAOC"},
-          {"name":"LCLIAOD"}
+          {"name":"LCLIAOW", "productSuite": "FAB", "product":"testN" },
+          {"name":"JWLINV", "productSuite": "FAB", "product":"testN" },
+          {"name":"LCLIAOC", "productSuite": "FAB", "product":"testN" },
+          {"name":"LCLIAOD", "productSuite": "FAB", "product":"testN" }
           ]
       },
       {
@@ -23,10 +23,10 @@
         "productSuite": "GigaCIM",
         "product": "SiMM",
         "subscribers": [
-          {"name":"LCLIAOT"},
-          {"name":"CCWUO"},
-          {"name":"YBHSU"},
-          {"name":"STLEE"}
+          {"name":"LCLIAOT", "productSuite": "FAB", "product":"testN" },
+          {"name":"CCWUO", "productSuite": "FAB", "product":"testN" },
+          {"name":"YBHSU", "productSuite": "FAB", "product":"testN" },
+          {"name":"STLEE", "productSuite": "FAB", "product":"testN" }
           ]
       },
       {
@@ -37,10 +37,10 @@
         "productSuite": "GigaCIM",
         "product": "SiMM",
         "subscribers": [
-          {"name":"ABSC"},
-          {"name":"LCLIAOK"},
-          {"name":"LCIAOU"},
-          {"name":"LCOOOO"}
+          {"name":"ABSC", "productSuite": "FAB", "product":"testN" },
+          {"name":"LCLIAOK", "productSuite": "FAB", "product":"testN" },
+          {"name":"LCIAOU", "productSuite": "FAB", "product":"testN" },
+          {"name":"LCOOOO", "productSuite": "FAB", "product":"testN" }
           ]
       }
     ],
