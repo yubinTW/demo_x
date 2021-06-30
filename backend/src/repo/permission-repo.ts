@@ -5,9 +5,13 @@ import * as E from 'fp-ts/Either'
 import { zero } from 'fp-ts/Array'
 import { IAapi } from '../types/aapi'
 import Aapi from '../models/aapi'
+import { IPermission } from '../types/permission'
+import Permission from '../models/permission'
+import { pipe } from 'fp-ts/function'
 
 interface PermissionRepo {
   getAuthorizedAapisByProductSuite(productSuite: string): Promise<Array<IAapi>>
+  savePermission(permission: IPermission): TE.TaskEither<Error, O.Option<Readonly<IPermission>>>
 }
 
 class PermissionRepoImpl implements PermissionRepo {
@@ -20,6 +24,19 @@ class PermissionRepoImpl implements PermissionRepo {
 
   getAuthorizedAapisByProductSuite(productSuite: string): Promise<Array<IAapi>> {
     return Promise.resolve(zero<IAapi>())
+  }
+
+  savePermission(permission: IPermission): TE.TaskEither<Error, O.Option<Readonly<IPermission>>> {
+    const filter = {
+      productSuite: permission.productSuite
+    }
+    return pipe(
+      TE.tryCatch(
+        () => Permission.findOneAndUpdate(filter, permission, { new: true, upsert: true }).exec(),
+        (e) => new Error(`Create Permission Error: ${e}`)
+      ),
+      TE.map<any, O.Option<Readonly<IPermission>>>((r) => (r ? O.some(r) : O.none))
+    )
   }
 }
 
@@ -38,6 +55,19 @@ class MockPermissionRepoImpl implements PermissionRepo {
       default:
         return Promise.resolve(zero<IAapi>())
     }
+  }
+
+  savePermission(permission: IPermission): TE.TaskEither<Error, O.Option<Readonly<IPermission>>> {
+    const filter = {
+      productSuite: permission.productSuite
+    }
+    return pipe(
+      TE.tryCatch(
+        () => Permission.findOneAndUpdate(filter, permission, { new: true, upsert: true }).exec(),
+        (e) => new Error(`Create Permission Error: ${e}`)
+      ),
+      TE.map<any, O.Option<Readonly<IPermission>>>((r) => (r ? O.some(r) : O.none))
+    )
   }
 }
 

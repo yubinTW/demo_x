@@ -8,7 +8,6 @@ import { psSummaryItem } from '../types/productSuite'
 import { MockA4RepoImpl } from './a4-repo'
 import { MockPermissionRepoImpl } from './permission-repo'
 
-
 interface AapiRepo {
   getAapis(): TE.TaskEither<Error, O.Option<Readonly<Array<IAapi>>>>
   addAapi(body: IAapi): TE.TaskEither<Error, Readonly<IAapi>>
@@ -151,7 +150,7 @@ class AapiRepoImpl implements AapiRepo {
     )
 
     const sortRuleAapis: (a: IAapi, b: IAapi) => number = (a, b) => a.title.localeCompare(b.title)
-    
+
     // get user's A4 role
     const result = {
       own: ownAapis.sort(sortRuleAapis),

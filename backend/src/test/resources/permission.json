@@ -1,0 +1,26 @@
+{
+  "productSuite": "NTAP",
+  "users": [
+    {
+      "user": "ABC",
+      "productSuite": "productSuite01",
+      "product": "product01",
+      "permissions": {
+        "subscribes": [
+          "subject1",
+          "subject2"
+        ]
+      }
+    },
+    {
+      "user": "ABB",
+      "productSuite": "productSuite01",
+      "permissions": {
+        "subscribes": [
+          "subject1",
+          "subject2"
+        ]
+      }
+    }
+  ]
+}
