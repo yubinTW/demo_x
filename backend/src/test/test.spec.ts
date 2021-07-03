@@ -6,14 +6,13 @@ import * as F from 'fp-ts/lib/function'
 import * as A from 'fp-ts/Array'
 import * as I from 'fp-ts/Identity'
 import * as IO from 'fp-ts/IO'
-import { FormRepoImpl } from '../repo/form-repo'
-import { IForm } from '../types/form'
 import { FastifyInstance } from 'fastify'
 import { fastifyPortOf } from '../repo/config-repo'
 import { startFastify } from '../http-server/server'
 import { Server, IncomingMessage, ServerResponse } from 'http'
 import * as dbHandler from './db'
-
+import { AapiRepoImpl } from '../repo/aapi-repo'
+import { IAapi } from '../types/aapi'
 describe('Just Testing', () => {
   let server: Readonly<FastifyInstance<Server, IncomingMessage, ServerResponse>>
 
@@ -82,14 +81,14 @@ describe('Just Testing', () => {
    * 拿出來的東西再給 match 拿 Option 內的 T
    */
   it('test #3', async () => {
-    const formRepo: FormRepoImpl = FormRepoImpl.of()
+    const aapiRepo: AapiRepoImpl = AapiRepoImpl.of()
 
-    const forms: Readonly<Array<IForm>> = F.pipe(
-      await formRepo.getForms()(),
+    const forms: Readonly<Array<IAapi>> = F.pipe(
+      await aapiRepo.getAapis()(),
       E.match(
-        (_) => A.zero<IForm>(),
+        (_) => A.zero<IAapi>(),
         (x) =>
-          O.match<Readonly<Array<IForm>>, Readonly<Array<IForm>>>(
+          O.match<Readonly<Array<IAapi>>, Readonly<Array<IAapi>>>(
             () => A.zero(),
             (value) => I.of(value) // Identity T :: T -> T
           )(x)
@@ -102,9 +101,9 @@ describe('Just Testing', () => {
      * use F.pipe -> bind -> map (F.pipe -> some -> ap)
      */
     // await F.pipe(
-    //     TE.bindTo('getForms')(formRepo.getForms()),
+    //     TE.bindTo('getForms')(aapiRepo.getForms()),
     //     TE.map(({ getForms }) => F.pipe(
-    //         O.some((a: Readonly<Array<IForm>>) => {
+    //         O.some((a: Readonly<Array<IAapi>>) => {
     //             forms = a
     //         }),
     //         O.ap(getForms)
@@ -114,9 +113,9 @@ describe('Just Testing', () => {
     /**
      * replace some by match
      */
-    // let forms: Readonly<Array<IForm>> = [];
+    // let forms: Readonly<Array<IAapi>> = [];
     // await F.pipe(
-    //     bindTo('getForms')(formRepo.getForms()),
+    //     bindTo('getForms')(aapiRepo.getForms()),
     //     map(({ getForms }) => F.pipe(
     //         getForms,
     //         O.match(
@@ -133,24 +132,24 @@ describe('Just Testing', () => {
 
   /**
    * 拿出 TaskEither<Option<T>> 的結果T
-   * 用 match<Error, void, O.Option<Readonly<Array<IForm>>>> 區分error和Option
+   * 用 match<Error, void, O.Option<Readonly<Array<IAapi>>>> 區分error和Option
    * 拿出來的東西再給 match 拿 Option 內的 T
    */
   it('test #4', async () => {
-    const formRepo: FormRepoImpl = FormRepoImpl.of()
+    const aapiRepo: AapiRepoImpl = AapiRepoImpl.of()
 
-    const forms: Readonly<Array<IForm>> = await TE.match<
+    const forms: Readonly<Array<IAapi>> = await TE.match<
       Error,
-      Readonly<Array<IForm>>,
-      O.Option<Readonly<Array<IForm>>>
+      Readonly<Array<IAapi>>,
+      O.Option<Readonly<Array<IAapi>>>
     >(
-      (e) => IO.map((_) => A.zero<IForm>())(IO.of(console.log(`Error: ${e}`)))(),
+      (e) => IO.map((_) => A.zero<IAapi>())(IO.of(console.log(`Error: ${e}`)))(),
       (x) =>
-        O.match<Readonly<Array<IForm>>, Readonly<Array<IForm>>>(
+        O.match<Readonly<Array<IAapi>>, Readonly<Array<IAapi>>>(
           () => A.zero(),
           (value) => I.of(value)
         )(x)
-    )(formRepo.getForms())()
+    )(aapiRepo.getAapis())()
 
     expect(forms.length).toBe(0)
   })
