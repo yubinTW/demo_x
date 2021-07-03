@@ -141,7 +141,42 @@ describe('Aapi test', () => {
     expect(deleteByIdResponse.statusCode).toBe(204)
   })
 
-  it('should return not found when delete a non-exist aapi', async () => {
+  it('should return Bad Request when get an invalid id of an aapi', async () => {
+    const fakeId = 'foo'
+    const response = await server.inject({ method: 'GET', url: `/v1/aapi/${fakeId}` })
+
+    expect(response.statusCode).toBe(400)
+  })
+
+  it('should return Bad Request when update an invalid id of an aapi', async () => {
+    const fakeId = 'foo'
+    const response = await server.inject({ method: 'PUT', url: `/v1/aapi/${fakeId}` })
+
+    expect(response.statusCode).toBe(400)
+  })
+
+  it('should return Bad Request when delete an invalid id of an aapi', async () => {
+    const fakeId = 'foo'
+    const response = await server.inject({ method: 'DELETE', url: `/v1/aapi/${fakeId}` })
+
+    expect(response.statusCode).toBe(400)
+  })
+
+  it('should return Not Found when get an invalid id of an aapi', async () => {
+    const fakeId = '60cabdab34b1d04cc48e01d1'
+    const response = await server.inject({ method: 'GET', url: `/v1/aapi/${fakeId}` })
+
+    expect(response.statusCode).toBe(404)
+  })
+
+  it('should return Not Found when update an invalid id of an aapi', async () => {
+    const fakeId = '60cabdab34b1d04cc48e01d1'
+    const response = await server.inject({ method: 'PUT', url: `/v1/aapi/${fakeId}` })
+
+    expect(response.statusCode).toBe(404)
+  })
+
+  it('should return Not Found when delete a non-exist aapi', async () => {
     const fakeId = '60cabdab34b1d04cc48e01d1'
     const response = await server.inject({ method: 'DELETE', url: `/v1/aapi/${fakeId}` })
 
