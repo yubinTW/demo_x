@@ -56,7 +56,16 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 
 
+## Cypress
 
+Run specific spec file
+```
+npx cypress run --spec "cypress/integration/mp-spec.js
+```
+
+```
+npx cypress run --browser chrome
+```
 
 ### asyncapi viewer component
 https://github.com/asyncapi/asyncapi-react#development
