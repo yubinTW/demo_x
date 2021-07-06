@@ -12,22 +12,23 @@ export class NodeService {
   // async getProductSuiteData() {
   //   return await axios.get<AapiBody[]>('./productsuite')
   // }
-
+  //urlconfig = "http://localhost:3000"
+  urlconfig = ""
   getProductSuiteData(): TE.TaskEither<Error, Array<AapiBody>> {
     return pipe(
       TE.tryCatch<Error, AxiosResponse<Array<AapiBody>>>(
-        () => axios.get<AapiBody[]>('/v1/productsuite'),
+        () => axios.get<Array<AapiBody>>(this.urlconfig+'/v1/productsuite'),
         (err) => new Error(`GET ProductSuite Error: ${err}`)
       ),
       TE.map<AxiosResponse<Array<AapiBody>>, Array<AapiBody>>((res) =>
-        'aapis' in res.data ? res.data['aapis'] : zero<AapiBody>()
+        res.data
       )
     )
   }
   getMyEventData(): TE.TaskEither<Error, EventBody> {
     return pipe(
       TE.tryCatch<Error, AxiosResponse<EventBody>>(
-        () => axios.get<EventBody>('/v1/myevent'),
+        () => axios.get<EventBody>(this.urlconfig+'/v1/myevent'),
         (err) => new Error(`GET My Event Page Error: ${err}`)
       ),
       TE.map<AxiosResponse<EventBody>, EventBody>((res) =>
@@ -39,11 +40,12 @@ export class NodeService {
       )
     )
   }
+  
   getApiData(id: string): TE.TaskEither<Error, AapiBody> {
     console.log('Get id from params: ', id)
     return pipe(
       TE.tryCatch<Error, AxiosResponse<AapiBody>>(
-        () => axios.get<AapiBody>(`/v1/aapi/${id}`),
+        () => axios.get<AapiBody>(this.urlconfig+`/v1/aapi/${id}`),
         (err) => new Error(`GET API Info Error: ${err}`)
       ),
       TE.map<AxiosResponse<AapiBody>, AapiBody>((res) => res.data
@@ -54,7 +56,7 @@ export class NodeService {
     console.log('Check Login status')
     return pipe(
       TE.tryCatch<Error, AxiosResponse<UserState>>(
-        () => axios.get<UserState>('/v1/login'),
+        () => axios.get<UserState>(this.urlconfig+'/v1/login'),
         (err) => new Error(`GET User Status Error: ${err}`)
       ),
       TE.map<AxiosResponse<UserState>, UserState>((res) => res.data
@@ -89,7 +91,7 @@ export class NodeService {
       return console.error(e)
     }
   }
-
+  
     async getApiData(id:string)
     {
         console.log("Get id from params: ",id)

@@ -140,7 +140,7 @@ function MyEventPage() {
             </div>
           </div>
 
-          <div className="card mt-2">
+          <div className="card mt-2" id="event-tab">
             <DataTable value={eventOwnerPage} className="datatable-class" paginator>
               <Column field="title" header="Event Subject"></Column>
               <Column field="description" header="Description"></Column>
@@ -192,7 +192,7 @@ function MyEventPage() {
             </div>
           </div>
 
-          <div className="card mt-2">
+          <div className="card mt-2" id="authorization-tab">
             <DataTable value={eventSubscriberPage} className="datatable-class" paginator>
               <Column field="title" header="Event Subject"></Column>
               <Column field="description" header="Description"></Column>

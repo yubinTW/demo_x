@@ -16,12 +16,35 @@ import './scss/volt.scss'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 import { MockServer } from './service/MockServer'
+import {createServer, Response, Server} from 'miragejs'
+
+/*
+// @ts-ignore
+if (window.Cypress) {
+  // mirage cypress server
+  let cyServer = new Server({
+    routes() {
+      ["get", "put", "patch", "post", "delete"].forEach(method => {
+        this[method]("/*", (schema, request) => {
+          // @ts-ignore
+          return window.handleFromCypress(request);
+        });
+      });
+    }
+  });
+  cyServer.logging = false;
+} else if (!process.env.REACT_APP_PROXY) {
+  // mirage dev server
+  const environment = process.env.NODE_ENV
+  MockServer({ environment })
+}*/
 
 const environment = process.env.NODE_ENV
 console.log(environment)
 if (environment !== 'production') {
   MockServer({ environment })
 }
+
 // const routes = [
 //   {
 //     path: "/",
