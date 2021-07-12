@@ -102,7 +102,7 @@ function SummaryPage() {
         <div className="p-col-3">
           <Form.Group id="ps-filter">
             <Form.Label>Product Suites</Form.Label>
-            <Form.Select onChange={onPsChange} value={selectedPs}>
+            <Form.Select id="psSelect" onChange={onPsChange} value={selectedPs}>
               <option value="">Select Product Suite</option>
               {psList.map((item) => (
                 <option key={item} value={item}>
@@ -115,7 +115,7 @@ function SummaryPage() {
         <div className="p-col-3 ">
           <Form.Group id="pd-filter">
             <Form.Label>Products</Form.Label>
-            <Form.Select onChange={onProductChange} value={selectedProduct}>
+            <Form.Select id="productSelect" onChange={onProductChange} value={selectedProduct}>
               <option value="">Select Product </option>
 
               {productList.map((item) => (
