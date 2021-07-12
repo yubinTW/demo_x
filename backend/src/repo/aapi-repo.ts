@@ -48,9 +48,9 @@ class AapiRepoImpl implements AapiRepo {
    * @param body - the API request content
    * @returns either an error or a persisted Aapi
    */
-  addAapi: (body: AapiBody) => TE.TaskEither<Error, Readonly<IAapi>> = (formBody) => {
+  addAapi: (body: AapiBody) => TE.TaskEither<Error, Readonly<IAapi>> = (aapiBody) => {
     return TE.tryCatch(
-      () => Aapi.create(formBody),
+      () => Aapi.create(aapiBody),
       (e) => new Error(`Failed to create an API: ${e}`)
     )
   }
