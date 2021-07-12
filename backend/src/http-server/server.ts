@@ -5,10 +5,10 @@ import { Server, IncomingMessage, ServerResponse, request } from 'http'
 import { fromNullable, match, map, getOrElse } from 'fp-ts/Option'
 import { FastifyPort, EnvConfigRepoImpl, RuntimeEnv } from '../repo/config-repo'
 import { healthcheck } from './routes/v1/healthcheck'
-import { FormsRouter } from './routes/v1/forms'
 import { AapiRouter } from './routes/v1/aapi'
 import { ProductSuiteRouter } from './routes/v1/productSuite'
 import { MyEventRouter } from './routes/v1/myevent'
+import { PermissionRouter } from './routes/v1/permission'
 import FastifyStatic from 'fastify-static'
 import path from 'path'
 import { establishConnection } from '../plugins/mongodb'
@@ -82,10 +82,10 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
   })
 
   server.register(healthcheck, { prefix: '/v1' })
-  server.register(FormsRouter, { prefix: '/v1' })
   server.register(AapiRouter, { prefix: '/v1' })
   server.register(ProductSuiteRouter, { prefix: '/v1' })
   server.register(MyEventRouter, { prefix: '/v1' })
+  server.register(PermissionRouter, { prefix: '/v1' })
 
   return server
 }

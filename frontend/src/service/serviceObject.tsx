@@ -8,6 +8,8 @@ export type EventBody = {
 }
 export type SubscriberBody = {
   readonly name: string
+  readonly productSuite: string
+  readonly product: string
 }
 export type UserState = {
   readonly account: string

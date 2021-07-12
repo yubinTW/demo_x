@@ -7,6 +7,33 @@ servers:
   - url: http://{apiUrl}/v1
     description: API endpoint of backend
 paths:
+  /cred/{productSuite}/{user}:
+    get:
+      tags:
+        - credential
+      summary: Get credential of the user
+      description: Get credential file
+      parameters:
+        - in: path
+          name: productSuite
+          schema:
+            type: string
+          required: true
+          description: The productSuite of the user
+        - in: path
+          name: user
+          schema:
+            type: string
+          required: true
+          description: The name of the user
+      responses:
+        '200':
+          description: A cred file
+          content:
+            application/octet-stream:
+                schema:
+                  type: string
+                  format: binary
   /login:
     get:
       tags:
