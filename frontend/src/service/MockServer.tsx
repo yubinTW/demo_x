@@ -68,7 +68,7 @@ export function MockServer({ environment = 'test' }) {
           api: mockapi,
       }))*/
       this.get('/v1/myevent', () => myevent)
-      
+      this.get('/v1/cred/:ps/:user', (schema,request) => ({}))
       this.get('/v1/aapi/:id', (schema, request) => ({
         id: request.params.id,
         title: 'test_api_name',

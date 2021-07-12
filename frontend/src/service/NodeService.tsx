@@ -7,6 +7,7 @@ import { of } from 'fp-ts/Identity'
 import { zero } from 'fp-ts/Array'
 import { pipe } from 'fp-ts/lib/function'
 import { Status, AapiBody, EventBody,UserState } from './serviceObject'
+import fileDownload from 'js-file-download'
 
 export class NodeService {
   // async getProductSuiteData() {
@@ -14,6 +15,16 @@ export class NodeService {
   // }
   //urlconfig = "http://localhost:3000"
   urlconfig = ""
+
+  downloadCredFile(productSuite: string, account: string): TE.TaskEither<Error,void>{
+    return pipe(
+      TE.tryCatch<Error,AxiosResponse<void>>(
+        () => axios.get(this.urlconfig+`/cred/${productSuite}/${account}`),
+        (err) => new Error(`Download File Eror: ${err}`)
+      ),
+      TE.map<AxiosResponse<void>, void>((res)=>res)
+    )
+  }
   getProductSuiteData(): TE.TaskEither<Error, Array<AapiBody>> {
     return pipe(
       TE.tryCatch<Error, AxiosResponse<Array<AapiBody>>>(

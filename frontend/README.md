@@ -66,6 +66,10 @@ npx cypress run --spec "cypress/integration/mp-spec.js
 ```
 npx cypress run --browser chrome
 ```
+Open test panel
+```
+npm cypress open
+```
 
 ### asyncapi viewer component
 https://github.com/asyncapi/asyncapi-react#development

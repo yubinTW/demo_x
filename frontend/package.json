@@ -25,6 +25,7 @@
     "bootstrap": "5.0.0-beta1",
     "chartist-plugin-tooltips-updated": "^0.1.4",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "js-file-download": "^0.4.12",
     "miragejs": "^0.1.41",
     "moment-timezone": "^0.5.31",
     "node-sass": "^6.0.0",
