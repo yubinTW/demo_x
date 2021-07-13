@@ -16,7 +16,12 @@ import { Tooltip } from 'primereact/tooltip'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TabView, TabPanel } from 'primereact/tabview'
-import { faListAlt, faExternalLinkAlt, faUsers } from '@fortawesome/free-solid-svg-icons'
+import {
+  faListAlt,
+  faExternalLinkAlt,
+  faUsers,
+  faCloudDownloadAlt,
+} from '@fortawesome/free-solid-svg-icons'
 import { SourceMap } from 'module'
 import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
@@ -65,23 +70,22 @@ function MyEventPage() {
   }, [])
 
   //const sList = ['susciber1', 'susciber2', 'susciber3', 'susciber4', 'susciber5', 'susciber6']
-  const downloadFileTemplate = (rowData) => {
-    //console.log(rowData)
-    return (
-      <span className="aClick">
-        <Tooltip target=".custom-target-icon" />
-        <a
-          href="#"
-          className="custom-target-icon"
-          onClick={() => nodeService.downloadCredFile(rowData.title, 'account')}
-          data-pr-tooltip="Click to Download Files"
-          data-pr-position="top"
-        >
-          {rowData.title}
-        </a>
-      </span>
-    )
-  }
+  // const downloadFileTemplate = (rowData) => {
+  //   return (
+  //     <span className="aClick">
+  //       <Tooltip target=".custom-target-icon" />
+  //       <a
+  //         href="#"
+  //         className="custom-target-icon"
+  //         onClick={() => nodeService.downloadCredFile(rowData.title, 'account')}
+  //         data-pr-tooltip="Click to Download Files"
+  //         data-pr-position="top"
+  //       >
+  //         {rowData.title}
+  //       </a>
+  //     </span>
+  //   )
+  // }
   const viewSubscriberTemplate = (rowData) => {
     //console.log(rowData)
     return (
@@ -105,13 +109,28 @@ function MyEventPage() {
     // window.location.pathname = pathconcat
     window.open(pathconcat, '_blank')
   }
+  const getPs = (subject: string) => {
+    return subject.split('.')[0]
+  }
   const viewAPITemplate = (rowData) => {
     //console.log(rowData)
     return (
-      <Button className="p-button-primary p-button-sm" onClick={() => redirectAPI(rowData['id'])}>
-        <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-md-inline ms-0 p-mr-1" /> view
-        API
-      </Button>
+      <div>
+        <Button
+          className="p-button-primary p-button-sm p-mr-1"
+          onClick={() => redirectAPI(rowData['id'])}
+        >
+          <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-md-inline ms-0 p-mr-1" />{' '}
+          view API
+        </Button>
+        <Button
+          className="p-button-warning p-button-sm"
+          onClick={() => nodeService.downloadCredFile(getPs(rowData.title), 'account')}
+        >
+          <FontAwesomeIcon icon={faCloudDownloadAlt} className="d-none d-md-inline ms-0 p-mr-1" />{' '}
+          Download
+        </Button>
+      </div>
     )
   }
   const onHide = () => {
@@ -160,7 +179,7 @@ function MyEventPage() {
 
           <div className="card mt-2" id="event-tab">
             <DataTable value={eventOwnerPage} className="datatable-class" paginator>
-              <Column field="title" header="Event Subject" body={downloadFileTemplate}></Column>
+              <Column field="title" header="Event Subject"></Column>
               <Column field="description" header="Description"></Column>
               <Column field="aapiOwner" header="Owner"></Column>
               <Column field="subsriber" header="" body={viewSubscriberTemplate}></Column>
