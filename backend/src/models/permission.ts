@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   user: { type: String, required: true },
   productSuite: { type: String, required: true },
   product: { type: String },
+  status: { type: String },
   permissions: {
     subscribes: { type: Array }
   }

@@ -19,6 +19,7 @@ const PermissionRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
           user: Type.String(),
           productSuite: Type.String(),
           product: Type.Optional(Type.String()),
+          status: Type.String(),
           permissions: Type.Object({
             subscribes: Type.Array(Type.String())
           })
@@ -41,6 +42,7 @@ const PermissionRouter = (server: FastifyInstance, opts: RouteShorthandOptions, 
 
   opts = { ...opts, schema: { response: { 201: Response } } }
 
+  // post a permission setting in JSON format
   server.post('/permission', opts, async (request, reply) => {
     await TE.match<Error, FastifyReply, O.Option<Readonly<IPermission>>>(
       (e) => {

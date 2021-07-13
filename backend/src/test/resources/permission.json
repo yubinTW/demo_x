@@ -5,6 +5,7 @@
       "user": "ABC",
       "productSuite": "productSuite01",
       "product": "product01",
+      "status": "Active",
       "permissions": {
         "subscribes": [
           "subject1",
@@ -15,6 +16,7 @@
     {
       "user": "ABB",
       "productSuite": "productSuite01",
+      "status": "Revoke",
       "permissions": {
         "subscribes": [
           "subject1",
