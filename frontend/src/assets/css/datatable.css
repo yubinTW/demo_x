@@ -46,3 +46,9 @@
   padding: 0rem 0rem;
   border-radius: 3px;
 }
+.aClick > a {
+  color: #2196f3;
+}
+.aClick > a:hover {
+  color: #74c8e9;
+}

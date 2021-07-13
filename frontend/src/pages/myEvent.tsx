@@ -12,6 +12,7 @@ import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
+import { Tooltip } from 'primereact/tooltip'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TabView, TabPanel } from 'primereact/tabview'
@@ -64,6 +65,23 @@ function MyEventPage() {
   }, [])
 
   //const sList = ['susciber1', 'susciber2', 'susciber3', 'susciber4', 'susciber5', 'susciber6']
+  const downloadFileTemplate = (rowData) => {
+    //console.log(rowData)
+    return (
+      <span className="aClick">
+        <Tooltip target=".custom-target-icon" />
+        <a
+          href="#"
+          className="custom-target-icon"
+          onClick={() => nodeService.downloadCredFile(rowData.title, 'account')}
+          data-pr-tooltip="Click to Download Files"
+          data-pr-position="top"
+        >
+          {rowData.title}
+        </a>
+      </span>
+    )
+  }
   const viewSubscriberTemplate = (rowData) => {
     //console.log(rowData)
     return (
@@ -142,7 +160,7 @@ function MyEventPage() {
 
           <div className="card mt-2" id="event-tab">
             <DataTable value={eventOwnerPage} className="datatable-class" paginator>
-              <Column field="title" header="Event Subject"></Column>
+              <Column field="title" header="Event Subject" body={downloadFileTemplate}></Column>
               <Column field="description" header="Description"></Column>
               <Column field="aapiOwner" header="Owner"></Column>
               <Column field="subsriber" header="" body={viewSubscriberTemplate}></Column>
