@@ -14,21 +14,22 @@ export class NodeService {
   //   return await axios.get<AapiBody[]>('./productsuite')
   // }
   //urlconfig = "http://localhost:3000"
-  urlconfig = ""
+  urlconfig = "/v1"
 
-  downloadCredFile(productSuite: string, account: string): TE.TaskEither<Error,void>{
+  downloadCredFile(productSuite: string, account: string): TE.TaskEither<Error,UserState>{
+    console.log(productSuite,account)
     return pipe(
-      TE.tryCatch<Error,AxiosResponse<void>>(
-        () => axios.get(this.urlconfig+`/cred/${productSuite}/${account}`),
+      TE.tryCatch<Error,AxiosResponse<UserState>>(
+        () => axios.get<UserState>(`${this.urlconfig}/cred/${productSuite}/${account}`),
         (err) => new Error(`Download File Eror: ${err}`)
       ),
-      TE.map<AxiosResponse<void>, void>((res)=>res)
+      TE.map<AxiosResponse<UserState>, UserState>((res)=>res.data)
     )
   }
   getProductSuiteData(): TE.TaskEither<Error, Array<AapiBody>> {
     return pipe(
       TE.tryCatch<Error, AxiosResponse<Array<AapiBody>>>(
-        () => axios.get<Array<AapiBody>>(this.urlconfig+'/v1/productsuite'),
+        () => axios.get<Array<AapiBody>>(`${this.urlconfig}/productsuite`),
         (err) => new Error(`GET ProductSuite Error: ${err}`)
       ),
       TE.map<AxiosResponse<Array<AapiBody>>, Array<AapiBody>>((res) =>
@@ -39,7 +40,7 @@ export class NodeService {
   getMyEventData(): TE.TaskEither<Error, EventBody> {
     return pipe(
       TE.tryCatch<Error, AxiosResponse<EventBody>>(
-        () => axios.get<EventBody>(this.urlconfig+'/v1/myevent'),
+        () => axios.get<EventBody>(`${this.urlconfig}/myevent`),
         (err) => new Error(`GET My Event Page Error: ${err}`)
       ),
       TE.map<AxiosResponse<EventBody>, EventBody>((res) =>
@@ -56,7 +57,7 @@ export class NodeService {
     console.log('Get id from params: ', id)
     return pipe(
       TE.tryCatch<Error, AxiosResponse<AapiBody>>(
-        () => axios.get<AapiBody>(this.urlconfig+`/v1/aapi/${id}`),
+        () => axios.get<AapiBody>(`${this.urlconfig}/aapi/${id}`),
         (err) => new Error(`GET API Info Error: ${err}`)
       ),
       TE.map<AxiosResponse<AapiBody>, AapiBody>((res) => res.data
@@ -67,7 +68,7 @@ export class NodeService {
     console.log('Check Login status')
     return pipe(
       TE.tryCatch<Error, AxiosResponse<UserState>>(
-        () => axios.get<UserState>(this.urlconfig+'/v1/login'),
+        () => axios.get<UserState>(`${this.urlconfig}/login`),
         (err) => new Error(`GET User Status Error: ${err}`)
       ),
       TE.map<AxiosResponse<UserState>, UserState>((res) => res.data

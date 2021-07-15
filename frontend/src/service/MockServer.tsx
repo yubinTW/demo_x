@@ -52,7 +52,7 @@ export function MockServer({ environment = 'test' }) {
       })
     },
     routes() {
-      this.urlPrefix ="http://localhost:3000"
+      this.urlPrefix ="/v1"
       /*
       this.post('/api', (schema, request) => ({
         responseCheck: request.requestBody,
@@ -67,9 +67,14 @@ export function MockServer({ environment = 'test' }) {
           apiId: JSON.parse(request.queryParams.id).id,
           api: mockapi,
       }))*/
-      this.get('/v1/myevent', () => myevent)
-      this.get('/v1/cred/:ps/:user', (schema,request) => ({}))
-      this.get('/v1/aapi/:id', (schema, request) => ({
+      this.get('/myevent', () => myevent)
+      this.get('/cred/:ps/:user', (schema,request) => {
+        let psId = request.params.ps
+        let userId = request.params.user 
+        //console.log(psId,userId)
+        return {account: userId, state: 'login'}
+      })
+      this.get('/aapi/:id', (schema, request) => ({
         id: request.params.id,
         title: 'test_api_name',
         productSuite: 'NTAP_test',
@@ -80,11 +85,11 @@ export function MockServer({ environment = 'test' }) {
         updatedAt: '2021-06-08 13:22:17',
       }))
       
-      this.get('/v1/login', () => ({
+      this.get('/login', () => ({
         account: "LCLIAOB",
         state: "login"
       }))
-      this.get('v1/productsuite',(schema,request) => {
+      this.get('/productsuite',(schema,request) => {
         return schema.db.aapis
       })
       //this.get('/v1/productsuite', () => psData)
