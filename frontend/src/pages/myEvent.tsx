@@ -16,6 +16,8 @@ import { Tooltip } from 'primereact/tooltip'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TabView, TabPanel } from 'primereact/tabview'
+import { selectAccount } from '../redux/userState'
+import { useAppSelector} from './../app/hooks'
 import {
   faListAlt,
   faExternalLinkAlt,
@@ -35,6 +37,7 @@ function MyEventPage() {
   const [subscriberList, setSubscriberList] = useState<Array<SubscriberBody>>([])
   const [eventSubscriberPage, setEventSubscriberPage] = useState<Array<AapiBody>>([])
   const nodeService = new NodeService()
+  const account:string = useAppSelector(selectAccount)
 
   const toast = useRef(null)
   const showError = (e) => {
@@ -45,7 +48,17 @@ function MyEventPage() {
       life: 3000,
     })
   }
-
+  async function downloadCred(ps: string)
+  {
+    const data = await TE.match<Error, void, void>(
+      (e) => {
+        showError(e)
+        console.error(`Download Credential File Error: ${e}`)
+        return 
+      },
+      (r) => {return}
+    )(nodeService.downloadCredFile(ps,account))()
+  }
   async function setUpData() {
     const data = await TE.match<Error, EventBody, EventBody>(
       (e) => {
@@ -125,7 +138,7 @@ function MyEventPage() {
         </Button>
         <Button
           className="p-button-warning p-button-sm"
-          onClick={() => nodeService.downloadCredFile(getPs(rowData.title), 'account')}
+          onClick={() => downloadCred(getPs(rowData.title))}
         >
           <FontAwesomeIcon icon={faCloudDownloadAlt} className="d-none d-md-inline ms-0 p-mr-1" />{' '}
           Download

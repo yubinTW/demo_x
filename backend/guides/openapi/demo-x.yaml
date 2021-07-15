@@ -7,7 +7,7 @@ servers:
   - url: http://{apiUrl}/v1
     description: API endpoint of backend
 paths:
-  /cred/{productSuite}/{user}:
+  /credential/{productSuite}/{user}:
     get:
       tags:
         - credential

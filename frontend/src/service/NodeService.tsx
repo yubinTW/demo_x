@@ -16,14 +16,14 @@ export class NodeService {
   //urlconfig = "http://localhost:3000"
   urlconfig = "/v1"
 
-  downloadCredFile(productSuite: string, account: string): TE.TaskEither<Error,UserState>{
-    console.log(productSuite,account)
+  downloadCredFile(productSuite: string, account: string): TE.TaskEither<Error,void>{
+    //console.log(productSuite,account)
     return pipe(
-      TE.tryCatch<Error,AxiosResponse<UserState>>(
-        () => axios.get<UserState>(`${this.urlconfig}/cred/${productSuite}/${account}`),
+      TE.tryCatch<Error,AxiosResponse<void>>(
+        () => axios.get<void>(`${this.urlconfig}/credential/${productSuite}/${account}`),
         (err) => new Error(`Download File Eror: ${err}`)
       ),
-      TE.map<AxiosResponse<UserState>, UserState>((res)=>res.data)
+      TE.map<AxiosResponse<void>, void>((res)=>res.data)
     )
   }
   getProductSuiteData(): TE.TaskEither<Error, Array<AapiBody>> {
