@@ -8,7 +8,7 @@ export interface UserState {
 
 
 const initialState: UserState = {
-  accountName: "",
+  accountName: "Logout",
   status: 'logout',
 }
 
@@ -23,6 +23,8 @@ export const userStateSlice = createSlice({
   },
 
 })
+
+export const selectAccount = (state: RootState) => state.userStateCheck.accountName
 
 export const { checkUserState} = userStateSlice.actions
 export default userStateSlice.reducer
