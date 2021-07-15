@@ -68,7 +68,7 @@ export function MockServer({ environment = 'test' }) {
           api: mockapi,
       }))*/
       this.get('/myevent', () => myevent)
-      this.get('/cred/:ps/:user', (schema,request) => {
+      this.get('/credential/:ps/:user', (schema,request) => {
         let psId = request.params.ps
         let userId = request.params.user 
         //console.log(psId,userId)

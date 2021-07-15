@@ -20,7 +20,7 @@ export class NodeService {
     console.log(productSuite,account)
     return pipe(
       TE.tryCatch<Error,AxiosResponse<UserState>>(
-        () => axios.get<UserState>(`${this.urlconfig}/cred/${productSuite}/${account}`),
+        () => axios.get<UserState>(`${this.urlconfig}/credential/${productSuite}/${account}`),
         (err) => new Error(`Download File Eror: ${err}`)
       ),
       TE.map<AxiosResponse<UserState>, UserState>((res)=>res.data)
