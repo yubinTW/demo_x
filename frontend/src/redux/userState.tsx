@@ -8,7 +8,7 @@ export interface UserState {
 
 
 const initialState: UserState = {
-  accountName: "Logout",
+  accountName: "",
   status: 'logout',
 }
 
