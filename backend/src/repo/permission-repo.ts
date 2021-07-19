@@ -12,6 +12,8 @@ import { pipe } from 'fp-ts/function'
 interface PermissionRepo {
   getAuthorizedAapisByProductSuite(productSuite: string): Promise<Array<IAapi>>
   savePermission(permission: IPermission): TE.TaskEither<Error, O.Option<Readonly<IPermission>>>
+  updatePermission(productSuite: string, newPermission: IPermission): TE.TaskEither<Error, O.Option<Readonly<IPermission>>>
+  getPermissionByProductSuite(productSuite: string): TE.TaskEither<Error, O.Option<Readonly<IPermission>>>
 }
 
 class PermissionRepoImpl implements PermissionRepo {
@@ -38,6 +40,54 @@ class PermissionRepoImpl implements PermissionRepo {
       TE.map<any, O.Option<Readonly<IPermission>>>((r) => (r ? O.some(r) : O.none))
     )
   }
+
+  getPermissionByProductSuite(productSuite: string): TE.TaskEither<Error, O.Option<Readonly<IPermission>>> {
+    const filter = {
+      productSuite: productSuite
+    }
+    return pipe(
+      TE.tryCatch(
+        () => Permission.findOne(filter).exec(),
+        (e) => new Error(`Query permission by productSuite Error: ${e}`)
+      ),
+      TE.map<any, O.Option<Readonly<IPermission>>>((r) => (r ? O.some(r) : O.none))
+    )
+  }
+
+  updatePermission(productSuite: string, newPermission: IPermission): TE.TaskEither<Error, O.Option<Readonly<IPermission>>> {
+    const filter = {
+      productSuite: productSuite
+    }
+    console.log('start updatePermission')
+    return pipe(
+      TE.tryCatch(
+        async () => {
+          
+          const p = await Permission.findOne(filter).exec()
+          console.log('p = ', p)
+          if (p) {
+            newPermission.users.forEach(u => {
+              const i = p.users.findIndex(item => item.user === u.user)
+              if (i !== -1) {
+                // update
+                p.users[i] = u
+              } else {
+                // add
+                p.users.push(u)
+              }
+            })
+            console.log('p.users = ',p.users)
+            await p.save()
+          }
+          return p
+        } ,
+        (e) => new Error(`Query permission by productSuite Error: ${e}`)
+      ),
+      TE.map<any, O.Option<Readonly<IPermission>>>((r) => (r ? O.some(r) : O.none))
+    )
+    
+  }
+
 }
 
 class MockPermissionRepoImpl implements PermissionRepo {
@@ -68,6 +118,33 @@ class MockPermissionRepoImpl implements PermissionRepo {
       ),
       TE.map<any, O.Option<Readonly<IPermission>>>((r) => (r ? O.some(r) : O.none))
     )
+  }
+
+  getPermissionByProductSuite(productSuite: string): TE.TaskEither<Error, O.Option<Readonly<IPermission>>> {
+    const filter = {
+      productSuite: productSuite
+    }
+    return pipe(
+      TE.tryCatch(
+        () => Permission.findOne(filter).exec(),
+        (e) => new Error(`Query permission by productSuite Error: ${e}`)
+      ),
+      TE.map<any, O.Option<Readonly<IPermission>>>((r) => (r ? O.some(r) : O.none))
+    )
+  }
+  
+  updatePermission(productSuite: string, newPermission: IPermission): TE.TaskEither<Error, O.Option<Readonly<IPermission>>> {
+    const filter = {
+      productSuite: productSuite
+    }
+    return pipe(
+      TE.tryCatch(
+        () => Permission.findOneAndUpdate(filter, newPermission, {new:true, upsert:true}).exec(),
+        (e) => new Error(`Query permission by productSuite Error: ${e}`)
+      ),
+      TE.map<any, O.Option<Readonly<IPermission>>>((r) => (r ? O.some(r) : O.none))
+    )
+    
   }
 }
 

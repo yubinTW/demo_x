@@ -4,6 +4,7 @@ module.exports = {
   transform: {
     "^.+\\.(t|j)sx?$": "ts-jest",
   },
+  testPathIgnorePatterns: ["out/"],
   testEnvironment: "node",
   moduleFileExtensions: [
     "ts",

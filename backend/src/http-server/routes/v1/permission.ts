@@ -6,10 +6,12 @@ import { of } from 'fp-ts/Identity'
 import { zero } from 'fp-ts/Array'
 import { pipe } from 'fp-ts/function'
 import { MockPermissionRepoImpl } from '../../../repo/permission-repo'
+import { NatsRepoImpl } from '../../../repo/nats-repo'
 import { IPermission } from '../../../types/permission'
 
 const PermissionRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void) => {
   const permissionRepo: MockPermissionRepoImpl = MockPermissionRepoImpl.of()
+  const natsRepo: NatsRepoImpl = NatsRepoImpl.of()
 
   const Response = {
     permission: Type.Object({

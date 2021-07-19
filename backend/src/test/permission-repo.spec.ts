@@ -50,7 +50,7 @@ describe('permission repository', () => {
     const permissionPayload = pipe(
       ioEither.tryCatch<Error, string>(
         () => fs.readFileSync(mockPermissionDataPath, 'utf8'),
-        (err) => new Error(`read permission.json fail: ${err}`)
+        (err) => new Error(`read permission file fail: ${err}`)
       ),
       ioEither.match<Error, string, string>(
         () => '',

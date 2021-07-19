@@ -1,8 +1,10 @@
-type User = {
+type NatsUser = {
   user: string
   productSuite: string
   product?: string
-  status: string
+  status: 'Active' | 'Revoke'
+  publicKey: string
+  credsFile: string
   permissions: {
     subscribes: Array<string>
   }
@@ -10,7 +12,14 @@ type User = {
 
 interface IPermission {
   productSuite: string
-  users: Array<User>
+  users: Array<NatsUser>
 }
 
-export { IPermission }
+const PermissionOfEmpty = (): IPermission => {
+  return {
+    productSuite: '',
+    users: []
+  }
+}
+
+export { IPermission, NatsUser, PermissionOfEmpty }

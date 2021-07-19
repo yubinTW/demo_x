@@ -1,0 +1,16 @@
+{
+  "productSuite": "ps02",
+  "users": [
+    {
+      "user": "user01",
+      "productSuite": "productSuite01",
+      "product": "product01",
+      "status": "Active",
+      "permissions": {
+        "subscribes": [
+          "ps02.product03.*"
+        ]
+      }
+    }
+  ]
+}
