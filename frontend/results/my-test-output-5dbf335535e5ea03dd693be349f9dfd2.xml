@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="27.6170" tests="4" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-07-20T01:45:07" tests="0" file="cypress/integration/myevent.test.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="My Event Page" timestamp="2021-07-20T01:45:07" tests="4" time="27.6170" failures="0">
+    <testcase name="My Event Page Show My Event Tab and Authorization Tab" time="8.7930" classname="Show My Event Tab and Authorization Tab">
+    </testcase>
+    <testcase name="My Event Page Check My Event List subscriber" time="4.7560" classname="Check My Event List subscriber">
+    </testcase>
+    <testcase name="My Event Page Check My Event List View API" time="7.2330" classname="Check My Event List View API">
+    </testcase>
+    <testcase name="My Event Page Go to My Authorzation List and View API" time="6.8350" classname="Go to My Authorzation List and View API">
+    </testcase>
+  </testsuite>
+</testsuites>
