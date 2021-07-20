@@ -46,7 +46,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "cypress run",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:dev": "start-server-and-test start http://localhost:3000 cypress:open",
@@ -82,6 +82,9 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.3.0",
     "tslint-react": "^5.0.0",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.2",
+    "mocha": "^9.0.2",
+    "cypress-multi-reporters": "^1.5.0",
+    "mocha-junit-reporter": "^2.0.0"
   }
 }
