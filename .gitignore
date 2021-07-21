@@ -1,7 +1,8 @@
 .vscode
 .metals
 out
-
+reports
+videos
 
 # dependencies
 node_modules
