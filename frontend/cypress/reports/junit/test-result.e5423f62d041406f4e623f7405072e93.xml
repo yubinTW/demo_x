@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.0000" tests="2" failures="2">
+  <testsuite name="Root Suite" timestamp="2021-07-21T06:40:11" tests="0" file="cypress/integration/summary.test.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Summary Page" timestamp="2021-07-21T06:40:11" tests="2" time="0.0000" failures="2">
+    <testcase name="Summary Page show Product Suite List from our server" time="0.0000" classname="show Product Suite List from our server">
+      <failure message="`cy.visit()` failed trying to load:
+
+/summary-board
+
+We failed looking for this file at the path:
+
+/Users/cxliao/Desktop/WFH/demo_x_frontend/demo_x/frontend/summary-board
+
+The internal Cypress web server responded with:
+
+  &gt; 404: Not Found" type="CypressError"><![CDATA[CypressError: `cy.visit()` failed trying to load:
+
+/summary-board
+
+We failed looking for this file at the path:
+
+/Users/cxliao/Desktop/WFH/demo_x_frontend/demo_x/frontend/summary-board
+
+The internal Cypress web server responded with:
+
+  > 404: Not Found
+    at http://localhost:52442/__cypress/runner/cypress_runner.js:140508:25
+    at visitFailedByErr (http://localhost:52442/__cypress/runner/cypress_runner.js:139883:12)
+    at http://localhost:52442/__cypress/runner/cypress_runner.js:140488:13
+    at tryCatcher (http://localhost:52442/__cypress/runner/cypress_runner.js:10798:23)
+    at Promise._settlePromiseFromHandler (http://localhost:52442/__cypress/runner/cypress_runner.js:8733:31)
+    at Promise._settlePromise (http://localhost:52442/__cypress/runner/cypress_runner.js:8790:18)
+    at Promise._settlePromise0 (http://localhost:52442/__cypress/runner/cypress_runner.js:8835:10)
+    at Promise._settlePromises (http://localhost:52442/__cypress/runner/cypress_runner.js:8911:18)
+    at _drainQueueStep (http://localhost:52442/__cypress/runner/cypress_runner.js:5505:12)
+    at _drainQueue (http://localhost:52442/__cypress/runner/cypress_runner.js:5498:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (http://localhost:52442/__cypress/runner/cypress_runner.js:5514:5)
+    at Async.drainQueues (http://localhost:52442/__cypress/runner/cypress_runner.js:5384:14)
+From Your Spec Code:
+    at Context.eval (http://localhost:52442/__cypress/tests?p=cypress/integration/summary.test.js:103:8)]]></failure>
+    </testcase>
+    <testcase name="Summary Page show Product List from our server" time="0.0000" classname="show Product List from our server">
+      <failure message="`cy.visit()` failed trying to load:
+
+/summary-board
+
+We failed looking for this file at the path:
+
+/Users/cxliao/Desktop/WFH/demo_x_frontend/demo_x/frontend/summary-board
+
+The internal Cypress web server responded with:
+
+  &gt; 404: Not Found" type="CypressError"><![CDATA[CypressError: `cy.visit()` failed trying to load:
+
+/summary-board
+
+We failed looking for this file at the path:
+
+/Users/cxliao/Desktop/WFH/demo_x_frontend/demo_x/frontend/summary-board
+
+The internal Cypress web server responded with:
+
+  > 404: Not Found
+    at http://localhost:52442/__cypress/runner/cypress_runner.js:140508:25
+    at visitFailedByErr (http://localhost:52442/__cypress/runner/cypress_runner.js:139883:12)
+    at http://localhost:52442/__cypress/runner/cypress_runner.js:140488:13
+    at tryCatcher (http://localhost:52442/__cypress/runner/cypress_runner.js:10798:23)
+    at Promise._settlePromiseFromHandler (http://localhost:52442/__cypress/runner/cypress_runner.js:8733:31)
+    at Promise._settlePromise (http://localhost:52442/__cypress/runner/cypress_runner.js:8790:18)
+    at Promise._settlePromise0 (http://localhost:52442/__cypress/runner/cypress_runner.js:8835:10)
+    at Promise._settlePromises (http://localhost:52442/__cypress/runner/cypress_runner.js:8911:18)
+    at _drainQueueStep (http://localhost:52442/__cypress/runner/cypress_runner.js:5505:12)
+    at _drainQueue (http://localhost:52442/__cypress/runner/cypress_runner.js:5498:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (http://localhost:52442/__cypress/runner/cypress_runner.js:5514:5)
+    at Async.drainQueues (http://localhost:52442/__cypress/runner/cypress_runner.js:5384:14)
+From Your Spec Code:
+    at Context.eval (http://localhost:52442/__cypress/tests?p=cypress/integration/summary.test.js:108:8)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>
