@@ -21,8 +21,12 @@ export const connect = async (): Promise<void> => {
     reconnectInterval: 1000,
     poolSize: 10
   }
-
-  await mongoose.connect(uri, mongooseOpts)
+  try {
+    await mongoose.connect(uri, mongooseOpts)
+    console.log('InMemMongo connect successfully')
+  } catch(err) {
+    console.error(`InMemMongo connect error: ${err}`)
+  }
 }
 
 /**

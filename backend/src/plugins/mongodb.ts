@@ -16,8 +16,6 @@ const establishConnection = () => {
         else console.log('Error in DB connection : ' + JSON.stringify(err, undefined, 2))
       }
     )
-  } else {
-    console.log('MongoDB has connected.')
   }
 }
 
