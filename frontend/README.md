@@ -115,8 +115,12 @@ module.exports = (on, config) => {
 ### Run start & test
 ```
 npm run start-dev
+or
+npm run start-old
+
 npx cypress run
 ```
+delete .out.json in .nyc_output to gain latest report
 
 ### Open code coverage 
 ```

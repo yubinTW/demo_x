@@ -28,8 +28,7 @@ export const RouteWithLoader = ({ component: Component, ...rest }) => {
       {...rest}
       render={(props) => (
         <>
-          {' '}
-          <Preloader show={loaded ? false : true} /> <Component {...props} />{' '}
+          <Preloader show={loaded ? false : true} /> <Component {...props} />
         </>
       )}
     />
@@ -66,7 +65,6 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
           <main className="content">
             <Navbar />
             <Component {...props} />
-            {/* <Footer toggleSettings={toggleSettings} showSettings={showSettings} /> */}
           </main>
           <Footer toggleSettings={toggleSettings} showSettings={false} />
         </>
@@ -79,16 +77,9 @@ const HomePage = () => (
   <Switch>
     <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} />
 
-    {/* pages */}
     <RouteWithSidebar path={Routes.APIViewer.path} component={APIViewer} />
     <RouteWithSidebar path={Routes.SummaryPage.path} component={SummaryPage} />
     <RouteWithSidebar path={Routes.MyEventPage.path} component={MyEventPage} />
-
-    {/* components */}
-
-    {/* documentation */}
-
-    {/* <Redirect to={Routes.NotFound.path} /> */}
   </Switch>
 )
 export default HomePage

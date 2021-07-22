@@ -36,4 +36,10 @@ describe("My Event Page", () => {
         cy.get('button[class*=p-button-primary]').get('svg[data-icon*=external-link-alt]').first().click()
         cy.wait(3000)
     })
+    it("Go to My Authorzation List and Download Cred", () => {
+        cy.get('ul[class*=p-tabview-nav]').get('li').first().next().click()
+        cy.wait(1000)
+        cy.get('button[class*=p-button-warning]').get('svg[data-icon*=cloud-download-alt]').first().click()
+        cy.wait(3000)
+    })
 })
