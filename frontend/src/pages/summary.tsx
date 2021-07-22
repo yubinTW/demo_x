@@ -6,7 +6,6 @@ import 'primereact/resources/primereact.css'
 import 'primeflex/primeflex.css'
 import '../assets/css/datatable.css'
 import { Form, InputGroup } from '@themesberg/react-bootstrap'
-// import { Dropdown } from 'primereact/dropdown'
 import { PreworkService } from './../service/preworkService'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
@@ -27,7 +26,6 @@ function SummaryPage() {
   const [selectedProduct, setSelectProduct] = useState<string | ''>('')
   const [productList, setProductList] = useState([])
   const [subjectList, setSubjectList] = useState([])
-  const [loadDataState, setLoadDataState] = useState<number>(0)
   const preworkService = new PreworkService()
 
   const toast = useRef(null)
@@ -139,20 +137,6 @@ function SummaryPage() {
         </div>
       </div>
 
-      {/* <Dropdown
-        value={selectedPs}
-        options={psList}
-        onChange={onPsChange}
-        optionLabel="name"
-        placeholder="Select a Product Suite"
-      />
-      <Dropdown
-        value={selectedProduct}
-        options={productList}
-        onChange={onProductChange}
-        optionLabel="name"
-        placeholder="Select a Product"
-      /> */}
       <div className="card mt-2">
         <DataTable value={subjectList} className="datatable-class" paginator>
           <Column field="title" header="Event Subject"></Column>
