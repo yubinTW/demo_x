@@ -35,7 +35,7 @@ const Presentation = () => {
                 <Nav.Link as={Link} to={Routes.SummaryPage.path}>
                   Summary
                 </Nav.Link>
-                <Nav.Link as={Link} to={Routes.App.path}>
+                <Nav.Link as={Link} to={Routes.MyEventPage.path}>
                   Dashboard
                 </Nav.Link>
               </Nav>
@@ -57,14 +57,14 @@ const Presentation = () => {
                 <Button
                   variant="secondary"
                   as={Link}
-                  to={Routes.App.path}
+                  to={Routes.MyEventPage.path}
                   className="text-dark me-3"
                 >
                   Go to Platform{' '}
                   <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>
                 <Button variant="outline-secondary" className=" me-3">
-                  document{' '}
+                  document
                   <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>
                 {/* <GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton> */}

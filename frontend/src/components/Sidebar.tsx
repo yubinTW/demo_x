@@ -147,7 +147,6 @@ const Sidebar = (props = {}) => {
               <NavItem title="Product X" link={Routes.Presentation.path} image={TsmcLogo} />
               <NavItem title="Summary" link={Routes.SummaryPage.path} icon={faTable} />
               <NavItem title="My Events" link={Routes.MyEventPage.path} icon={faListAlt} />
-              <NavItem title="App Demo" link={Routes.App.path} badgeText="Demo" icon={faFileAlt} />
 
               {/* <NavItem title="Overview" link={Routes.DashboardOverview.path} icon={faChartPie} />
               <NavItem title="Transactions" icon={faHandHoldingUsd} link={Routes.Transactions.path} />

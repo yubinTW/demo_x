@@ -7,7 +7,6 @@ import Presentation from './Presentation'
 import SummaryPage from './summary'
 import MyEventPage from './myEvent'
 
-import App from '../App'
 
 // // components
 import Sidebar from '../components/Sidebar'
@@ -81,7 +80,6 @@ const HomePage = () => (
     <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} />
 
     {/* pages */}
-    <RouteWithSidebar exact path={Routes.App.path} component={App} />
     <RouteWithSidebar path={Routes.APIViewer.path} component={APIViewer} />
     <RouteWithSidebar path={Routes.SummaryPage.path} component={SummaryPage} />
     <RouteWithSidebar path={Routes.MyEventPage.path} component={MyEventPage} />

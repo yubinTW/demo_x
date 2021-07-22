@@ -121,4 +121,10 @@ npx cypress run
 ### Open code coverage 
 ```
 open coverage/lcov-report/index.html
+or
+npx nyc report --reporter=text-summary
 ```
+
+### Reference
+https://www.cypress.io/blog/2019/09/05/cypress-code-coverage-for-create-react-app-v3/
+https://github.com/cypress-io/code-coverage

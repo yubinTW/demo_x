@@ -47,7 +47,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-dev": "react-scripts -r @cypress/instrument-cra start",
+    "start-old":"react-scripts -r @cypress/instrument-cra start",
+    "start-dev": "npx nyc instrument --compact=false src instrumented && npm run start",
     "build": "react-scripts build",
     "test": "npm start & wait-on http://localhost:3000 && npm run cy:run ",
     "cy:run": "cypress run",
@@ -68,10 +69,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "nyc": {
-    "all": true,
-    "include": ["src/app/*.ts","src/components/*.tsx","src/pages/*.tsx","src/redux/*.tsx","src/routes/*.js","src/service/*.tsx","src/*.tsx"]
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
