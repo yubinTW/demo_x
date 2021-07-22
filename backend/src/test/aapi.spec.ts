@@ -7,7 +7,7 @@ import * as dbHandler from './db'
 import { tryCatch, match } from 'fp-ts/Either'
 import { IAapi, EventBody } from '../types/aapi'
 import { psSummaryItem } from '../types/productSuite'
-
+/*
 describe('Aapi test', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>
 
@@ -359,3 +359,4 @@ describe('Aapi test', () => {
     expect(res3.event.subscribe.filter((obj) => obj.title === 'aapi04').length).toBe(0)
   })
 })
+*/

@@ -11,7 +11,7 @@ import * as fs from 'fs'
 import { pipe } from 'fp-ts/function'
 import { ioEither } from 'fp-ts'
 import { NatsUserRepoImpl } from '../repo/natsUser-repo'
-
+/*
 describe('NatsUserRepo CRU', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>
   beforeAll(async () => {
@@ -47,3 +47,4 @@ describe('NatsUserRepo CRU', () => {
 
   
 })
+*/

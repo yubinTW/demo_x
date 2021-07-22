@@ -71,7 +71,15 @@
   },
   "nyc": {
     "all": true,
-    "include": ["src/app/*.ts","src/components/*.tsx","src/pages/*.tsx","src/redux/*.tsx","src/routes/*.js","src/service/*.tsx","src/*.tsx"]
+    "include": [
+      "src/app/*.ts",
+      "src/components/*.tsx",
+      "src/pages/*.tsx",
+      "src/redux/*.tsx",
+      "src/routes/*.js",
+      "src/service/*.tsx",
+      "src/*.tsx"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
