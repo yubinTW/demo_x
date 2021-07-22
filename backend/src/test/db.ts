@@ -24,7 +24,7 @@ export const connect = async (): Promise<void> => {
   try {
     await mongoose.connect(uri, mongooseOpts)
     console.log('InMemMongo connect successfully')
-  } catch(err) {
+  } catch (err) {
     console.error(`InMemMongo connect error: ${err}`)
   }
 }
