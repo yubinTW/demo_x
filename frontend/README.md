@@ -73,3 +73,52 @@ npm cypress open
 
 ### asyncapi viewer component
 https://github.com/asyncapi/asyncapi-react#development
+
+## Cypress code coverage install
+### Install
+```
+npm i -D @cypress/instrument-cra
+npm i @cypress/code-coverage nyc istanbul-lib-coverage
+```
+### Modify package.json
+```
+{
+  "scripts": {
+    "start-dev": "react-scripts -r @cypress/instrument-cra start"
+  }
+}
+```
+Then can use:
+```
+npm run start-dev
+```
+to run script
+
+### Modify Cypress file
+Add to your cypress/support/index.js file plugin's commands
+```
+import '@cypress/code-coverage/support'
+```
+
+Register tasks in your cypress/plugins/index.js file
+```
+module.exports = (on, config) => {
+  require('@cypress/code-coverage/task')(on, config)
+
+  // add other tasks to be registered here
+
+  // IMPORTANT to return the config object
+  // with the any changed environment variables
+  return config
+}
+```
+### Run start & test
+```
+npm run start-dev
+npx cypress run
+```
+
+### Open code coverage 
+```
+open coverage/lcov-report/index.html
+```

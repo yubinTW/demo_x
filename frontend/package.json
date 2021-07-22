@@ -25,10 +25,12 @@
     "bootstrap": "5.0.0-beta1",
     "chartist-plugin-tooltips-updated": "^0.1.4",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "istanbul-lib-coverage": "^3.0.0",
     "js-file-download": "^0.4.12",
     "miragejs": "^0.1.41",
     "moment-timezone": "^0.5.31",
     "node-sass": "^6.0.0",
+    "nyc": "^15.1.0",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primereact": "^6.3.2",
@@ -45,6 +47,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start-dev": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
     "test": "npm start & wait-on http://localhost:3000 && npm run cy:run ",
     "cy:run": "cypress run",
@@ -66,11 +69,16 @@
       "last 1 safari version"
     ]
   },
+  "nyc": {
+    "all": true,
+    "include": ["src/app/*.ts","src/components/*.tsx","src/pages/*.tsx","src/redux/*.tsx","src/routes/*.js","src/service/*.tsx","src/*.tsx"]
+  },
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",
     "@babel/preset-typescript": "^7.14.5",
     "@cypress/code-coverage": "^3.9.9",
+    "@cypress/instrument-cra": "^1.4.0",
     "@docusaurus/module-type-aliases": "^2.0.0-beta.0",
     "@tsconfig/docusaurus": "^1.0.2",
     "@types/lodash": "^4.14.170",
