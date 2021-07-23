@@ -141,18 +141,3 @@ https://github.com/cypress-io/code-coverage
 ```
 npm install --save-dev start-server-and-test
 ```
-#### Modify package.json
-```
-"scripts": {
-    "ci:test": "npx nyc instrument --compact=false src instrumented &&  start-server-and-test start http://localhost:3000 cy:run",
-  }
-```
-#### Should change instrument code way
-from 
-```
-"react-scripts -r @cypress/instrument-cra start"
-```
-to
-```
-npx nyc instrument --compact=false src instrumented
-```
