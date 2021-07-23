@@ -38,10 +38,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
   server.listen(port, (err, _) => {
     O.match<Error, void>(
       () => establishConnection(),
-      (e) => {
-        console.error(e)
-        process.exit(0)
-      }
+      (e) => console.error(e)
     )(fromNullable(err))
   })
 
