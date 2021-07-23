@@ -124,6 +124,8 @@ delete .out.json in .nyc_output to gain latest report
 
 ### Open code coverage 
 ```
+npx nyc report --reporter=lcov 
+//read latest .nyc_output 
 open coverage/lcov-report/index.html
 or
 npx nyc report --reporter=text-summary
@@ -132,3 +134,25 @@ npx nyc report --reporter=text-summary
 ### Reference
 https://www.cypress.io/blog/2019/09/05/cypress-code-coverage-for-create-react-app-v3/
 https://github.com/cypress-io/code-coverage
+
+
+### For CI
+#### Install start-server-and-test
+```
+npm install --save-dev start-server-and-test
+```
+#### Modify package.json
+```
+"scripts": {
+    "ci:test": "npx nyc instrument --compact=false src instrumented &&  start-server-and-test start http://localhost:3000 cy:run",
+  }
+```
+#### Should change instrument code way
+from 
+```
+"react-scripts -r @cypress/instrument-cra start"
+```
+to
+```
+npx nyc instrument --compact=false src instrumented
+```

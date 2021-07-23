@@ -47,8 +47,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "start-old":"react-scripts -r @cypress/instrument-cra start",
-    "start-dev": "npx nyc instrument --compact=false src instrumented && npm run start",
+    "start-old": "react-scripts -r @cypress/instrument-cra start",
+    "start:dev": "npx nyc instrument --compact=false src instrumented",
+    "ci:test": "npx nyc instrument --compact=false src instrumented &&  start-server-and-test start http://localhost:3000 cy:run",
     "build": "react-scripts build",
     "test": "npm start & wait-on http://localhost:3000 && npm run cy:run ",
     "cy:run": "cypress run",
