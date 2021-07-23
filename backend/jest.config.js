@@ -14,4 +14,16 @@ module.exports = {
     "json",
     "node",
   ],
+  verbose: true,
+  reporters: [
+    'default',
+    [
+    'jest-junit', {
+      outputDirectory: 'test_reports',
+      outputName: 'test-report.xml'
+    }]
+  ],
+  collectCoverage: true,
+  coverageReporters: ['cobertura'],
+  coverageDirectory: "coverage"
 };
