@@ -4,6 +4,7 @@ out
 reports
 videos
 instrumented
+test_reports
 
 # dependencies
 node_modules
