@@ -6,8 +6,7 @@ import { useParams } from 'react-router-dom'
 import { Card } from 'primereact/card'
 import { Divider } from 'primereact/divider'
 import * as TE from 'fp-ts/TaskEither'
-import { zero } from 'fp-ts/Array'
-import { AapiBody, EventBody } from '../service/serviceObject'
+import { AapiBody} from '../service/serviceObject'
 
 import '@asyncapi/react-component/lib/styles/fiori.css'
 import 'primereact/resources/primereact.css'
@@ -47,7 +46,6 @@ function APIViewer() {
     getData()
   }, [])
 
-  const cssImportPath: String = '../assets/css/custom-asyncApi.css'
   return (
     <div className="">
       <Card>
@@ -67,11 +65,9 @@ function APIViewer() {
         </div>
         <Divider />
         <div className="p-grid">
-          {/* <div className="p-col" /> */}
           <div className="p-col-12">
             <AsyncApiComponent schema={apidoc} />
           </div>
-          {/* <div className="p-col" /> */}
         </div>
       </Card>
     </div>

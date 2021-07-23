@@ -6,28 +6,22 @@ import 'primereact/resources/primereact.css'
 import 'primeflex/primeflex.css'
 import '../assets/css/datatable.css'
 import { Form, InputGroup } from '@themesberg/react-bootstrap'
-// import { Dropdown } from 'primereact/dropdown'
-// import { PreworkService } from './../service/preworkService'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 import { Button } from 'primereact/button'
 import { Dialog } from 'primereact/dialog'
-import { Tooltip } from 'primereact/tooltip'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TabView, TabPanel } from 'primereact/tabview'
 import { selectAccount } from '../redux/userState'
 import { useAppSelector} from './../app/hooks'
 import {
-  faListAlt,
   faExternalLinkAlt,
   faUsers,
   faCloudDownloadAlt,
 } from '@fortawesome/free-solid-svg-icons'
-import { SourceMap } from 'module'
 import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
-import { zero } from 'fp-ts/Array'
 import { AapiBody, EventBody, SubscriberBody } from '../service/serviceObject'
 import { Toast } from 'primereact/toast'
 
@@ -81,24 +75,6 @@ function MyEventPage() {
   useEffect(() => {
     setUpData()
   }, [])
-
-  //const sList = ['susciber1', 'susciber2', 'susciber3', 'susciber4', 'susciber5', 'susciber6']
-  // const downloadFileTemplate = (rowData) => {
-  //   return (
-  //     <span className="aClick">
-  //       <Tooltip target=".custom-target-icon" />
-  //       <a
-  //         href="#"
-  //         className="custom-target-icon"
-  //         onClick={() => nodeService.downloadCredFile(rowData.title, 'account')}
-  //         data-pr-tooltip="Click to Download Files"
-  //         data-pr-position="top"
-  //       >
-  //         {rowData.title}
-  //       </a>
-  //     </span>
-  //   )
-  // }
   const viewSubscriberTemplate = (rowData) => {
     //console.log(rowData)
     return (
@@ -168,18 +144,10 @@ function MyEventPage() {
       <Toast ref={toast} />
       <TabView>
         <TabPanel header="My Event List">
-          {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-          <div className="d-block mb-4 mb-md-0">
-          
-            
-            <p className="mb-0">show all events you have authorization to review subscribers</p>
-          </div>
-        </div> */}
           <div className="p-grid">
             <div className="p-col-6"></div>
             <div className="p-offset-3 p-col-3">
               <Form.Group id="pd-filter">
-                {/* <Form.Label>Event Subject Search</Form.Label> */}
                 <InputGroup>
                   <InputGroup.Text>
                     <FontAwesomeIcon icon={faSearch} />
@@ -205,11 +173,6 @@ function MyEventPage() {
             footer={renderFooter()}
             onHide={() => onHide()}
           >
-            {/* <ul>
-              {subscriberList.map((item) => (
-                <li key={item.name}>{item.name}</li>
-              ))}
-            </ul> */}
             <div className="card mt-2">
               <DataTable value={subscriberList} className="datatable-class" paginator>
                 <Column field="name" header="User Name"></Column>
@@ -220,18 +183,12 @@ function MyEventPage() {
           </Dialog>
         </TabPanel>
         <TabPanel header="My Authorization List">
-          {/* <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
-          <div className="d-block mb-4 mb-md-0">
-          
-            
-            <p className="mb-0">show all events you have authorization to review subscribers</p>
-          </div>
-        </div> */}
+
           <div className="p-grid">
             <div className="p-col-6"></div>
             <div className="p-offset-3 p-col-3">
               <Form.Group id="pd-filter">
-                {/* <Form.Label>Event Subject Search</Form.Label> */}
+
                 <InputGroup>
                   <InputGroup.Text>
                     <FontAwesomeIcon icon={faSearch} />

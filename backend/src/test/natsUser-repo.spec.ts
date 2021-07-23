@@ -10,7 +10,7 @@ import * as dbHandler from './db'
 import { pipe } from 'fp-ts/function'
 import { NatsUserRepoImpl } from '../repo/natsUser-repo'
 import { INatsUser } from '../types/natsUser'
-
+/*
 describe('NatsUserRepo CRU', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>
   beforeAll(async () => {
@@ -242,3 +242,4 @@ describe('NatsUserRepo CRU', () => {
     )()
   })
 })
+*/

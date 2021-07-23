@@ -3,6 +3,7 @@
 out
 reports
 videos
+instrumented
 
 # dependencies
 node_modules

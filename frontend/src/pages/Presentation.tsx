@@ -28,14 +28,10 @@ const Presentation = () => {
           <div className="d-flex align-items-center">
             <Navbar.Collapse id="navbar-default-primary">
               <Nav className="navbar-nav-hover align-items-lg-center">
-                {/* <Nav.Link as={HashLink} to="#features">Features</Nav.Link>
-                <Nav.Link as={HashLink} to="#pages">Pages</Nav.Link>
-                <Nav.Link as={HashLink} to="#folder" className="d-sm-none d-xl-inline">Folder Structure</Nav.Link>
-                <Nav.Link as={HashLink} to="#getting-started">Getting Started</Nav.Link> */}
                 <Nav.Link as={Link} to={Routes.SummaryPage.path}>
                   Summary
                 </Nav.Link>
-                <Nav.Link as={Link} to={Routes.App.path}>
+                <Nav.Link as={Link} to={Routes.MyEventPage.path}>
                   Dashboard
                 </Nav.Link>
               </Nav>
@@ -50,33 +46,24 @@ const Presentation = () => {
         <Container>
           <Row>
             <Col xs={12} className="text-center">
-              {/* <div className="react-big-icon d-none d-lg-block"><span className="fab fa-react"></span></div> */}
               <h1 className="fw-bolder text-secondary">Event Driven Data Platform</h1>
               <p className="text-muted fw-light mb-5 h5">AsyncAPI Portal and tutorial document</p>
               <div className="d-flex align-items-center justify-content-center">
                 <Button
                   variant="secondary"
                   as={Link}
-                  to={Routes.App.path}
+                  to={Routes.MyEventPage.path}
                   className="text-dark me-3"
                 >
-                  Go to Platform{' '}
+                  Go to Platform
                   <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>
                 <Button variant="outline-secondary" className=" me-3">
-                  document{' '}
+                  document
                   <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>
-                {/* <GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton> */}
               </div>
-              {/* <div className="d-flex justify-content-center flex-column mb-6 mb-lg-5 mt-5">
-                <div className="text-center">
-                  <a href="https://themesberg.com" target="_blank">
-                    <Image src={ThemesbergLogoIcon} height={25} width={25} className="mb-3" alt="Themesberg Logo" />
-                    <p className="text-muted font-small m-0">A Themesberg production</p>
-                  </a>
-                </div>
-              </div> */}
+              
             </Col>
           </Row>
           <figure className="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
@@ -125,14 +112,12 @@ const Presentation = () => {
         <Container>
           <Row>
             <Col className="mb-md-2 pt-2">
-              {/* <Card.Link href="https://themesberg.com" target="_blank" className="d-flex justify-content-center"> */}
               <Image
                 src={TsmcLogo}
                 height={35}
                 className="d-block mx-auto mb-3"
                 alt="Themesberg Logo"
               />
-              {/* </Card.Link> */}
               <div
                 className="d-flex text-center justify-content-center align-items-center"
                 role="contentinfo"

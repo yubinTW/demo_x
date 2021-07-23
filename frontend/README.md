@@ -73,3 +73,71 @@ npm cypress open
 
 ### asyncapi viewer component
 https://github.com/asyncapi/asyncapi-react#development
+
+## Cypress code coverage install
+### Install
+```
+npm i -D @cypress/instrument-cra
+npm i @cypress/code-coverage nyc istanbul-lib-coverage
+```
+### Modify package.json
+```
+{
+  "scripts": {
+    "start-dev": "react-scripts -r @cypress/instrument-cra start"
+  }
+}
+```
+Then can use:
+```
+npm run start-dev
+```
+to run script
+
+### Modify Cypress file
+Add to your cypress/support/index.js file plugin's commands
+```
+import '@cypress/code-coverage/support'
+```
+
+Register tasks in your cypress/plugins/index.js file
+```
+module.exports = (on, config) => {
+  require('@cypress/code-coverage/task')(on, config)
+
+  // add other tasks to be registered here
+
+  // IMPORTANT to return the config object
+  // with the any changed environment variables
+  return config
+}
+```
+### Run start & test
+```
+npm run start-dev
+or
+npm run start-old
+
+npx cypress run
+```
+delete .out.json in .nyc_output to gain latest report
+
+### Open code coverage 
+```
+npx nyc report --reporter=lcov 
+//read latest .nyc_output 
+open coverage/lcov-report/index.html
+or
+npx nyc report --reporter=text-summary
+```
+
+### Reference
+https://www.cypress.io/blog/2019/09/05/cypress-code-coverage-for-create-react-app-v3/
+https://github.com/cypress-io/code-coverage
+
+
+### For CI
+#### Install start-server-and-test
+```
+npm install --save-dev start-server-and-test
+```
