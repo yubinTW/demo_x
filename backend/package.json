@@ -5,7 +5,7 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "test": "jest",
+    "test": "jest --runInBand",
     "build": "tsc",
     "start": "ts-node src/http-server/index",
     "node-start": "npm run esbuild && node build/http-server/index.js",
