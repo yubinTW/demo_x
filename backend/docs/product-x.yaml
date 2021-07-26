@@ -2,9 +2,9 @@ openapi: 3.0.0
 info:
   title: API spec of X
   description: Some API spec of x for handling data transfer between frontend and backend
-  version: 0.0.5
+  version: 0.0.6
 servers:
-  - url: http://{apiUrl}/v1
+  - url: /v1
     description: API endpoint of backend
 paths:
   /credential/{productSuite}/{user}:
@@ -79,7 +79,7 @@ paths:
                     description: aapi list which is subscribed by this user
                     items:
                       $ref: "#/components/schemas/AAPI"
-  /productsuite:
+  /productSuite:
     get:
       tags:
         - "Product Suite"
