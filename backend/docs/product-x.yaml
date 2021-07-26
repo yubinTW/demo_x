@@ -4,7 +4,7 @@ info:
   description: Some API spec of x for handling data transfer between frontend and backend
   version: 0.0.6
 servers:
-  - url: /v1
+  - url: http://localhost:8888/v1
     description: API endpoint of backend
 paths:
   /credential/{productSuite}/{user}:
