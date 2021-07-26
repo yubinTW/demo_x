@@ -9,6 +9,10 @@ import { pipe } from 'fp-ts/function'
 import { NatsUserRepoImpl } from '../repo/natsUser-repo'
 import { INatsUser } from '../types/natsUser'
 
+/**
+ *
+ * @group nats
+ */
 describe('NatsUserRepo CRU', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>
 

@@ -1,6 +1,10 @@
 import { EnvConfigRepoImpl, mongoDBUrlOf, fastifyPortOf, runtimeEnvOf } from '../repo/config-repo'
 import { some } from 'fp-ts/Option'
 
+/***
+ *
+ * @group unit
+ */
 describe('Config repository', () => {
   it('should acquire MongoDB URL', () => {
     const configRepo = EnvConfigRepoImpl.of()
