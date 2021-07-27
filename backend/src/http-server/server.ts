@@ -9,7 +9,8 @@ import { AapiRouter } from './routes/v1/aapi'
 import { ProductSuiteRouter } from './routes/v1/productSuite'
 import { MyEventRouter } from './routes/v1/myevent'
 import { PermissionRouter } from './routes/v1/permission'
-import FastifyStatic from 'fastify-static'
+import fastifyStatic from 'fastify-static'
+import fastifySwagger from 'fastify-swagger'
 import path from 'path'
 import { establishConnection } from '../plugins/mongodb'
 import { fastifyFunky } from 'fastify-funky'
@@ -73,9 +74,19 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
   })
 
   server.register(fastifyFunky)
-  server.register(FastifyStatic, {
+  server.register(fastifyStatic, {
     root: path.join(__dirname, '../../../frontend/build'),
     prefix: '/'
+  })
+  server.register(fastifySwagger, {
+    mode: 'static',
+    routePrefix: '/documentation',
+    exposeRoute: true,
+    specification: {
+      path: 'docs/product-x.yaml',
+      postProcessor: (_) => _,
+      baseDir: ''
+    }
   })
 
   server.register(healthcheck, { prefix: '/v1' })
