@@ -29,6 +29,11 @@ stages:
           displayName: 'Publish code coverage results'
           inputs:
            summaryFileLocation: '$(SystemDefaultWorkingDirectory)/backend/coverage/cobertura-coverage.xml'
+        - task: reportgenerator@4
+          inputs:
+            reports: 'cobertura-coverage.xml'
+            targetdir: 'coveragereport'
+            sourcedirs: '$(SystemDefaultWorkingDirectory)/backend/coverage/'
         - task: PublishTestResults@2
           displayName: 'Publish test results'
           inputs:
