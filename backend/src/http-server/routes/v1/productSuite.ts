@@ -37,7 +37,7 @@ const ProductSuiteRouter = (server: FastifyInstance, opts: RouteShorthandOptions
 
   opts = { ...opts, schema: { response: { 200: Response } } }
 
-  server.get('/productSuite', opts, async (request, reply) => {
+  server.get('/product-suite', opts, async (request, reply) => {
     await TE.match<Error, FastifyReply, O.Option<Readonly<Array<psSummaryItem>>>>(
       (e) => {
         request.log.error(`Get productSuite fail: ${e}`)

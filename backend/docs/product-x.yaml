@@ -55,7 +55,7 @@ paths:
                     type: string
                     description: login | logout
 
-  /myevent:
+  /my-event:
     get:
       tags:
         - "Product Suite"
@@ -79,7 +79,7 @@ paths:
                     description: aapi list which is subscribed by this user
                     items:
                       $ref: "#/components/schemas/AAPI"
-  /productSuite:
+  /product-suite:
     get:
       tags:
         - "Product Suite"
@@ -94,6 +94,37 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ProductSuite"
+  /aapi-file:
+    post:
+      tags:
+        - "AAPI YAML file upload"
+      summary: Upload Async API YAML file to product x.
+      description: Upload a Async API YAML file to Product X
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AAPI"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/BadRequest"
   /aapi:
     post:
       tags:

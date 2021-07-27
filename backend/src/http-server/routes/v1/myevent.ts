@@ -70,7 +70,7 @@ const MyEventRouter = (server: FastifyInstance, opts: RouteShorthandOptions, don
 
   opts = { ...opts, schema: { response: { 200: Response } } }
 
-  server.get('/myevent', opts, async (request, reply) => {
+  server.get('/my-event', opts, async (request, reply) => {
     await TE.match<Error, FastifyReply, O.Option<Readonly<EventBody>>>(
       (e) => {
         request.log.error(`Get productSuite fail: ${e}`)

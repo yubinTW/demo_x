@@ -19,7 +19,7 @@ export class NodeService {
   getProductSuiteData(): TE.TaskEither<Error, Array<AapiBody>> {
     return pipe(
       TE.tryCatch<Error, AxiosResponse<Array<AapiBody>>>(
-        () => axios.get<Array<AapiBody>>(`${this.urlconfig}/productsuite`),
+        () => axios.get<Array<AapiBody>>(`${this.urlconfig}/product-suite`),
         (err) => new Error(`GET ProductSuite Error: ${err}`)
       ),
       TE.map<AxiosResponse<Array<AapiBody>>, Array<AapiBody>>((res) =>
@@ -30,7 +30,7 @@ export class NodeService {
   getMyEventData(): TE.TaskEither<Error, EventBody> {
     return pipe(
       TE.tryCatch<Error, AxiosResponse<EventBody>>(
-        () => axios.get<EventBody>(`${this.urlconfig}/myevent`),
+        () => axios.get<EventBody>(`${this.urlconfig}/my-event`),
         (err) => new Error(`GET My Event Page Error: ${err}`)
       ),
       TE.map<AxiosResponse<EventBody>, EventBody>((res) =>

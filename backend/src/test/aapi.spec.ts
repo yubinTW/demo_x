@@ -203,8 +203,8 @@ describe('Aapi test', () => {
     expect(response.statusCode).toBe(404)
   })
 
-  it('should return empty array when get /v1/productSuite', async () => {
-    const response = await server.inject({ method: 'GET', url: `/v1/productSuite` })
+  it('should return empty array when get /v1/product-suite', async () => {
+    const response = await server.inject({ method: 'GET', url: `/v1/product-suite` })
     expect(response.statusCode).toBe(200)
     const resultData = JSON.parse(response.body)
     expect(resultData['aapis'].length).toBe(0)
@@ -227,7 +227,7 @@ describe('Aapi test', () => {
       }
     })
 
-    const getResponse = await server.inject({ method: 'GET', url: '/v1/productSuite' })
+    const getResponse = await server.inject({ method: 'GET', url: '/v1/product-suite' })
     expect(getResponse.statusCode).toBe(200)
     const res: { aapis: Array<psSummaryItem> } = JSON.parse(getResponse.body)
     expect(res.aapis.length).toBe(1)
@@ -241,7 +241,7 @@ describe('Aapi test', () => {
   it('should return empty EventBody', async () => {
     const response = await server.inject({
       method: 'GET',
-      url: '/v1/myevent'
+      url: '/v1/my-event'
     })
     expect(response.statusCode).toBe(200)
     const res: { event: EventBody } = JSON.parse(response.body)
@@ -316,7 +316,7 @@ describe('Aapi test', () => {
 
     const response = await server.inject({
       method: 'GET',
-      url: '/v1/myevent'
+      url: '/v1/my-event'
     })
 
     // current user: JWLINV, is the productSuite owner of NATP
@@ -343,7 +343,7 @@ describe('Aapi test', () => {
     process.env.loginUser = 'YBHSU'
     const response2 = await server.inject({
       method: 'GET',
-      url: '/v1/myevent'
+      url: '/v1/my-event'
     })
     expect(response2.statusCode).toBe(200)
     const res2: { event: EventBody } = JSON.parse(response2.body)
@@ -364,7 +364,7 @@ describe('Aapi test', () => {
     process.env.loginUser = 'developer01'
     const response3 = await server.inject({
       method: 'GET',
-      url: '/v1/myevent'
+      url: '/v1/my-event'
     })
     expect(response3.statusCode).toBe(200)
     const res3: { event: EventBody } = JSON.parse(response3.body)

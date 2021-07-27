@@ -42,7 +42,7 @@ export function MockServer({ environment = 'test' }) {
     },
     routes() {
       this.urlPrefix ="/v1"
-      this.get('/myevent', () => myevent)
+      this.get('/my-event', () => myevent)
       this.get('/credential/:ps/:user', (schema,request) => {
         let psId = request.params.ps
         let userId = request.params.user 
@@ -64,7 +64,7 @@ export function MockServer({ environment = 'test' }) {
         account: "LCLIAOB",
         state: "login"
       }))
-      this.get('/productsuite',(schema,request) => {
+      this.get('/product-suite',(schema,request) => {
         return schema.db.aapis
       })
     },
