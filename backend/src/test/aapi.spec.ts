@@ -9,6 +9,10 @@ import { IAapi, EventBody } from '../types/aapi'
 import { psSummaryItem } from '../types/productSuite'
 import { pipe } from 'fp-ts/function'
 
+/**
+ *
+ * @group unit
+ */
 describe('Aapi test', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>
 

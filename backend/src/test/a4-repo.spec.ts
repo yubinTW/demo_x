@@ -1,7 +1,10 @@
 import { MockA4RepoImpl } from '../repo/a4-repo'
 import { zero } from 'fp-ts/Array'
 import * as O from 'fp-ts/Option'
-
+/**
+ *
+ * @group unit
+ */
 describe('A4 repository', () => {
   it('should acquire is vaild account', () => {
     const a4Repo = MockA4RepoImpl.of()

@@ -11,6 +11,10 @@ import { ioEither } from 'fp-ts'
 import * as TE from 'fp-ts/TaskEither'
 import { MockPermissionRepoImpl } from '../repo/permission-repo'
 
+/**
+ *
+ * @group unit
+ */
 describe('permission repository', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>
 
