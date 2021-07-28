@@ -19,27 +19,40 @@ stages:
           inputs:
             versionSpec: '10.x'
         - task: CmdLine@2
-          displayName: 'npm install and test'
+          displayName: 'frontend npm install and test'
           inputs:
            script: |
-             cd $(SystemDefaultWorkingDirectory)/backend
+             echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+             cd $(System.DefaultWorkingDirectory)/frontend
+             npm install
+             npm run ci:test
+             npx nyc report --reporter=cobertura
+          continueOnError: true
+        - task: CmdLine@2
+          displayName: 'backend npm install and test'
+          inputs:
+           script: |
+             cd $(System.DefaultWorkingDirectory)/backend
              npm install
              npm run test
+          continueOnError: true
+        - task: reportgenerator@4
+          displayName: 'Generate coverage report'
+          inputs:
+            reports: 'backend/coverage/cobertura-coverage.xml;frontend/coverage/cobertura-coverage.xml'
+            targetdir: 'coveragereport'
+        - task: CmdLine@2
+          displayName: 'Show merged code coverage reports'
         - task: PublishCodeCoverageResults@1
           displayName: 'Publish code coverage results'
           inputs:
-           summaryFileLocation: '$(SystemDefaultWorkingDirectory)/backend/coverage/cobertura-coverage.xml'
-        - task: reportgenerator@4
-          inputs:
-            reports: 'cobertura-coverage.xml'
-            targetdir: 'coveragereport'
-            sourcedirs: '$(SystemDefaultWorkingDirectory)/backend/coverage/'
+            codeCoverageTool: 'Cobertura'
+            summaryFileLocation: '$(System.DefaultWorkingDirectory)/coveragereport/Cobertura.xml'
         - task: PublishTestResults@2
-          displayName: 'Publish test results'
           inputs:
-           testResultsFormat: 'JUnit'
-           testResultsFiles: 'test-report.xml'
-           searchFolder: '$(SystemDefaultWorkingDirectory)/backend/test_reports'
-           mergeTestResults: true
-           testRunTitle: 'Publish backend rest result'
-            
+            testResultsFormat: 'JUnit'
+            testResultsFiles: |
+              **/test-*.xml
+              **/test-output-*.xml
+            mergeTestResults: true
+            testRunTitle: 'Publish rest result'
