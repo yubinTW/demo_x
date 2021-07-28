@@ -11,9 +11,13 @@ Please try `curl -v http://localhost:8888/v1/health` to see the result.
 
 run `npm run test` to run all feature test cases
 
-## API Doc
+## Format code by prettier
 
-run `npm run apidoc` to generate backend's RESTful API doc
+run this before every commit
+
+```
+npm run fix-prettier
+```
 
 ### Dependency
 
@@ -27,6 +31,21 @@ npm run esbuild
 ```
 
 ## Run with node
+
 ```
 node build/http-server/index.js
+```
+
+## Run mongo and natsbox for development
+
+### mongo
+
+```
+docker run -d -p 27017:27017 --name mongo mongo
+```
+
+### natsbox
+
+```
+docker run --network nats -d --name natsbox -it synadia/nats-box
 ```
