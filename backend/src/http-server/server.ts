@@ -76,7 +76,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
   })
 
   server.register(fastifyMultipart)
-  
+
   server.register(fastifyFunky)
   server.register(fastifyStatic, {
     root: path.join(__dirname, '../../../frontend/build'),
@@ -98,7 +98,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
   server.register(ProductSuiteRouter, { prefix: '/v1' })
   server.register(MyEventRouter, { prefix: '/v1' })
   server.register(PermissionRouter, { prefix: '/v1' })
-  server.register(AapiFileRouter,{prefix: '/v1'})
+  server.register(AapiFileRouter, { prefix: '/v1' })
 
   return server
 }

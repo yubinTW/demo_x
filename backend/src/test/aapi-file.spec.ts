@@ -59,13 +59,11 @@ describe('Aapi test', () => {
     )()
   })
 
-
-
   it('upload file', async () => {
     const form = new FormData()
     const mockYaml = path.join(__dirname, './resources/test.yaml')
-    form.append('aapi-yaml-file',fs.createReadStream(mockYaml,'utf-8'))
-    
+    form.append('aapi-yaml-file', fs.createReadStream(mockYaml, 'utf-8'))
+
     const response = await server.inject({
       method: 'POST',
       url: '/v1/aapi-file',
@@ -74,10 +72,10 @@ describe('Aapi test', () => {
     })
     expect(response.statusCode).toBe(201)
     const res: { aapi: AapiBody } = JSON.parse(response.body)
-    expect(res.aapi.aapiOwner).toBe("Tiger team")
-    expect(res.aapi.description).toBe("The Event spec of Siview Lot Hold event")
-    expect(res.aapi.product).toBe("SiMM")
-    expect(res.aapi.productSuite).toBe("GigaCIM")
+    expect(res.aapi.aapiOwner).toBe('Tiger team')
+    expect(res.aapi.description).toBe('The Event spec of Siview Lot Hold event')
+    expect(res.aapi.product).toBe('SiMM')
+    expect(res.aapi.productSuite).toBe('GigaCIM')
     //console.log(response)
   })
 })

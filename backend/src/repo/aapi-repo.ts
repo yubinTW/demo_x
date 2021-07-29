@@ -54,7 +54,7 @@ class AapiRepoImpl implements AapiRepo {
       (e) => new Error(`Failed to create an API: ${e}`)
     )
   }
-  
+
   // Option IAapi :: None | Some IAapi
   // https://gcanti.github.io/fp-ts/modules/Option.ts.html
   getAapiById(id: string): TE.TaskEither<Error, O.Option<Readonly<IAapi>>> {

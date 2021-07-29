@@ -7,17 +7,15 @@ import { zero } from 'fp-ts/Array'
 import { pipe } from 'fp-ts/function'
 import { AapiRepoImpl } from '../../../repo/aapi-repo'
 import { IPermission } from '../../../types/permission'
-import { IAapi,AapiBody,Status } from '../../../types/aapi'
+import { IAapi, AapiBody, Status } from '../../../types/aapi'
 import fs from 'fs'
 import util from 'util'
-import { pipeline,Readable } from 'stream'
+import { pipeline, Readable } from 'stream'
 import path from 'path'
 import { chunk } from 'lodash'
 
 const AapiFileRouter = (server: FastifyInstance, opts: RouteShorthandOptions, done: (error?: Error) => void) => {
   const aapiRepo: AapiRepoImpl = AapiRepoImpl.of()
-
-  
 
   const Response = {
     aapi: Type.Object({
@@ -55,7 +53,7 @@ const AapiFileRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
     code: code,
     msg: msg
   })
-  
+
   opts = { ...opts, schema: { response: { 201: Response } } }
   server.post('/aapi-file', opts, async (request, reply) => {
     const data = await request.file()
@@ -67,11 +65,11 @@ const AapiFileRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
     const json_obj = JSON.parse(json_doc)
     const title = json_obj.info.title
     const description = json_obj.info.description
-    const aapiOwner = json_obj.info.contact.name  
-    const subject = Object.keys(json_obj.channels)[0] 
+    const aapiOwner = json_obj.info.contact.name
+    const subject = Object.keys(json_obj.channels)[0]
     const productSuite = subject.split('.')[0]
     const product = subject.split('.')[1]
-    
+
     const newaapi: AapiBody = {
       title,
       description,
@@ -85,7 +83,7 @@ const AapiFileRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
       subscribers: [],
       comment: ''
     }
-    
+
     await TE.match<Error, FastifyReply, IAapi>(
       (e) => {
         request.log.error(`Add API file fail: ${e}`)
@@ -94,7 +92,7 @@ const AapiFileRouter = (server: FastifyInstance, opts: RouteShorthandOptions, do
       (aapi) => reply.status(201).send({ aapi })
     )(aapiRepo.addAapi(newaapi))()
 
-      //return reply.status(201).send({})
+    //return reply.status(201).send({})
   })
 
   done()
