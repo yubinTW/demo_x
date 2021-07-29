@@ -7,7 +7,6 @@ import Presentation from './Presentation'
 import SummaryPage from './summary'
 import MyEventPage from './myEvent'
 
-
 // // components
 import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
