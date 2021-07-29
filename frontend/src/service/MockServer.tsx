@@ -1,5 +1,6 @@
 import {createServer } from 'miragejs'
 import mockapi from './../resource/mockapi.json'
+import testapi from './../resource/testapi.json'
 import myevent from './../resource/myevent.json'
 
 export function MockServer({ environment = 'test' }) {
@@ -54,7 +55,7 @@ export function MockServer({ environment = 'test' }) {
         title: 'test_api_name',
         productSuite: 'NTAP_test',
         aapiOwner: 'LCLIAOB',
-        doc_json: mockapi,
+        doc_json: testapi,
         subscriber: ['test1', 'test2'],
         createdAt: '2021-06-08 08:00:10',
         updatedAt: '2021-06-08 13:22:17',

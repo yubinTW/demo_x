@@ -1,0 +1,345 @@
+openapi: 3.0.0
+info:
+  title: API spec of X
+  description: Some API spec of x for handling data transfer between frontend and backend
+  version: 0.0.6
+servers:
+  - url: http://localhost:8888/v1
+    description: API endpoint of backend
+paths:
+  /credential/{productSuite}/{user}:
+    get:
+      tags:
+        - credential
+      summary: Get credential of the user
+      description: Get credential file
+      parameters:
+        - in: path
+          name: productSuite
+          schema:
+            type: string
+          required: true
+          description: The productSuite of the user
+        - in: path
+          name: user
+          schema:
+            type: string
+          required: true
+          description: The name of the user
+      responses:
+        '200':
+          description: A cred file
+          content:
+            application/octet-stream:
+                schema:
+                  type: string
+                  format: binary
+  /login:
+    get:
+      tags:
+        - "Get login status and info"
+      summary: check if login or not
+      description: check if login or not, if login should return account name
+      responses:
+        "200":
+          description: login info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  account:
+                    type: string
+                    description: window account
+                  status:
+                    type: string
+                    description: login | logout
+
+  /my-event:
+    get:
+      tags:
+        - "Product Suite"
+      summary: return aapi list according to user permission
+      description: return aapi list user can view or own.
+      responses:
+        "200":
+          description: A JSON Array of product suite infos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  own:
+                    type: array
+                    description: aapi list which is owned or managed by this user
+                    items:
+                      $ref: "#/components/schemas/AAPI"
+                  subscribe:
+                    type: array
+                    description: aapi list which is subscribed by this user
+                    items:
+                      $ref: "#/components/schemas/AAPI"
+  /product-suite:
+    get:
+      tags:
+        - "Product Suite"
+      summary: return list of product suite
+      description: return all product suite user can view or own.
+      responses:
+        "200":
+          description: A JSON Array of product suite infos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductSuite"
+  /aapi-file:
+    post:
+      tags:
+        - "AAPI YAML file upload"
+      summary: Upload Async API YAML file to product x.
+      description: Upload a Async API YAML file to Product X
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AAPI"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/BadRequest"
+  /aapi:
+    post:
+      tags:
+        - "AAPI"
+      summary: register a new AAPI.
+      description: register a new AAPI. (doesn't need )
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AAPI"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AAPI"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/BadRequest"
+  /aapi/{aapiId}:
+    get:
+      tags:
+        - "AAPI"
+      summary: return AAPI info JSON format
+      description: Get the detail infomation of a specific AAPI according to aapiId.
+      parameters:
+        - in: path
+          name: aapiId
+          schema:
+            type: string
+          required: true
+          description: The ID of the AAPI
+      responses:
+        "200":
+          description: Successfully get the detail information of the AAPI
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AAPI"
+
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/NotFound"
+    delete:
+      tags:
+        - "AAPI"
+      summary: delete specific AAPI
+      description: delete specific AAPI based on apiId (doesn't need?)
+      parameters:
+        - in: path
+          name: aapiId
+          schema:
+            type: string
+          required: true
+          description: The ID of the AAPI
+      responses:
+        "204":
+          description: delete operation success
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/NotFound"
+    put:
+      tags:
+        - "AAPI"
+      summary: update aapi infos
+      description: update aapi infos (doesn't need?)
+      parameters:
+        - in: path
+          name: aapiId
+          schema:
+            type: string
+          required: true
+          description: The ID of the AAPI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AAPI"
+      responses:
+        "200":
+          description: update operation success
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/BadRequest"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/NotFound"
+components:
+  schemas:
+    ProductSuite:
+      type: object
+      properties:
+        aapis:
+          type: array
+          description: The simpleied aapi structure
+          items:
+            properties:
+              subject:
+                type: string
+              aapiOwner:
+                type: string
+              description:
+                type: string
+              productSuite:
+                type: string
+                description: The productSuite of this AAPI
+              product:
+                type: string
+                description: The product of this AAPI
+      required:
+        - aapis
+    AAPI:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The ID of this AAPI
+        title:
+          type: string
+          description: The title of this AAPI, ps
+        description:
+          type: string
+          description: The description of this AAPI
+        productSuite:
+          type: string
+          description: The productSuite of this AAPI, ps
+        product:
+          type: string
+          description: The product of this AAPI, ps
+        subject:
+          type: string
+          description: The subject (channel) of this AAPI
+        aapiOwner:
+          type: string
+          description: The own of this AAPI, ps
+        doc:
+          type: string
+          description: Async AAPI YAML string of this AAPI
+        doc_json:
+          type: string
+          description: Async API in JSON format of this API
+        subscribers:
+          type: array
+          description: The subscribers of this AAPI
+          items:
+            $ref: "#/components/schemas/Subscriber"
+        comment:
+          type: string
+          description: The comment of this AAPI
+        status:
+          type: string
+          description: The status of this AAPI (on, off)
+        createdAt:
+          type: string
+          format: date-time
+          description: create time of this AAPI
+          example: "2021-06-08T07:17:40.541Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: update time of this AAPI
+          example: "2021-06-08T07:17:40.541Z"
+      required:
+        - name, aapiOwner, doc, productSuite
+    Subscriber:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of this AAPI
+    # Schema for error response body
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+        msg:
+          type: string
+      required:
+        - code
+        - msg
+  responses:
+    BadRequest:
+      description: Request is invalid (include invalid JSON data or invalid fields)
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
