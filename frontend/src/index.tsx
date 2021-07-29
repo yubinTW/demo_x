@@ -16,7 +16,7 @@ import './scss/volt.scss'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 import { MockServer } from './service/MockServer'
-import {createServer, Response, Server} from 'miragejs'
+import { createServer, Response, Server } from 'miragejs'
 
 /*
 // @ts-ignore

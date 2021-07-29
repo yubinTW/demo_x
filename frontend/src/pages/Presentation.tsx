@@ -63,7 +63,6 @@ const Presentation = () => {
                   <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>
               </div>
-              
             </Col>
           </Row>
           <figure className="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">

@@ -1,1 +1,70 @@
-{"asyncapi":"2.0.0","info":{"title":"Lot Hold event","description":"The Event spec of Siview Lot Hold event","version":"0.0.1","contact":{"name":"Tiger team","email":"tiger@tsmc.com","url":"https://itsupport.tsmc.com/xxxxxxxx"}},"defaultContentType":"application/json","channels":{"GigaCIM.SiMM.Lot.xtyeuqt":{"description":"NATS subject for\n* product suite - `GigaCIM`\n* product - `SiMM`\n* Object - `Lot`\n* eventGroup - `LotHold`","subscribe":{"message":{"summary":"A message for Event","name":"nqeuduiquh","contentType":"application/json","payload":{"$ref":"#/components/schemas/LotHoldEventPayload"}}}}},"components":{"schemas":{"LotHoldEventPayload":{"additionalProperties":false,"type":"object","required":["headers","payload"],"properties":{"headers":{"type":"object","required":["from","to"],"description":"the headers for this event message","properties":{"msgId":{"type":"string","description":"a sample use case: an ID used by NATS JetStream to avoid message duplication","format":"uuid"},"from":{"type":"string","description":"where this Even comes from"}}},"payload":{"type":"object","description":"event data for `LotHold` event","properties":{"lot_ID":{"type":"string","description":"the Lot ID, for example: `uhqioqoiuuw`"},"claim_time":{"type":"string","format":"YYYY-MM-dd.hh.mm.ss.SSSSSS","description":"Event claim time from siview, for example: `2015-01-20-09.03.38.552000`"}}}},"example":{"headers":{"msgId":"e15cc2b2-b3d8-11eb-8529-0242ac130003","from":"SiView"},"payload":{"lot_ID":"N9K272.00","claim_time":"2015-01-20-09.03.38.552000"}}}}}}
+{
+  "asyncapi": "2.0.0",
+  "info": {
+    "title": "Lot Hold event",
+    "description": "The Event spec of Siview Lot Hold event",
+    "version": "0.0.1",
+    "contact": {
+      "name": "Tiger team",
+      "email": "tiger@tsmc.com",
+      "url": "https://itsupport.tsmc.com/xxxxxxxx"
+    }
+  },
+  "defaultContentType": "application/json",
+  "channels": {
+    "GigaCIM.SiMM.Lot.xtyeuqt": {
+      "description": "NATS subject for\n* product suite - `GigaCIM`\n* product - `SiMM`\n* Object - `Lot`\n* eventGroup - `LotHold`",
+      "subscribe": {
+        "message": {
+          "summary": "A message for Event",
+          "name": "nqeuduiquh",
+          "contentType": "application/json",
+          "payload": { "$ref": "#/components/schemas/LotHoldEventPayload" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "LotHoldEventPayload": {
+        "additionalProperties": false,
+        "type": "object",
+        "required": ["headers", "payload"],
+        "properties": {
+          "headers": {
+            "type": "object",
+            "required": ["from", "to"],
+            "description": "the headers for this event message",
+            "properties": {
+              "msgId": {
+                "type": "string",
+                "description": "a sample use case: an ID used by NATS JetStream to avoid message duplication",
+                "format": "uuid"
+              },
+              "from": { "type": "string", "description": "where this Even comes from" }
+            }
+          },
+          "payload": {
+            "type": "object",
+            "description": "event data for `LotHold` event",
+            "properties": {
+              "lot_ID": {
+                "type": "string",
+                "description": "the Lot ID, for example: `uhqioqoiuuw`"
+              },
+              "claim_time": {
+                "type": "string",
+                "format": "YYYY-MM-dd.hh.mm.ss.SSSSSS",
+                "description": "Event claim time from siview, for example: `2015-01-20-09.03.38.552000`"
+              }
+            }
+          }
+        },
+        "example": {
+          "headers": { "msgId": "e15cc2b2-b3d8-11eb-8529-0242ac130003", "from": "SiView" },
+          "payload": { "lot_ID": "N9K272.00", "claim_time": "2015-01-20-09.03.38.552000" }
+        }
+      }
+    }
+  }
+}

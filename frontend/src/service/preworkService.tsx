@@ -1,5 +1,5 @@
-import {  map, append } from 'fp-ts/Array'
-import {  AapiBody, ProductSuiteMap, DataDictionary } from './serviceObject'
+import { map, append } from 'fp-ts/Array'
+import { AapiBody, ProductSuiteMap, DataDictionary } from './serviceObject'
 import { pipe } from 'fp-ts/function'
 // import * as I from 'fp-ts/Identity'
 import * as fp from 'lodash/fp'
