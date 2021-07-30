@@ -48,6 +48,12 @@ paths:
               schema:
                 type: object
                 properties:
+                  name: 
+                    type: string
+                    description: name
+                  id: 
+                    type: string
+                    description: TSMC ID
                   account:
                     type: string
                     description: window account

@@ -5,6 +5,7 @@ reports
 videos
 instrumented
 test_reports
+test
 
 # dependencies
 node_modules
@@ -13,7 +14,7 @@ node_modules
 
 # testing
 coverage
-frontend/.nyc_output
+.nyc_output
 
 # production
 **/build

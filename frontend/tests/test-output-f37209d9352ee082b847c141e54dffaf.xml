@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="6.8920" tests="7" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-07-29T08:07:27" tests="0" file="cypress/integration/homepage.test.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Home Page Test" timestamp="2021-07-29T08:07:27" tests="7" time="6.8920" failures="0">
+    <testcase name="Home Page Test Product X Link" time="2.7690" classname="Product X Link">
+    </testcase>
+    <testcase name="Home Page Test Summary Link" time="1.4390" classname="Summary Link">
+    </testcase>
+    <testcase name="Home Page Test Dashboard Link" time="0.8290" classname="Dashboard Link">
+    </testcase>
+    <testcase name="Home Page Test Go to Platform Link" time="0.4360" classname="Go to Platform Link">
+    </testcase>
+    <testcase name="Home Page Test document Link" time="0.5050" classname="document Link">
+    </testcase>
+    <testcase name="Home Page Test H1 test" time="0.4290" classname="H1 test">
+    </testcase>
+    <testcase name="Home Page Test h3 test" time="0.4850" classname="h3 test">
+    </testcase>
+  </testsuite>
+</testsuites>
