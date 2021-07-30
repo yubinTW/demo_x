@@ -6,6 +6,8 @@ const userSchema = new mongoose.Schema(
     account: { type: String, required: true },
     user: { type: String, required: true },
     status: { type: String, required: true },
+    publicKey: { type: String },
+    credsFile: { type: String },
     productSuite: { type: String, required: true },
     product: { type: String },
     permissions: {
