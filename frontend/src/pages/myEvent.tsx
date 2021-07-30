@@ -14,12 +14,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TabView, TabPanel } from 'primereact/tabview'
 import { selectAccount } from '../redux/userState'
-import { useAppSelector} from './../app/hooks'
-import {
-  faExternalLinkAlt,
-  faUsers,
-  faCloudDownloadAlt,
-} from '@fortawesome/free-solid-svg-icons'
+import { useAppSelector } from './../app/hooks'
+import { faExternalLinkAlt, faUsers, faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons'
 import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
 import { AapiBody, EventBody, SubscriberBody } from '../service/serviceObject'
@@ -31,7 +27,7 @@ function MyEventPage() {
   const [subscriberList, setSubscriberList] = useState<Array<SubscriberBody>>([])
   const [eventSubscriberPage, setEventSubscriberPage] = useState<Array<AapiBody>>([])
   const nodeService = new NodeService()
-  const account:string = useAppSelector(selectAccount)
+  const account: string = useAppSelector(selectAccount)
 
   const toast = useRef(null)
   const showError = (e) => {
@@ -42,16 +38,17 @@ function MyEventPage() {
       life: 3000,
     })
   }
-  async function downloadCred(ps: string)
-  {
+  async function downloadCred(ps: string) {
     const data = await TE.match<Error, void, void>(
       (e) => {
         showError(e)
         console.error(`Download Credential File Error: ${e}`)
-        return 
+        return
       },
-      (r) => {return}
-    )(nodeService.downloadCredFile(ps,account))()
+      (r) => {
+        return
+      }
+    )(nodeService.downloadCredFile(ps, account))()
   }
   async function setUpData() {
     const data = await TE.match<Error, EventBody, EventBody>(
@@ -183,12 +180,10 @@ function MyEventPage() {
           </Dialog>
         </TabPanel>
         <TabPanel header="My Authorization List">
-
           <div className="p-grid">
             <div className="p-col-6"></div>
             <div className="p-offset-3 p-col-3">
               <Form.Group id="pd-filter">
-
                 <InputGroup>
                   <InputGroup.Text>
                     <FontAwesomeIcon icon={faSearch} />

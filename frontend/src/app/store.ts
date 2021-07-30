@@ -3,7 +3,7 @@ import userStateCheck from '../redux/userState'
 
 export const store = configureStore({
   reducer: {
-    userStateCheck: userStateCheck
+    userStateCheck: userStateCheck,
   },
 })
 

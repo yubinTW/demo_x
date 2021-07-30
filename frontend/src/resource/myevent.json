@@ -9,11 +9,11 @@
         "productSuite": "GigaCIM",
         "product": "SiMM",
         "subscribers": [
-          {"name":"LCLIAOW", "productSuite": "FAB", "product":"testN" },
-          {"name":"JWLINV", "productSuite": "FAB", "product":"testN" },
-          {"name":"LCLIAOC", "productSuite": "FAB", "product":"testN" },
-          {"name":"LCLIAOD", "productSuite": "FAB", "product":"testN" }
-          ]
+          { "name": "LCLIAOW", "productSuite": "FAB", "product": "testN" },
+          { "name": "JWLINV", "productSuite": "FAB", "product": "testN" },
+          { "name": "LCLIAOC", "productSuite": "FAB", "product": "testN" },
+          { "name": "LCLIAOD", "productSuite": "FAB", "product": "testN" }
+        ]
       },
       {
         "id": "c00d4b7d-c862-44e7-83a7-956be5e50b50",
@@ -23,11 +23,11 @@
         "productSuite": "GigaCIM",
         "product": "SiMM",
         "subscribers": [
-          {"name":"LCLIAOT", "productSuite": "FAB", "product":"testN" },
-          {"name":"CCWUO", "productSuite": "FAB", "product":"testN" },
-          {"name":"YBHSU", "productSuite": "FAB", "product":"testN" },
-          {"name":"STLEE", "productSuite": "FAB", "product":"testN" }
-          ]
+          { "name": "LCLIAOT", "productSuite": "FAB", "product": "testN" },
+          { "name": "CCWUO", "productSuite": "FAB", "product": "testN" },
+          { "name": "YBHSU", "productSuite": "FAB", "product": "testN" },
+          { "name": "STLEE", "productSuite": "FAB", "product": "testN" }
+        ]
       },
       {
         "id": "1ea1ccb3-d532-4a62-8dba-7f23bd25a4c3",
@@ -37,11 +37,11 @@
         "productSuite": "GigaCIM",
         "product": "SiMM",
         "subscribers": [
-          {"name":"ABSC", "productSuite": "FAB", "product":"testN" },
-          {"name":"LCLIAOK", "productSuite": "FAB", "product":"testN" },
-          {"name":"LCIAOU", "productSuite": "FAB", "product":"testN" },
-          {"name":"LCOOOO", "productSuite": "FAB", "product":"testN" }
-          ]
+          { "name": "ABSC", "productSuite": "FAB", "product": "testN" },
+          { "name": "LCLIAOK", "productSuite": "FAB", "product": "testN" },
+          { "name": "LCIAOU", "productSuite": "FAB", "product": "testN" },
+          { "name": "LCOOOO", "productSuite": "FAB", "product": "testN" }
+        ]
       }
     ],
     "subscribe": [

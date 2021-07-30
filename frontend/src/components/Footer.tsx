@@ -3,7 +3,6 @@ import React from 'react'
 import { Row, Col } from '@themesberg/react-bootstrap'
 
 const Footer = (props) => {
-
   return (
     <div className="footer">
       <footer className="footer-tsmc section py-5">

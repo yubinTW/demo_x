@@ -15,6 +15,8 @@ import fastifySwagger from 'fastify-swagger'
 import path from 'path'
 import { establishConnection } from '../plugins/mongodb'
 import { fastifyFunky } from 'fastify-funky'
+import fastifyMultipart from 'fastify-multipart'
+import { AapiFileRouter } from './routes/v1/aapi-file'
 import * as O from 'fp-ts/Option'
 
 /* tslint:disable:no-console */
@@ -74,6 +76,8 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
     done()
   })
 
+  server.register(fastifyMultipart)
+
   server.register(fastifyFunky)
   server.register(fastifyStatic, {
     root: path.join(__dirname, '../../../frontend/build'),
@@ -96,6 +100,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
   server.register(MyEventRouter, { prefix: '/v1' })
   server.register(PermissionRouter, { prefix: '/v1' })
   server.register(CredentialRouter, { prefix: '/v1' })
+  server.register(AapiFileRouter, { prefix: '/v1' })
 
   return server
 }

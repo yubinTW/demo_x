@@ -7,13 +7,7 @@ import {
   faUserShield,
 } from '@fortawesome/free-solid-svg-icons'
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
-import {
-  Nav,
-  Image,
-  Navbar,
-  Dropdown,
-  Container,
-} from '@themesberg/react-bootstrap'
+import { Nav, Image, Navbar, Dropdown, Container } from '@themesberg/react-bootstrap'
 
 import Profile3 from '../assets/img/team/profile-picture-3.jpg'
 
@@ -22,8 +16,7 @@ export default (props) => {
     <Navbar variant="dark" expanded className="ps-0 pe-2 pb-0">
       <Container fluid className="px-0">
         <div className="d-flex justify-content-between w-100">
-          <div className="d-flex align-items-center">
-          </div>
+          <div className="d-flex align-items-center"></div>
           <Nav className=" align-items-center">
             <Dropdown as={Nav.Item}>
               <Dropdown.Toggle as={Nav.Link} className="pt-1 px-0">
