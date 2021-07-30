@@ -5,7 +5,7 @@ reports
 videos
 instrumented
 test_reports
-test
+tests
 
 # dependencies
 node_modules
