@@ -16,6 +16,12 @@ const fastifyPortOf = (port: number): Readonly<FastifyPort> => ({
   port
 })
 
+type CredentialFileRoot = { type: 'CREDENTIAL_FILE_ROOT'; root: string }
+const credentialFileRootOf = (root: string): Readonly<CredentialFileRoot> => ({
+  type: 'CREDENTIAL_FILE_ROOT',
+  root
+})
+
 type RuntimeEnv = { type: 'RUNTIME_ENV'; env: string }
 
 /**
@@ -62,6 +68,20 @@ class EnvConfigRepoImpl implements ConfigRepo {
   runtimeEnv(): Option<Readonly<RuntimeEnv>> {
     return map(runtimeEnvOf)(fromNullable(process.env.ENV))
   }
+
+  credentialFileRoot(): Option<Readonly<CredentialFileRoot>> {
+    return map(credentialFileRootOf)(fromNullable(process.env.CREDENTIAL_FILE_ROOT))
+  }
 }
 
-export { EnvConfigRepoImpl, MongoDBUrl, mongoDBUrlOf, fastifyPortOf, FastifyPort, RuntimeEnv, runtimeEnvOf }
+export {
+  EnvConfigRepoImpl,
+  MongoDBUrl,
+  mongoDBUrlOf,
+  fastifyPortOf,
+  FastifyPort,
+  RuntimeEnv,
+  runtimeEnvOf,
+  credentialFileRootOf,
+  CredentialFileRoot
+}

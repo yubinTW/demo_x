@@ -9,6 +9,7 @@ import { AapiRouter } from './routes/v1/aapi'
 import { ProductSuiteRouter } from './routes/v1/productSuite'
 import { MyEventRouter } from './routes/v1/myevent'
 import { PermissionRouter } from './routes/v1/permission'
+import { CredentialRouter } from './routes/v1/credential'
 import fastifyStatic from 'fastify-static'
 import fastifySwagger from 'fastify-swagger'
 import path from 'path'
@@ -98,6 +99,7 @@ const startFastify: (port: FastifyPort) => FastifyInstance<Server, IncomingMessa
   server.register(ProductSuiteRouter, { prefix: '/v1' })
   server.register(MyEventRouter, { prefix: '/v1' })
   server.register(PermissionRouter, { prefix: '/v1' })
+  server.register(CredentialRouter, { prefix: '/v1' })
   server.register(AapiFileRouter, { prefix: '/v1' })
 
   return server

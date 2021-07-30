@@ -4,6 +4,8 @@ type INatsUser = {
   productSuite: string
   product?: string
   status: 'Active' | 'Revoke'
+  publicKey?: string
+  credsFile?: string
   permissions: {
     subscribes: Array<string>
   }

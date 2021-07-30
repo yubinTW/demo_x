@@ -69,6 +69,22 @@ class NatsUserRepoImpl implements AapiRepo {
       TE.map((f) => (f ? O.some(f) : O.none))
     )
   }
+
+  getCredFile(account: string, user: string): TE.TaskEither<Error, string> {
+    return pipe(
+      this.getNatsUser(account, user),
+      TE.map<O.Option<Readonly<INatsUser>>, string>((r) =>
+        pipe(
+          r,
+          O.map<Readonly<INatsUser>, string>((s) => (s.credsFile ? s.credsFile : '')),
+          O.match(
+            () => '',
+            (s) => s
+          )
+        )
+      )
+    )
+  }
 }
 
 export { NatsUserRepoImpl }
