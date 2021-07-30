@@ -62,6 +62,8 @@ export function MockServer({ environment = 'test' }) {
 
       this.get('/login', () => ({
         account: 'LCLIAOB',
+        name: '廖莉祺',
+        id: '116000',
         state: 'login',
       }))
       this.get('/product-suite', (schema, request) => {

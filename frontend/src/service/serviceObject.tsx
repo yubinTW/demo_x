@@ -13,6 +13,8 @@ export type SubscriberBody = {
 }
 export type UserState = {
   readonly account: string
+  readonly name: string
+  readonly id: string
   readonly state: string
 }
 export type AapiBody = {

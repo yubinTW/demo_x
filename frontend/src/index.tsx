@@ -16,7 +16,7 @@ import './scss/volt.scss'
 import '@fortawesome/fontawesome-free/css/all.css'
 
 import { MockServer } from './service/MockServer'
-import { createServer, Response, Server } from 'miragejs'
+import { CookiesProvider } from 'react-cookie'
 
 /*
 // @ts-ignore
@@ -94,11 +94,13 @@ if (environment !== 'production') {
 // );
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router>
-        <HomePage />
-      </Router>
-    </Provider>
+    <CookiesProvider>
+      <Provider store={store}>
+        <Router>
+          <HomePage />
+        </Router>
+      </Provider>
+    </CookiesProvider>
   </React.StrictMode>,
 
   document.getElementById('root')
