@@ -3,7 +3,7 @@ import { zero } from 'fp-ts/Array'
 import * as O from 'fp-ts/Option'
 /**
  *
- * @group unit
+ * @group ci
  */
 describe('A4 repository', () => {
   it('should acquire is vaild account', () => {

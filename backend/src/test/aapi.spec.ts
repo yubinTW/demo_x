@@ -11,7 +11,7 @@ import { pipe } from 'fp-ts/function'
 
 /**
  *
- * @group unit
+ * @group ci
  */
 describe('Aapi test', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>
