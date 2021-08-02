@@ -6,7 +6,7 @@ import * as TE from 'fp-ts/TaskEither'
 import { pipe } from 'fp-ts/function'
 /**
  *
- * @group unit
+ * @group ci
  */
 /* tslint:disable:no-console no-empty */
 describe('Healthcheck route', () => {

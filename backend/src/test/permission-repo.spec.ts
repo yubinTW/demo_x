@@ -13,7 +13,7 @@ import { MockPermissionRepoImpl } from '../repo/permission-repo'
 
 /**
  *
- * @group unit
+ * @group ci
  */
 describe('permission repository', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>

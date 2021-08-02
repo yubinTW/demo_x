@@ -5,9 +5,10 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "test": "jest --runInBand",
+    "test": "jest --runInBand --group=ci",
     "test:unit": "jest --runInBand --group=unit",
     "test:nats": "jest --runInBand --group=nats",
+    "test:all": "jest --runInBand",
     "build": "tsc",
     "start": "ts-node src/http-server/index",
     "node-start": "npm run esbuild && node build/http-server/index.js",

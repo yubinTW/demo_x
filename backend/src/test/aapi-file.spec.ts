@@ -14,7 +14,7 @@ import { format } from 'prettier'
 
 /**
  *
- * @group unit
+ * @group ci
  */
 describe('Aapi test', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>

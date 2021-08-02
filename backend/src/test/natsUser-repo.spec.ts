@@ -11,7 +11,7 @@ import { INatsUser } from '../types/natsUser'
 
 /**
  *
- * @group nats
+ * @group ci
  */
 describe('NatsUserRepo CRU', () => {
   let server: FastifyInstance<Server, IncomingMessage, ServerResponse>

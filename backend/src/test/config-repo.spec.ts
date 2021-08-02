@@ -3,7 +3,7 @@ import { some } from 'fp-ts/Option'
 
 /***
  *
- * @group unit
+ * @group ci
  */
 describe('Config repository', () => {
   it('should acquire MongoDB URL', () => {
