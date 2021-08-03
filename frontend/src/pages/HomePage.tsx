@@ -13,6 +13,12 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Preloader from '../components/Preloader'
 import APIViewer from './apiViewer'
+import CheckLogin from '../components/CheckLogin'
+import { useCookies } from 'react-cookie'
+import { NodeService } from '../service/NodeService'
+import { UserState } from '../service/serviceObject'
+import * as TE from 'fp-ts/TaskEither'
+import { zero } from 'fp-ts/Array'
 
 export const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false)
@@ -33,6 +39,9 @@ export const RouteWithLoader = ({ component: Component, ...rest }) => {
     />
   )
 }
+
+
+
 
 const RouteWithSidebar = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false)
@@ -72,13 +81,17 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
   )
 }
 
-const HomePage = () => (
+const HomePage = () =>{ 
+  const [cookiesUser, setCookieUser, removeCookieUser] = useCookies(['user'])
+  
+  return (
   <Switch>
-    <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} />
+    <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} >{cookiesUser["user"]===undefined?<CheckLogin />:false}</RouteWithLoader>
 
-    <RouteWithSidebar path={Routes.APIViewer.path} component={APIViewer} />
-    <RouteWithSidebar path={Routes.SummaryPage.path} component={SummaryPage} />
-    <RouteWithSidebar path={Routes.MyEventPage.path} component={MyEventPage} />
+    <RouteWithSidebar path={Routes.APIViewer.path} component={APIViewer} ></RouteWithSidebar>
+    <RouteWithSidebar path={Routes.SummaryPage.path} component={SummaryPage} ></RouteWithSidebar>
+    <RouteWithSidebar path={Routes.MyEventPage.path} component={MyEventPage} ></RouteWithSidebar>
   </Switch>
-)
+  )
+}
 export default HomePage
