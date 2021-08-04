@@ -1,3 +1,4 @@
+import React, { useState, useEffect} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { faBootstrap, faSass } from '@fortawesome/free-brands-svg-icons'
@@ -9,8 +10,16 @@ import { Link } from 'react-router-dom'
 
 import { Routes } from '../routes/routes'
 import TsmcLogo from '../assets/img//Tsmc.svg.png'
+import { useCookies } from 'react-cookie'
 
-const Presentation = () => {
+function Presentation() {
+  const [cookiesUser, setCookieUser, removeCookieUser] = useCookies(['user'])
+  useEffect(() => {
+    if(cookiesUser["user"] === undefined)
+    {
+      window.location.href = 'https://www.tsmc.com/'
+    }
+  }, [])
   return (
     <>
       <Navbar

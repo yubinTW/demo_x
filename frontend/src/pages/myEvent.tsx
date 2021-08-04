@@ -20,12 +20,14 @@ import { NodeService } from './../service/NodeService'
 import * as TE from 'fp-ts/TaskEither'
 import { AapiBody, EventBody, SubscriberBody } from '../service/serviceObject'
 import { Toast } from 'primereact/toast'
+import { useCookies } from 'react-cookie'
 
 function MyEventPage() {
   const [displayBasic, setDisplayBasic] = useState(false)
   const [eventOwnerPage, setEventOwnerPage] = useState<Array<AapiBody>>([])
   const [subscriberList, setSubscriberList] = useState<Array<SubscriberBody>>([])
   const [eventSubscriberPage, setEventSubscriberPage] = useState<Array<AapiBody>>([])
+  const [cookiesUser, setCookieUser, removeCookieUser] = useCookies(['user'])
   const nodeService = new NodeService()
   const account: string = useAppSelector(selectAccount)
 
@@ -48,7 +50,7 @@ function MyEventPage() {
       (r) => {
         return
       }
-    )(nodeService.downloadCredFile(ps, account))()
+    )(nodeService.downloadCredFile(ps, cookiesUser["user"]))()
   }
   async function setUpData() {
     const data = await TE.match<Error, EventBody, EventBody>(
@@ -70,7 +72,15 @@ function MyEventPage() {
     )(nodeService.getMyEventData())()
   }
   useEffect(() => {
-    setUpData()
+    if(cookiesUser["user"] === undefined)
+    {
+      window.location.href = 'https://www.tsmc.com/'
+    }
+    else
+    {
+      setUpData()
+    }
+    
   }, [])
   const viewSubscriberTemplate = (rowData) => {
     //console.log(rowData)

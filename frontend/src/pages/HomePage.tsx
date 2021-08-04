@@ -83,7 +83,12 @@ const RouteWithSidebar = ({ component: Component, ...rest }) => {
 
 const HomePage = () =>{ 
   const [cookiesUser, setCookieUser, removeCookieUser] = useCookies(['user'])
-  
+  useEffect(() => {
+    if(cookiesUser["user"] === undefined)
+    {
+      window.location.href = 'https://www.tsmc.com/'
+    }
+  }, [])
   return (
   <Switch>
     <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} >{cookiesUser["user"]===undefined?<CheckLogin />:false}</RouteWithLoader>
