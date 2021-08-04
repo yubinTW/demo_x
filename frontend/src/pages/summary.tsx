@@ -16,6 +16,7 @@ import { Status, AapiBody } from '../service/serviceObject'
 import * as TE from 'fp-ts/TaskEither'
 import { zero } from 'fp-ts/Array'
 import { Toast } from 'primereact/toast'
+import { useCookies } from 'react-cookie'
 
 function SummaryPage() {
   const [psDictProductList, setPsDictProductList] = useState({})
@@ -26,6 +27,7 @@ function SummaryPage() {
   const [selectedProduct, setSelectProduct] = useState<string | ''>('')
   const [productList, setProductList] = useState([])
   const [subjectList, setSubjectList] = useState([])
+  const [cookiesUser, setCookieUser, removeCookieUser] = useCookies(['user'])
   const preworkService = new PreworkService()
 
   const toast = useRef(null)
@@ -39,7 +41,15 @@ function SummaryPage() {
   }
 
   useEffect(() => {
-    setUpData()
+    if(cookiesUser["user"] === undefined)
+    {
+      window.location.href = 'https://www.tsmc.com/'
+    }
+    else
+    {
+      setUpData()
+    }
+    
     // preworkService.getPsList().then((data) => setPsList(data))
   }, [])
 

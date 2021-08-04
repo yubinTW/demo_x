@@ -7,6 +7,7 @@ import { Card } from 'primereact/card'
 import { Divider } from 'primereact/divider'
 import * as TE from 'fp-ts/TaskEither'
 import { AapiBody } from '../service/serviceObject'
+import { useCookies } from 'react-cookie'
 
 import '@asyncapi/react-component/lib/styles/fiori.css'
 import 'primereact/resources/primereact.css'
@@ -19,6 +20,7 @@ function APIViewer() {
   const [apiName, setApiName] = useState<string | ''>('')
   const [createdAt, setCreateAt] = useState<string | ''>('')
   const [updatedAt, setUpdatedAt] = useState<string | ''>('')
+  const [cookiesUser, setCookieUser, removeCookieUser] = useCookies(['user'])
   const nodeService = new NodeService()
 
   const id: string = useParams()['id']
@@ -43,7 +45,14 @@ function APIViewer() {
     )(nodeService.getApiData(id))()
   }
   useEffect(() => {
-    getData()
+    if(cookiesUser["user"] === undefined)
+    {
+      window.location.href = 'https://www.tsmc.com/'
+    }
+    else
+    {
+      getData()
+    }
   }, [])
 
   return (

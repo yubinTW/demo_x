@@ -97,7 +97,7 @@ ReactDOM.render(
     <CookiesProvider>
       <Provider store={store}>
         <Router>
-          <HomePage />
+          <HomePage></HomePage>
         </Router>
       </Provider>
     </CookiesProvider>
