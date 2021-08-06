@@ -86,12 +86,13 @@ const HomePage = () =>{
   useEffect(() => {
     if(cookiesUser["user"] === undefined)
     {
-      window.location.href = 'https://www.tsmc.com/'
+      //window.location.href = 'https://www.tsmc.com/'
+      console.log('Login')
     }
   }, [])
   return (
   <Switch>
-    <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} >{cookiesUser["user"]===undefined?<CheckLogin />:false}</RouteWithLoader>
+    <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} ></RouteWithLoader>
 
     <RouteWithSidebar path={Routes.APIViewer.path} component={APIViewer} ></RouteWithSidebar>
     <RouteWithSidebar path={Routes.SummaryPage.path} component={SummaryPage} ></RouteWithSidebar>

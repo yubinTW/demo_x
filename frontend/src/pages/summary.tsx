@@ -43,7 +43,8 @@ function SummaryPage() {
   useEffect(() => {
     if(cookiesUser["user"] === undefined)
     {
-      window.location.href = 'https://www.tsmc.com/'
+      //window.location.href = 'https://www.tsmc.com/'
+      console.log('Login')
     }
     else
     {
